@@ -1,0 +1,52 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.CorrectionalFacilities;
+@model CorrectionalFacilities
+@{
+    string isAdmin = string.Empty;
+    var RolePermission = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleAccess");
+    if (RolePermission == "R")
+    {
+        isAdmin = "hide";
+    }
+}
+<div class="row panel-body">
+    <div class="col-lg-10 m-10">
+        @*<input type="hidden" id="hrfConRefID" value='@Model.RefId' />*@
+        @if (Model.CorrectionalFacilitiesContactsList.Count != 0)
+        {
+            <table id="tblCorrectionalFacilitiesContacts" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+
+                        <th>Client Specific</th>
+                        <th>Contact Name</th>
+                        <th>Phone</th>
+                        <th>Fax Number</th>
+                        <th>Email ID</th>
+                        <th class="@isAdmin">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{int i = 0;
+                        foreach (var item in Model.CorrectionalFacilitiesContactsList)
+                        {
+                            i++;
+                            <tr id="@item.ID">
+                                <td id="txtClientName" class="tr1">@item.ClientName</td>
+                                <td id="txtContactName" class="tr1">@item.ContactName</td>
+                                <td id="txtPhone" class="tr1">@item.Phone</td>
+                                <td id="txtFaxNumber" class="tr1">@item.FaxNumber</td>
+                                <td id="txtEmailID" class="tr1">@item.EmailID</td>
+                                <td class="tr1">
+                                    <button id="btnContractEdit" type="button" Onclick="ConfirmCorrectionalFacilitieContactEdit('@item.ID', '@item.ClientID', '@item.ContactName', '@item.Phone', '@item.FaxNumber', '@item.EmailID')" title="Edit" class="fa fa-lg fa-edit  text-inverse form-control1 p-l-0 p-r-0 @isAdmin" style="border:none; background-color:transparent"></button>
+                                    <button id="btnContractDelete" type="button" Onclick="ConfirmCorrectionalFacilitieContactDelete('@item.ID', '@item.RefID')" title="Delete" class="fa fa-lg fa-trash-o  text-inverse form-control1 p-l-0 p-r-0 @isAdmin" style="border:none; background-color:transparent"></button>
+                                </td>
+                            </tr>
+                        } }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+

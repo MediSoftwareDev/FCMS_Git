@@ -1,0 +1,1283 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.Hospitals
+@model Hospitals
+@{
+    string isAdmin = string.Empty;
+    string isPermission = string.Empty;
+    var Changeproject = HttpContextAccessor.HttpContext.Session.Get<List<UserProjectRole>>("Changeproject");
+    var RoleId = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleID");
+    var NotificationCount = HttpContextAccessor.HttpContext.Session.Get<string>("NotificationCount");
+    var RolePermission = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleAccess");
+    string UserId = HttpContextAccessor.HttpContext.Session.Get<string>("SessionUserID");
+    if (RoleId == "194c4cc1-4a1e-4861-abbb-302d02f7d825")
+    {
+        isAdmin = "AE";
+    }
+    if (RolePermission == "R")
+    {
+        isPermission = "hide";
+    }
+
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Hospitals</title>
+    @section Styles {
+        <link href='@Url.Content("~/css/DataTables.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/css/BootstrapDatepicker.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/DataTables/media/css/dataTables.bootstrap.min.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/simple-line-icons/css/simple-line-icons.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/bootstrap-sweetalert/sweetalert.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/parsley/src/parsley.css")' rel="stylesheet" />
+
+        <style>
+            td.details-control {
+                background: url('~/img/details_open.png') no-repeat center center;
+                cursor: pointer;
+            }
+
+            tr.shown td.details-control {
+                background: url('~/img/details_close.png') no-repeat center center;
+            }
+
+
+            .input-daterange input {
+                text-align: left !important;
+            }
+
+            #tblErrorList tfoot .form-control {
+                padding-left: 3px !important;
+                height: 20px;
+                font-size: 11px;
+                font-weight: normal;
+            }
+
+            tfoot {
+                display: table-header-group !important;
+            }
+
+            .modal-dialog {
+                width: 970px !important;
+                margin: 30px auto;
+            }
+
+            .lbl-align {
+                text-align: left !important;
+                font-weight: 700;
+            }
+
+            #userForm hr {
+                margin-top: 5px !important;
+                margin-bottom: 10px !important;
+            }
+
+            #userForm h4 {
+                margin: 0px;
+                padding-left: 10px;
+            }
+
+            .head-div {
+                float: right;
+                margin-top: -30px;
+            }
+
+            .ui-autocomplete {
+                overflow: auto;
+                height: 300px;
+            }
+
+            #divHospitalDetails .form-group {
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+                margin-bottom: 0px !important;
+            }
+
+            #divHospitalDetails .text-success {
+                color: #009591 !important;
+            }
+
+            .ui-front {
+                z-index: 2000 !important;
+            }
+
+            .text-decoration {
+                text-decoration: none !important;
+            }
+        </style>
+
+        <style type="text/css">
+            .toolbar {
+                float: right !important;
+                margin: 10px !important;
+            }
+        </style>
+    }
+
+</head>
+<body>
+    <input type="hidden" id="hrfHospitals" value='@Url.Content("~/Hospitals/Hospitals")' />
+    <input type="hidden" id="hrfContractDetails" value='@Url.Content("~/Contract/Contracts/")' />
+    <input type="hidden" id="hrfSearchClient" value='@Url.Content("~/Hospitals/GetSearchHospital")' />
+    <input type="hidden" id="hrfHospitalId" value="" />
+    <input type="hidden" id="hrfCompanyname" value="" />
+    <input type="hidden" id="hrfContractId" value="" />
+    <input type="hidden" id="hrfStatus" value="" />
+    <input type="hidden" id="hrfStatusID" value="" />
+    <input type="hidden" id="hfReviewYear" />
+    <input type="hidden" id="hfrClientID" value="" />
+    <input type="hidden" id="hfrDataClientID" value=0 />
+    <input type="hidden" id="hrfSentBy" value="" />
+    <input type="hidden" id="hrfMailTo" value="" />
+    <input type="hidden" id="hrfMailAttachment" value="" />
+    <input type="hidden" id="hrfContractRefID" value="" />
+
+    <input type="hidden" id="hrfContactRefID" value="" />
+
+    <div class="content" id="content">
+        <ol class="breadcrumb pull-right">
+            <li><a href="@Url.Action("Index","Home")">Home</a></li>
+            <li><a href="javascript:;">Clients & Contracts</a></li>
+            <li class="active">Contract</li>
+        </ol>
+        <h1 class="page-header">Hospital<small></small></h1>
+
+        <ul class="nav nav-tabs customtab" role="tablist">
+            <li class="nav-item @isAdmin"> <a class="nav-link" data-toggle="tab" id="tHospitalSearchHead" href="#divHospitalSearchHead" role="tab"><span class="hidden-sm-up"><i class="fa fa-search"></i></span> <span class="hiddpen-xs-down">Hospital Search</span></a> </li>
+            <li class="nav-item @isAdmin"> <a class="nav-link" data-toggle="tab" id="tHospitalAddHead" href="#divHospitalAddHead" role="tab"><span class="hidden-sm-up"><i class="fa fa-user"></i></span> <span class="hidpden-xs-down">Add Hospital</span></a> </li>
+            @*<li class="nav-item @isAdmin"> <a class="nav-link" data-toggle="tab" id="tHospitalBulkUploadHead" href="#divHospitalBulkUploadHead" role="tab"><span class="hidden-sm-up"><i class="fa fa-users"></i></span> <span class="hidpden-xs-down">Bulk Hospital Upload</span></a> </li>*@
+        </ul>
+        <div id="alertsuccess" class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Success!</strong> Details saved.
+        </div>
+        <div class="tab-pane active" id="divHospitalSearchHead" role="tabpanel">
+            <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" id="expandcollapse" data-click="panel-collapse" data-original-title="" title="" data-init="true"><i class="fa fa-minus"></i></a>
+                    </div>
+                    <h4 class="panel-title" id="changeTeam">Hospital Search</h4>
+                </div>
+                <div id="divHospitalSearch">
+                    @{ await Html.RenderPartialAsync("_HospitalSearch"); }
+                </div>
+
+                <div id="divHospitalOtherDetails" class="m-1 hide">
+
+                    <ul class="nav nav-tabs customtab" role="tablist">
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tHospitalContacts" href="#divHospitalContacts" role="tab"><span class="hidden-sm-up"><i class="fa fa-sticky-note"></i></span> <span class="hidpden-xs-down">Contacts</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tCommonNotes" href="#divCommomNotes" role="tab"><span class="hidden-sm-up"><i class="fa fa-sticky-note"></i></span> <span class="hidpden-xs-down">Notes</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tversionhistory" href="#divVersionHistroy" role="tab"><span class="hidden-sm-up"><i class="fa fa-history"></i></span> <span class="hidpden-xs-down">History</span></a> </li>
+                    </ul>
+                    <div class="tab-pane" id="divHospitalContacts" role="tabpanel">
+                        <div id="HospitalContacts">
+                            @{ await Html.RenderPartialAsync("_HospitalContactList", Model); }
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="divCommomNotes" role="tabpanel">
+                        <div id="CommomNotes">
+                            @{ await Html.RenderPartialAsync("_HospitalNotes", Model); }
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="divVersionHistroy" role="tabpanel">
+                        <div id="VersionHistroy">
+                            @{ await Html.RenderPartialAsync("_HospitalHistory", Model); }
+                        </div>
+                    </div>
+
+                </div>
+                @if (Model.HospitalList != null)
+                {
+                    <div id="divHospitalList">
+                        @{await Html.RenderPartialAsync("_HospitalList", Model); }
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane" id="divHospitalAddHead" role="tabpanel">
+            <div id="divHospitalAdd">
+                @{await Html.RenderPartialAsync("_HospitalAdd", Model); }
+            </div>
+        </div>
+        <div class="tab-pane" id="divHospitalBulkUploadHead" role="tabpanel">
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts{
+    <script src='@Url.Content("~/js/DataTables.js")'></script>
+    <script src='@Url.Content("~/plugins/parsley/dist/parsley.js")'></script>
+    <script src='@Url.Content("~/plugins/DataTables/media/js/dataTables.bootstrap.js")'></script>
+    <script src='@Url.Content("~/js/ui-modal-notification.demo.min.js")'></script>
+    <script src='@Url.Content("~/plugins/bootstrap-sweetalert/sweetalert.js")'></script>
+    <script src='@Url.Content("~/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")'></script>
+    <script src='@Url.Content("~/plugins/masked-input/masked-input.min.js")'></script>
+    <script src='@Url.Content("~/js/CommonUtils.js")'></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Notification.init();
+            HospitalSearch();
+            BtnSearch();
+            LoadHospitalList();
+            StatesOnchange();
+            CheckBox();
+            CancelTeam();
+            fromDashboard();
+
+            $('#alertNotessuccess').hide();
+
+            $("#tHospitalSearchHead").click();
+            $("#divHospitalAddHead").hide();
+            $("#divHospitalBulkUploadHead").hide();
+
+
+            $('#alertsuccess').hide();
+
+            $("#tHospitalContacts").click();
+            $("#CommomNotes").hide();
+            $("#VersionHistroy").hide();
+
+            $(".nav-link").click(function () {
+                ClearForm();
+                var tabid = this.id;
+                if (tabid == "tHospitalSearchHead") {
+
+                    $("#divHospitalSearchHead").show();
+                    $("#divHospitalAddHead").hide();
+                    $("#divHospitalBulkUploadHead").hide();
+
+
+                    $('#divHospitalDetails').addClass('hide');
+                    $('#divHospitalList').removeClass('hide');
+
+                    $('#divHospitalOtherDetails').removeClass('show');
+                    $("#divHospitalOtherDetails").addClass('hide');
+
+                }
+                else if (tabid == "tHospitalAddHead") {
+                    $("#divHospitalSearchHead").hide();
+                    $("#divHospitalAddHead").show();
+                    $("#divHospitalBulkUploadHead").hide();
+                }
+                else if (tabid == "tHospitalBulkUploadHead") {
+                    $("#divHospitalSearchHead").hide();
+                    $("#divHospitalAddHead").hide();
+                    $("#divHospitalBulkUploadHead").show();
+                }
+                else if (tabid == "tversionhistory") {
+                    $("#VersionHistroy").show();
+                    $("#CommomNotes").hide();
+                    $("#HospitalContacts").hide();
+                }
+                else if (tabid == "tHospitalContacts") {
+                    $("#VersionHistroy").hide();
+                    $("#CommomNotes").hide();
+                    $("#HospitalContacts").show();
+                }
+                else if (tabid == "tCommonNotes") {
+                    $("#VersionHistroy").hide();
+                    $("#HospitalContacts").hide();
+                    $("#CommomNotes").show();
+
+                    $("#btnNoteSubmit").prop('value', 'Submit');
+                    $("#CommonNote").val("");
+                    $("#hrfCommonNotesId").val("");
+                    $("#hrfHospitalId").val("");
+                }
+
+            });
+        });
+
+        function HospitalSearch() {
+            var eleClientSearch = $('#HospitalSearch').autocomplete({
+                scroll: true,
+                minLength: 0,
+                source: function (request, response) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: $('#hrfSearchClient').val(),
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.value, value: item.value, Id: item.id };
+                            }));
+                        },
+                        error: function (req, status, error) {
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('#hrfHospitalId').val(ui.item.Id);
+                    HospitalDetailsLoad();
+                    return ui.item.value;
+                },
+            }).focus(function () {
+                $(this).autocomplete("search", "");
+            });
+        }
+
+        function HospitalDetailsLoad()
+        {
+            //$("#tcontractdetails").click();
+
+            var url = "@Url.Action("HospitalDetails", "Hospitals")";
+            var jsonData = { Id: $('#hrfHospitalId').val() };
+
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                $('#divHospitalSearch').html(resp);
+                $('#divHospitalDetails').removeClass('hide');
+                $('#divHospitalList').addClass('hide');
+                HospitalSearch();
+                logDatatable();
+                NotesDatatable();
+                HospitalContactsDatatable($('#hrfHospitalId').val(),0);
+
+                $('#HospitalContacts').html(resp.HospitalsContactsList);
+
+                if ($('#@Html.IdFor(m => m.HospitalDetails.IsAlert)').val() == "True") {
+                    swal({
+                        title: "Delinquent facility, contact your supervisor",
+                        //text: "Do you want to Continue?",
+                        type: "warning",
+                        //showCancelButton: true,
+                        confirmButtonClass: 'btn-primary',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+
+                if ($('#@Html.IdFor(m => m.HospitalDetails.ContractPricing)').val() == "False") {
+                    $('.ContractPricing').html("No");
+
+                }
+                else {
+                    $('.ContractPricing').html("Yes");
+                    //<a href="_blank" class="btnLetterIncludedview fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration"></a>
+                }
+
+
+                var LetterPath = '@Html.ActionLink("", "ViewFiles", "Hospitals", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                LetterPath = LetterPath.replace('FN**', escape($('#@Html.IdFor(m => m.HospitalDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.HospitalDetails.LetterPath)').val()));
+
+
+                if ($('#@Html.IdFor(m => m.HospitalDetails.LetterIncluded)').val() == "False") {
+                    $('.LetterIncluded').html("No");
+                }
+                else {
+                    $('.LetterIncluded').html("Yes" + LetterPath);
+                    //<a href="_blank" class="btnLetterIncludedview fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration"></a>
+                }
+                var W9Path = '@Html.ActionLink("", "ViewFiles", "Hospitals", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                W9Path = W9Path.replace('FN**', escape($('#@Html.IdFor(m => m.HospitalDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.HospitalDetails.W9Path)').val()));
+
+                if ($('#@Html.IdFor(m => m.HospitalDetails.W9)').val() == "False") {
+                    $('.W9').html("No");
+                }
+                else {
+                    $('.W9').html("Yes" + W9Path);
+                }
+
+                var VendorPath = '@Html.ActionLink("", "ViewFiles", "Hospitals", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                VendorPath = VendorPath.replace('FN**', escape($('#@Html.IdFor(m => m.HospitalDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.HospitalDetails.VendorPath)').val()));
+
+                if ($('#@Html.IdFor(m => m.HospitalDetails.VendorLetter)').val() == "False") {
+                    $('.VendorLetter').html("No");
+                }
+                else {
+                    $('.VendorLetter').html("Yes" + VendorPath);
+                }
+
+                var InvoiceTemplatePath = '@Html.ActionLink("", "ViewFiles", "Hospitals", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                InvoiceTemplatePath = InvoiceTemplatePath.replace('FN**', escape($('#@Html.IdFor(m => m.HospitalDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.HospitalDetails.InvoiceTemplatePath)').val()));
+
+                if ($('#@Html.IdFor(m => m.HospitalDetails.InvoiceTemplate)').val() == "False") {
+                    $('.InvoiceTemplate').html("No");
+                }
+                else {
+                    $('.InvoiceTemplate').html("Yes" + InvoiceTemplatePath);
+                }
+
+            });
+        }
+
+         function logDatatable()
+         {
+             $("#divHospitalOtherDetails").addClass('hide');
+             $("#divHospitalOtherDetails").addClass('show');
+            var dtTblList;
+            PageValue = $('#Page').val();
+            if ($.fn.DataTable.isDataTable('#tblHospitalHistoryTable')) {
+                dtTblList = $('#tblHospitalHistoryTable').DataTable().ajax.reload();
+
+            } else
+            {
+                dtTblList = $('#tblHospitalHistoryTable').DataTable(
+                   {
+                       ajax: {
+                           url: '@Url.Content("~/Hospitals/HospitalLog")',
+                           type: "POST",
+                           datatype: "json",
+                           data: function (d) {
+                               d.hospitalId = $('#hrfHospitalId').val();
+                           },
+                           error: function (result) {
+                               console.log(result);
+                           }
+                       },
+                       columns: [
+                           { data: "logTime", name: "date" },
+                           { data: "userName", name: "actionby" },
+                           { data: "comments", name: "action" },
+                       ],
+                       autoWidth: false,
+                       order: [],
+                       language: {
+                           processing: "Processing...Please Wait"
+                       }
+
+                   })
+                $(dtTblList.table().container()).removeClass('form-inline');
+
+
+            }
+        }
+
+        function NotesDatatable() {
+            var dtTblList;
+            if ($.fn.DataTable.isDataTable('#tblHospitalNotesTable')) {
+                dtTblList = $('#tblHospitalNotesTable').DataTable().ajax.reload();
+
+            } else {
+                dtTblList = $('#tblHospitalNotesTable').DataTable(
+                   {
+                       ajax: {
+                           url: '@Url.Content("~/Hospitals/HospitalNotesDetails")',
+                           type: "POST",
+                           datatype: "json",
+                           data: function (d) {
+                               d.HospitalId = $('#hrfHospitalId').val();
+                           },
+                           error: function (result) {
+                               console.log(result);
+                           }
+                       },
+                        columns: [
+                           { data: "notes", name: "notes" },
+                           { data: "addedBy", name: "added by" },
+                           { data: "addedOn", name: "added on" },
+                       ],
+                       columnDefs: [
+                       {
+                           targets: 3,
+                           render: function (data, type, row, meta) {
+                               var Edit = '<a href="javascript:;" id="' + row["id"] + '" class="btnNotesedit fa fa-lg fa-edit text-inverse form-control1 p-l-0 p-r-0 m-5 @*@isPermission*@" style="border:none; background-color:transparent;display: initial;"></a>';
+                               var Delete = '<a href="javascript:;" id="' + row["id"] + '" class="btnNotesdelete fa fa-lg fa-trash-o text-inverse form-control1 p-l-0 p-r-0 m-5 @*@isPermission*@" style="border:none; background-color:transparent;display: initial;"></a>';
+
+                               if (row["userID"] == '@UserId' || '@RoleId' == '2c0cdf89-9984-4f82-bcf3-f3382e5a843c')
+                                   return Edit + Delete;
+                               else
+                                   return '';
+                           }
+                       }
+                       ],
+                       autoWidth: false,
+                       order: [],
+                       language: {
+                           processing: "Processing...Please Wait"
+                       }
+
+                   })
+                $(dtTblList.table().container()).removeClass('form-inline');
+
+                $('#tblHospitalNotesTable tbody td .btnNotesdelete').live('click', function () {
+                    var tr = $(this).closest('tr');
+                    var NotesID = $(this).attr("id");
+                    $("#hrfCommonNotesId").val(NotesID);
+                    ConfirmNotesDelete(NotesID);
+                });
+
+                $('#tblHospitalNotesTable tbody td .btnNotesedit').live('click', function () {
+                    var tr = $(this).closest('tr');
+                    var NotesID = $(this).attr("id");
+                    EditNote(NotesID);
+
+                });
+            }
+        }
+
+
+
+         //Delete Notes
+        function ConfirmNotesDelete(NotesID) {
+            var response = swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this detail!",
+                type: "error",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, delete it!'
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var url = "@Url.Action("DeleteHospitalNotes", "Hospitals")";
+                    var jsonData = { Id: NotesID };
+                    AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                        $("#hrfCommonNotesId").val("");
+                        NotesDatatable();
+                        logDatatable();
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+        };
+
+         //Edit Notes
+        function EditNote(NotesID) {
+            var url = "@Url.Action("EditNotes", "Hospitals")";
+            var formData = new FormData();
+            formData.append('Id', NotesID);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    $("#hrfCommonNotesId").val(NotesID);
+                    $("#hrfHospitalId").val(result.data[0]["hospitalId"]);
+                    $("#CommonNote").val(result.data[0]["notes"]);
+                    $("#btnNoteSubmit").prop('value', 'Update');
+
+                    if (result.data[0]["hospitalId"] != 'undefined' && result.data[0]["hospitalId"] != null && result.data[0]["hospitalId"] != '') {
+                        $($('#@Html.IdFor(m => m.HospitalNotes.HospitalId)')).val(result.data[0]["hospitalId"]);
+                    }
+                },
+                error: function (err) {
+                }
+            });
+        };
+
+         $("#btnNoteSubmit").on('click', function () {
+            $('#hrfCommonNotesId').attr("data-parsley-required", true);
+            $('#CommonNote').attr("data-parsley-required", true);
+
+            var validationresult = $('#NotesForm').parsley().validate();
+            if (validationresult) {
+                SaveNotes();
+            }
+        });
+
+        $("#btnNoteClear").on('click', function () {
+            $("#btnNoteSubmit").prop('value', 'Submit');
+            $("#CommonNote").val("");
+            $("#hrfCommonNotesId").val("");
+           // $("#hrfHospitalId").val("");
+            NotesDatatable();
+        });
+
+        function SaveNotes()
+        {
+            var GetId = $('#hrfCommonNotesId').val();
+            GetId = (GetId == "" ? 0 : GetId);
+            var GetHospitalId = $('#hrfHospitalId').val();
+            var GetNotes = $('#CommonNote').val();
+
+            var ClientContractNoteDetails = JSON.stringify({
+                ID: GetId,
+                HospitalId: GetHospitalId,
+                Notes: GetNotes
+
+            });
+            var url = "@Url.Action("SaveHospitalNotes", "Hospitals")";
+            var formData = new FormData();
+            formData.append('Id', GetId);
+            formData.append('HospitalId', GetHospitalId);
+            formData.append('Notes', GetNotes);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    HospitalDetailsLoad();
+                },
+                error: function (err) {
+                }
+            });
+
+
+            $("#btnNoteSubmit").prop('value', 'Submit');
+            $("#CommonNote").val("");
+            $("#hrfCommonNotesId").val("");
+            //$("#hrfHospitalId").val("");
+            NotesDatatable();
+        }
+
+        function LoadHospitalList() {
+            $('#tblHospitals').DataTable({
+                searching: true,
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "columnDefs": [
+                    { "type": "num", "targets": 0 }
+                ],
+                "order": [0, 'asc'],
+                dom: 'l<"toolbar">frtip',
+                initComplete: function () {
+                    $("div.toolbar")
+                       .html('<a id="btnHospitalExport" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o text-success"></i> </a>');
+                    $('#btnHospitalExport').on('click', function () {
+                        var url = "@Url.Action("DownloadHospitals", "Hospitals")";
+                        var jsonData = {};
+                        AjaxRequestJsonPostContent(url, jsonData, function (resp, status, req) {
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = resp;
+                            a.download = 'Hospitals.xlsx';
+                            document.body.appendChild(a);
+                            a.click();
+                        });
+                    });
+                }
+            });
+        }
+
+        function BtnSearch() {
+            $('#btnSearch').on('click', function () {
+                HospitalDetailsLoad();
+            });
+        }
+
+        function runScript(e) {
+            //See notes about 'which' and 'key'
+            if (e.keyCode == 13) {
+                if ($('#hrfHospitalId').val() != '') {
+                    HospitalDetailsLoad();
+
+                }
+                return false;
+            }
+        }
+
+        function CheckBox() {
+            $('#ContractPricing').on('click', function () {
+                $('#NoContractPricing').attr('checked', false);
+            });
+            $('#NoContractPricing').on('click', function () {
+                $('#ContractPricing').attr('checked', false);
+            });
+
+
+            $("#LetterIncluded").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked)
+                {
+                    $('#divLetterCopy').addClass("hide");
+                }
+            });
+            $('#LetterIncluded').on('click', function () {
+                $('#NoLetterIncluded').attr('checked', false);
+                var GetLetterIncluded = $('#LetterIncluded:checked').val();
+                if (GetLetterIncluded == "true") {
+                    $('#divLetterCopy').removeClass("hide");
+                }
+            });
+            $('#NoLetterIncluded').on('click', function () {
+                $('#LetterIncluded').attr('checked', false);
+                var GetLetterIncluded = $('#NoLetterIncluded:checked').val();
+                if (GetLetterIncluded == "true") {
+                    $('#divLetterCopy').addClass("hide");
+                    $('#LetterCopy').val("");
+                }
+            });
+
+            $("#W9").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked) {
+                    $('#divW9Copy').addClass("hide");
+                }
+            });
+            $('#W9').on('click', function () {
+                $('#NoW9').attr('checked', false);
+                var GetW9 = $('#W9:checked').val();
+                if (GetW9 == "true") {
+                    $('#divW9Copy').removeClass("hide");
+                }
+            });
+            $('#NoW9').on('click', function () {
+                $('#W9').attr('checked', false);
+                var GetW9 = $('#NoW9:checked').val();
+                if (GetW9 == "true") {
+                    $('#divW9Copy').addClass("hide");
+                    $('#W9Copy').val("");
+                }
+            });
+
+            $("#VendorLetter").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked) {
+                    $('#divVendorLetterCopy').addClass("hide");
+                }
+            });
+            $('#VendorLetter').on('click', function () {
+                $('#NoVendorLetter').attr('checked', false);
+                var GetVendorLetter = $('#VendorLetter:checked').val();
+                if (GetVendorLetter == "true") {
+                    $('#divVendorLetterCopy').removeClass("hide");
+                }
+            });
+            $('#NoVendorLetter').on('click', function () {
+                $('#VendorLetter').attr('checked', false);
+                var GetVendorLetter = $('#NoVendorLetter:checked').val();
+                if (GetVendorLetter == "true") {
+                    $('#divVendorLetterCopy').addClass("hide");
+                    $('#VendorLetterCopy').val("");
+                }
+            });
+
+            $("#InvoiceTemplate").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked) {
+                    $('#divInvoiceTemplateCopy').addClass("hide");
+                }
+            });
+            $('#InvoiceTemplate').on('click', function () {
+                $('#NoInvoiceTemplate').attr('checked', false);
+                var GetInvoiceTemplate = $('#InvoiceTemplate:checked').val();
+                if (GetInvoiceTemplate == "true") {
+                    $('#divInvoiceTemplateCopy').removeClass("hide");
+                }
+            });
+            $('#NoInvoiceTemplate').on('click', function () {
+                $('#InvoiceTemplate').attr('checked', false);
+                var GetInvoiceTemplate = $('#NoInvoiceTemplate:checked').val();
+                if (GetInvoiceTemplate == "true") {
+                    $('#divInvoiceTemplateCopy').addClass("hide");
+                    $('#InvoiceTemplateCopy').val("");
+                }
+            });
+        }
+
+        $('#btnHospitalSubmit').live('click', function () {
+            $('#@Html.IdFor(m => m.HospitalDetails.Name)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.Address)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.StateID)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.CityID)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.ZipCode)').attr("data-parsley-required", true);
+            //$('#@Html.IdFor(m => m.HospitalDetails.Phone)').attr("data-parsley-required", false);
+            //$('#@Html.IdFor(m => m.HospitalDetails.FaxNumber)').attr("data-parsley-required", false);
+            //$('#@Html.IdFor(m => m.HospitalDetails.EmailID)').attr("data-parsley-required", false);
+            //$('#@Html.IdFor(m => m.HospitalDetails.ContactName)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.HospitalDetails.Department)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.HospitalDetails.ClientSpecific)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.HospitalDetails.ContractPricing)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.InvoiceP)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.InvoiceSchedule)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.LetterIncluded)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.W9)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.VendorLetter)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.HospitalDetails.InvoiceTemplate)').attr("data-parsley-required", true);
+
+
+
+            $('#@Html.IdFor(m => m.HospitalsContacts.Phone)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.HospitalsContacts.FaxNumber)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.HospitalsContacts.EmailID)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.HospitalsContacts.ContactName)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.HospitalsContacts.ClientName)').attr("data-parsley-required", false);
+
+            if ($('#LetterIncluded').is(':checked')) {
+                $('#LetterCopy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#LetterCopy').attr("data-parsley-required", false);
+            }
+
+            if ($('#W9').is(':checked')) {
+                $('#W9Copy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#W9Copy').attr("data-parsley-required", false);
+            }
+
+            if ($('#VendorLetter').is(':checked')) {
+                $('#VendorLetterCopy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#VendorLetterCopy').attr("data-parsley-required", false);
+            }
+
+            if ($('#InvoiceTemplate').is(':checked')) {
+                $('#InvoiceTemplateCopy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#InvoiceTemplateCopy').attr("data-parsley-required", false);
+            }
+
+            var validationresult = $('#Hospitalsfrm').parsley().validate();
+            if (validationresult) {
+                var GetName= $('#@Html.IdFor(m => m.HospitalDetails.Name)').val();
+                var GetAddress= $('#@Html.IdFor(m => m.HospitalDetails.Address)').val();
+                var GetStateId= $('#@Html.IdFor(m => m.HospitalDetails.StateID)').val();
+                var GetCityId= $('#@Html.IdFor(m => m.HospitalDetails.CityID)').val();
+                var GetZipCode= $('#@Html.IdFor(m => m.HospitalDetails.ZipCode)').val();
+                var GetPhone= $('#@Html.IdFor(m => m.HospitalDetails.Phone)').val();
+                var GetFaxNumber= $('#@Html.IdFor(m => m.HospitalDetails.FaxNumber)').val();
+                var GetEmailID= $('#@Html.IdFor(m => m.HospitalDetails.EmailID)').val();
+                var GetContactName= $('#@Html.IdFor(m => m.HospitalDetails.ContactName)').val();
+                var GetDepartment= $('#@Html.IdFor(m => m.HospitalDetails.Department)').val();
+                var GetClientSpecific = $('#@Html.IdFor(m => m.HospitalDetails.ClientSpecific)').val();
+
+                GetClientSpecific = (GetClientSpecific == "" ? 0 : GetClientSpecific);
+
+                var GetContractPricing;
+                if ($('#ContractPricing').is(':checked')) {
+                    GetContractPricing = true;
+                }
+                else if ($('#NoContractPricing').is(':checked')) {
+                    GetContractPricing = false;
+                }
+
+                var GetInvoicePreference;
+                GetInvoicePreference = $('#@Html.IdFor(m => m.HospitalDetails.InvoiceP)').val();
+
+                var GetInvoiceSchedule = $('#@Html.IdFor(m => m.HospitalDetails.InvoiceSchedule)').val();
+
+                var GetLetterIncluded;
+                if ($('#LetterIncluded').is(':checked')) {
+                    GetLetterIncluded = true;
+                }
+                else if ($('#NoLetterIncluded').is(':checked')) {
+                    GetLetterIncluded = false;
+                }
+
+                //var GetLetterPath= $('#@Html.IdFor(m => m.HospitalDetails.LetterPath)').val();
+
+                var GetW9;
+                if ($('#W9').is(':checked')) {
+                    GetW9 = true;
+                }
+                else if ($('#NoW9').is(':checked')) {
+                    GetW9 = false;
+                }
+                //var GetW9Path = $('#@Html.IdFor(m => m.HospitalDetails.W9Path)').val();
+
+                var GetVendorLetter;
+                if ($('#VendorLetter').is(':checked')) {
+                    GetVendorLetter = true;
+                }
+                else if ($('#NoVendorLetter').is(':checked')) {
+                    GetVendorLetter = false;
+                }
+                //var GetVendorPath = $('#@Html.IdFor(m => m.HospitalDetails.VendorPath)').val();
+
+                 var GetInvoiceTemplate;
+                if ($('#InvoiceTemplate').is(':checked')) {
+                    GetInvoiceTemplate = true;
+                }
+                else if ($('#NoInvoiceTemplate').is(':checked')) {
+                    GetInvoiceTemplate = false;
+                }
+                //var GetInvoiceTemplatePath = $('#@Html.IdFor(m => m.HospitalDetails.InvoiceTemplatePath)').val();
+
+                var GetAlert;
+                if ($('#IsAlert').is(':checked')) {
+                    GetAlert = true;
+                }
+                else {
+                    GetAlert = false;
+                }
+
+                var GetId = $('#hfId').val();
+                GetId = (GetId == "" ? 0 : GetId);
+
+                var GetContactRefID = $('#hrfContactRefID').val();
+                GetContactRefID = (GetContactRefID == "" ? 0 : GetContactRefID);
+
+                //alert(GetContactRefID);
+
+                var HospitalDetails = JSON.stringify({
+                    Id: GetId,
+                    Name: GetName,
+                    Address: GetAddress,
+                    StateId: GetStateId,
+                    CityId: GetCityId,
+                    ZipCode: GetZipCode,
+                    Phone: GetPhone,
+                    FaxNumber: GetFaxNumber,
+                    EmailID: GetEmailID,
+                    ContactName: GetContactName,
+                    Department: GetDepartment,
+                    ClientSpecific: GetClientSpecific,
+                    ContractPricing:GetContractPricing,
+                    InvoiceP: GetInvoicePreference,
+                    InvoiceSchedule: GetInvoiceSchedule,
+                    LetterIncluded: GetLetterIncluded,
+                    W9: GetW9,
+                    VendorLetter: GetVendorLetter,
+                    InvoiceTemplate: GetInvoiceTemplate,
+                    IsAlert: GetAlert,
+                    ContactsRefID: GetContactRefID
+                });
+                var url = "@Url.Action("SaveHospitals", "Hospitals")";
+                var jsonData = HospitalDetails;
+                AjaxRequestJsonPostContent(url, jsonData, function (resp, status, req) {
+                    if (resp.hospitalId > 0) {
+                        if (window.FormData !== undefined) {
+                            var formData = new FormData();
+                            formData.append('HospitalId', resp.hospitalId);
+                            formData.append('LetterCopy', $('#LetterCopy')[0].files[0]);
+                            formData.append('W9Copy', $('#W9Copy')[0].files[0]);
+                            formData.append('VendorLetterCopy', $('#VendorLetterCopy')[0].files[0]);
+                            formData.append('InvoiceTemplateCopy', $('#InvoiceTemplateCopy')[0].files[0]);
+                            var url = "@Url.Action("SaveHospialFiles", "Hospitals")";
+                            $.ajax({
+                                url: url,
+                                type: "POST",
+                                contentType: false,
+                                processData: false,
+                                data: formData,
+                                success: function (result) {
+                                    $('#divHospitalList').html(resp);
+                                    $('#alertsuccess').show();
+                                    $('#btnHospitalSubmit').val('Submit');
+                                    $("#tHospitalSearchHead").click();
+
+                                    setTimeout(function () {
+                                        $('#alertsuccess').hide();
+                                        $('#alertsuccess').removeClass('show');
+                                    }, 2000);
+                                    $('#Hospitalsfrm').parsley().destroy();
+                                    ClearForm();
+                                    CancelTeam();
+                                    LoadHospitalList();
+                                    location.href = $('#hrfHospitals').val();
+                                },
+                                error: function (err) {
+
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        function CitiesOnchange()
+        {
+            $('.CitiesList').live('change', function () {
+                var url = '@Url.Action("GetState", "Admin")';
+                var CityId = $(this).val();
+                var jsonData = { CityId: CityId };
+                AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                    $($('#@Html.IdFor(m => m.HospitalDetails.StateID)')).get(0).options.length = 0;
+                    $("<option value = >Select a State</option>").appendTo($('#@Html.IdFor(m => m.HospitalDetails.StateID)'));
+                    $.each(resp, function (index) {
+                        $('#@Html.IdFor(m => m.HospitalDetails.StateID)').append($("<option></option>").attr('value', this.id).text(this.value));
+                    });
+                });
+
+            });
+        }
+
+        function StatesOnchange() {
+            $('.StatesList').live('change', function () {
+                var StateId = $(this).val();
+                $('#hfStateId').val(StateId);
+                SetCity();
+            });
+        }
+
+        function SetCity() {
+            var StateId = $('#hfStateId').val();
+            var CityId = $('#hfCityId').val();
+            var url = '@Url.Action("GetCity", "Admin")';
+            var jsonData = { StateId: StateId };
+
+
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                $($('#@Html.IdFor(m => m.HospitalDetails.CityID)')).get(0).options.length = 0;
+                $("<option value = >Select a City</option>").appendTo($('#@Html.IdFor(m => m.HospitalDetails.CityID)'));
+                $.each(resp, function (index) {
+                    $('#@Html.IdFor(m => m.HospitalDetails.CityID)').append($("<option></option>").attr('value', this.id).text(this.value));
+                });
+                if (CityId != 'undefined' && CityId != null && CityId != '') {
+                    $($('#@Html.IdFor(m => m.HospitalDetails.CityID)')).val(CityId);
+                }
+            });
+        }
+
+        function ClearForm() {
+            $('#Hospitalsfrm').find('input:text').val('');
+            $("textarea").val("");
+            $("#Hospitalsfrm").prop('selectedIndex', 0);
+            $('#Hospitalsfrm').find('input:checkbox').removeAttr('checked');
+            $('#Hospitalsfrm').find('select').val(0);
+            $('#Hospitalsfrm').find('input:file').val('');
+            $('#NotesForm').find('input:text').val('');
+
+            $('#divLetterCopy').addClass("hide");
+            $('#divW9Copy').addClass("hide");
+            $('#divVendorLetterCopy').addClass("hide");
+            $('#divInvoiceTemplateCopy').addClass("hide");
+        }
+
+        function ViewHospitals(HospitalID) {
+            $('#hrfHospitalId').val(HospitalID);
+            HospitalDetailsLoad();
+        }
+
+        function EditHospitals(HospitalID) {
+
+            $('#hfId').val(HospitalID);
+            var url = "@Url.Action("EditHospitals", "Hospitals")";
+            var jsonData = { Id: HospitalID };
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                $("#tHospitalAddHead").click();
+                $('#divHospitalAdd').html(resp);
+
+                $('#hrfContactRefID').val($('#@Html.IdFor(m => m.HospitalDetails.ContactsRefID)').val());
+
+                var GetContractPricing = ($('.ContractPricing:checked').val());
+                if (GetContractPricing === 'true') {
+                    $('#NoContractPricing').attr('checked', false);
+                }
+                else {
+                    $('#NoContractPricing').attr('checked', true);
+                }
+
+                var GetLetterIncluded = ($('.LetterIncluded:checked').val());
+                if (GetLetterIncluded === 'true') {
+                    $('#NoLetterIncluded').attr('checked', false);
+                    $('#divLetterCopy').removeClass("hide");
+                }
+                else {
+                        $('#NoLetterIncluded').attr('checked', true);
+                        $('#divLetterCopy').addClass("hide");
+                }
+
+                var GetW9 = ($('.W9:checked').val());
+                if (GetW9 === 'true') {
+                    $('#NoW9').attr('checked', false);
+                    $('#divW9Copy').removeClass("hide");
+                }
+                else {
+                    $('#NoW9').attr('checked', true);
+                    $('#divW9Copy').addClass("hide");
+                }
+
+                var GetVendorLetter = ($('.VendorLetter:checked').val());
+                if (GetVendorLetter === 'true') {
+                    $('#NoVendorLetter').attr('checked', false);
+                    $('#divVendorLetterCopy').removeClass("hide");
+                }
+                else {
+                    $('#NoVendorLetter').attr('checked', true);
+                    $('#divVendorLetterCopy').addClass("hide");
+                }
+                var GetInvoiceTemplate = ($('.InvoiceTemplate:checked').val());
+                if (GetInvoiceTemplate === 'true') {
+                    $('#NoInvoiceTemplate').attr('checked', false);
+                    $('#divInvoiceTemplateCopy').removeClass("hide");
+                }
+                else {
+                    $('#NoInvoiceTemplate').attr('checked', true);
+                    $('#divInvoiceTemplateCopy').addClass("hide");
+                }
+
+                $('#btnHospitalSubmit').val('Update');
+
+
+                SetCity();
+                CheckBox();
+                CancelTeam();
+            });
+        }
+
+       function ConfirmDelete(HospitalID) {
+            $("#alertsuccess").hide();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this detail!",
+                type: "error",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, delete it!'
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var url = "@Url.Action("DeleteHospitals", "Hospitals")";
+                    var jsonData = { HospitalID: HospitalID };
+                    AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                        $('#divHospitalList').html(resp);
+                        //$('#alertsuccess').show();
+                        $('#btnHospitalSubmit').val('Submit');
+                        $("#tHospitalSearchHead").click();
+
+                        //setTimeout(function () {
+                        //    $('#alertsuccess').hide();
+                        //    $('#alertsuccess').removeClass('show');
+                        //}, 2000);
+                        $('#Hospitalsfrm').parsley().destroy();
+                        ClearForm();
+                        LoadHospitalList();
+                        location.href = $('#hrfHospitals').val();
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+        };
+       function CancelTeam() {
+            $('#btnCancel').click(function (e) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Data in the page will be lost!",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn-primary',
+                    confirmButtonText: 'Confirm'
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            location.href = $('#hrfHospitals').val();
+                        }
+                    });
+            });
+        }
+
+        function fromDashboard() {
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams !== null && typeof (urlParams) !== undefined) {
+                var id = urlParams.get('id');
+                if (id != null) {
+                    $('#hrfHospitalId').val(id);
+                    HospitalDetailsLoad();
+                }
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+    $('#btnHospitalContactAdd').live('click', function () {
+        $('#@Html.IdFor(m => m.HospitalsContacts.Phone)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.HospitalsContacts.FaxNumber)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.HospitalsContacts.EmailID)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.HospitalsContacts.ContactName)').attr("data-parsley-required", true);
+        $('#@Html.IdFor(m => m.HospitalsContacts.ClientName)').attr("data-parsley-required", true);
+
+
+        var GetPhone= $('#@Html.IdFor(m => m.HospitalsContacts.Phone)').val();
+        var GetFaxNumber= $('#@Html.IdFor(m => m.HospitalsContacts.FaxNumber)').val();
+        var GetEmailID= $('#@Html.IdFor(m => m.HospitalsContacts.EmailID)').val();
+        var GetContactName= $('#@Html.IdFor(m => m.HospitalsContacts.ContactName)').val();
+        var GetClientName = $('#@Html.IdFor(m => m.HospitalsContacts.ClientName)').val();
+        GetClientName = (GetClientName == "" ? 0 : GetClientName);
+
+        $('#hrfContactRefID').val();
+        var GetReferenceID = $('#hrfContactRefID').val() == '' ? 0 : $('#hrfContactRefID').val();
+
+         var GetId = $('#@Html.IdFor(m => m.HospitalsContacts.ID)').val();
+         GetId = (GetId == "" ? 0 : GetId);
+
+        if (GetContactName == "" && GetPhone == "" && GetFaxNumber == "" && GetEmailID == "") {
+            alert("Select client specific and enter any one of the contact details");
+            return false;
+        }
+        else {
+            var HospitalDetails = JSON.stringify({
+                Id: GetId,
+                Phone: GetPhone,
+                FaxNumber: GetFaxNumber,
+                EmailID: GetEmailID,
+                ContactName: GetContactName,
+                ClientName: GetClientName,
+                RefID: GetReferenceID
+            });
+
+             var url = "@Url.Action("AddHospitalContacts", "Hospitals")";
+            var jsonData = HospitalDetails;
+            AjaxRequestJsonPostContent(url, jsonData, function (resp, status, req) {
+                //$('#divHospitalContactListform').html(resp);
+                //alert(resp.referenceId);
+                $('#hrfContactRefID').val(resp.referenceId);
+                HospitalContactsDatatable(0, resp.referenceId)
+                ClearContacts();
+                $('#btnHospitalContactAdd').val('Add');
+                CancelTeam();
+            });
+        }
+    });
+
+    function ClearContacts() {
+        $('#@Html.IdFor(m => m.HospitalsContacts.ID)').val('0');
+        $('#@Html.IdFor(m => m.HospitalsContacts.ClientName)').val('');
+        $('#@Html.IdFor(m => m.HospitalsContacts.ContactName)').val('');
+        $('#@Html.IdFor(m => m.HospitalsContacts.Phone)').val('');
+        $('#@Html.IdFor(m => m.HospitalsContacts.FaxNumber)').val('');
+        $('#@Html.IdFor(m => m.HospitalsContacts.EmailID)').val('');
+    }
+
+    function HospitalContactsDatatable(HospitalID, RefID) {
+            //alert(HospitalID);
+            var url = "@Url.Action("GetHospitalContacts", "Hospitals")";
+            var jsonData = { HospitalID: HospitalID,RefID: RefID};
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                //alert(resp);
+                if (HospitalID != 0) {
+                    $('#HospitalContacts').html(resp);
+                    $("#tblHospitalsContacts th:last-child, #tblHospitalsContacts td:last-child").remove();
+                }
+                else {
+                    $('#divHospitalContactListform').html(resp);
+                }
+            });
+        }
+
+    function ConfirmHospitalContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID) {
+        $('#@Html.IdFor(m => m.HospitalsContacts.ID)').val(ID);
+        $('#@Html.IdFor(m => m.HospitalsContacts.ClientName)').val(ClientID);
+        $('#@Html.IdFor(m => m.HospitalsContacts.ContactName)').val(ContactName);
+        $('#@Html.IdFor(m => m.HospitalsContacts.Phone)').val(Phone);
+        $('#@Html.IdFor(m => m.HospitalsContacts.FaxNumber)').val(FaxNumber);
+        $('#@Html.IdFor(m => m.HospitalsContacts.EmailID)').val(EmailID);
+
+        $('#btnHospitalContactAdd').val('Update');
+    }
+
+    function ConfirmHospitalContactDelete(ID,RefID) {
+         swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this detail!",
+                type: "error",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, delete it!'
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var url = "@Url.Action("DeleteHospitalsContacts", "Hospitals")";
+                    var jsonData = { HospitalContactID: ID };
+                    AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                        HospitalContactsDatatable(0, RefID)
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+    }
+    </script>
+}
+

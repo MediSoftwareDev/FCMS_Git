@@ -1,0 +1,55 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.Hospitals;
+@model Hospitals
+@{
+    string isAdmin = string.Empty;
+    string isPermission = string.Empty;
+    var Changeproject = HttpContextAccessor.HttpContext.Session.Get<List<UserProjectRole>>("Changeproject");
+    var RoleId = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleID");
+    var NotificationCount = HttpContextAccessor.HttpContext.Session.Get<string>("NotificationCount");
+    var RolePermission = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleAccess");
+    string UserId = HttpContextAccessor.HttpContext.Session.Get<string>("SessionUserID");
+    if (RoleId == "194c4cc1-4a1e-4861-abbb-302d02f7d825")
+    {
+        isAdmin = "AE";
+    }
+    if (RolePermission == "R")
+    {
+        isPermission = "hide";
+    }
+}
+<div class="row panel-body">
+    <div class="col-lg-10 m-10">
+        @if (Model.HospitalContractDetailsList.Count != 0)
+        {
+            <table id="tblHospitalContractDetails" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>CompanyName</th>
+                        <th>ALS1</th>
+                        <th>ALS2</th>
+                        <th>BLS</th>
+                        <th>Mileage</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{int i = 0;
+                        foreach (var item in Model.HospitalContractDetailsList)
+                        {
+                            i++;
+                            <tr>
+                                <td id="txtCompanyName" class="tr1">@item.CompanyName</td>
+                                <td id="txtALS1" class="tr1">@item.ALS1</td>
+                                <td id="txtALS2" class="tr1">@item.ALS2</td>
+                                <td id="txtBLS" class="tr1">@item.BLS</td>
+                                <td id="txtMileage" class="tr1">@item.Mileage</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+

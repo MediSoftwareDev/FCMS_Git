@@ -1,0 +1,113 @@
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\web.config
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\appsettings.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\bower.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\bundleconfig.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoData.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataDraft.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataTemp.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\package.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\Properties\launchSettings.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\wwwroot\Contracts\Sample Clients Master.xlsx
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.deps.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.dev.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.dll
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.pdb
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csprojAssemblyReference.cache
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfoInputs.cache
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfo.cs
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csproj.CoreCompileInputs.cache
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.dll
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.pdb
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.genruntimeconfig.cache
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\web.config
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\appsettings.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\bower.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\bundleconfig.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoData.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataDraft.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataTemp.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\package.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\wwwroot\Contracts\Sample Clients Master.xlsx
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.deps.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.dev.json
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.dll
+D:\Vanitha\CMS\Source\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.pdb
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csproj.AssemblyReference.cache
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.GeneratedMSBuildEditorConfig.editorconfig
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfoInputs.cache
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfo.cs
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csproj.CoreCompileInputs.cache
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.dll
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.pdb
+D:\Vanitha\CMS\Source\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.genruntimeconfig.cache
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\web.config
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\appsettings.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\bower.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\bundleconfig.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoData.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataDraft.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataTemp.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\package.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\Properties\launchSettings.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\wwwroot\Contracts\Sample Clients Master.xlsx
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.deps.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.dev.json
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.dll
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.pdb
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csprojAssemblyReference.cache
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\obj\Release\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfoInputs.cache
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfo.cs
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.dll
+C:\Users\sageit2\Documents\My Web Sites\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.pdb
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\web.config
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\appsettings.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\bower.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\bundleconfig.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoData.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataDraft.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataTemp.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\package.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\wwwroot\Contracts\Sample Clients Master.xlsx
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.deps.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.dev.json
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.dll
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.pdb
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.GeneratedMSBuildEditorConfig.editorconfig
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfoInputs.cache
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfo.cs
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csproj.CoreCompileInputs.cache
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.dll
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.pdb
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.genruntimeconfig.cache
+E:\VanithaC_Don't_Delete\Don't_Delete\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csproj.AssemblyReference.cache
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\web.config
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\appsettings.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\bower.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\bundleconfig.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\package.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoData.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataDraft.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\DemoData\DemoDataTemp.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\wwwroot\Contracts\Sample Clients Master.xlsx
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.deps.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.runtimeconfig.dev.json
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.dll
+E:\MedicountApplication\FCMS\FCMS\FCMS\bin\Release\netcoreapp2.0\FCMS.pdb
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csproj.AssemblyReference.cache
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.GeneratedMSBuildEditorConfig.editorconfig
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfoInputs.cache
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.AssemblyInfo.cs
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.csproj.CoreCompileInputs.cache
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.dll
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.pdb
+E:\MedicountApplication\FCMS\FCMS\FCMS\obj\Release\netcoreapp2.0\FCMS.genruntimeconfig.cache

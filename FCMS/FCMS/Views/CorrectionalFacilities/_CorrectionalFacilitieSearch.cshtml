@@ -1,0 +1,120 @@
+﻿@using FCMS.ViewModels.CorrectionalFacilities
+@model CorrectionalFacilities
+<form id="userForm" method="post" class="form-horizontal">
+    <div class="panel-body panel-form p-t-15  m-t-10">
+        <div class="form-group col-sm-12 col-md-12 col-lg-12" id="Companyfilter">
+            <label class="control-label col-md-4 col-sm-4">Name</label>
+            <div class="col-md-3 col-sm-3 col-lg-3 controls" onkeypress="return runScript(event)">
+                @Html.TextBox("CorrectionalFacilitieSearch", null, new { @class = "form-control", @placeholder = "Enter Name ", data_parsley_required = "true" })
+            </div>
+            <div class="col-md-3 col-sm-3 col-lg-3 controls">
+                <input id="btnSearch" type="button" class="btn btn-sm btn-primary m-r-5 hide" value="Search" />
+            </div>
+        </div>
+        <div class="hide m-10" id="divCorrectionalFacilitieDetails">
+            <h4>Correctional Facilities Details</h4>
+            <hr />
+            <div class="table-responsive" data-scrollbar="true" data-init="true">
+                <table class="table table-profile width-full">
+                    <tbody>
+                        <tr>
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.ID)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.ContractPricing)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.LetterIncluded)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.W9)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.VendorLetter)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.InvoiceTemplate)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.LetterPath)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.W9Path)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.VendorPath)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.InvoiceTemplatePath)
+                            @Html.HiddenFor(m => m.CorrectionalFacilitieDetails.IsAlert)
+                            <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">Name</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.Name)</td>
+                            @*<td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Phone</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.Phone) </td>*@
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">State</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.CorrectionalFacilitieDetails.StateName)</td>
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Client Specific</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.ClientSpecificName) </td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Contract Pricing</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 ContractPricing">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.ContractPricing) </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">Address</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.Address) </td>
+                            @*<td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Fax Number</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.FaxNumber)</td>*@
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Zip Code</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.ZipCode)</td>
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Invoice Preference</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 InvoicePreference">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.InvoiceP) </td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Invoice Schedule</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.InvoiceSchedule)</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">City</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.CityName) </td>
+                            @*<td style="width: 10%!important"  class="field p-l-5 p-r-0 text-success text-left">EmailID</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.CorrectionalFacilitieDetails.EmailID)</td>*@
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Department</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.CorrectionalFacilitieDetails.Department)</td>
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Letter Included</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 LetterIncluded"> @Html.DisplayFor(m => m.CorrectionalFacilitieDetails.LetterIncluded)</td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">W-9</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 W9">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.W9)</td>
+                        </tr>
+                        <tr>
+                            @*<td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">State</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.CorrectionalFacilitieDetails.StateName)</td>*@
+                            @*<td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Contact Name</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.CorrectionalFacilitieDetails.ContactName)</td>*@
+                            <td style="width: 48%!important" colspan="6" class="field p-l-5 p-r-0 text-success text-left"></td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Vendor Letter</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 VendorLetter">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.VendorLetter)</td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Invoice Template</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 InvoiceTemplate">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.InvoiceTemplate)</td>
+                        </tr>
+                        @*<tr>
+                                <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">Zip Code</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.CorrectionalFacilitieDetails.ZipCode)</td>
+                                <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Department</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.CorrectionalFacilitieDetails.Department)</td>
+                            </tr>*@
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="divCorrectionalFacilitieContractDetails" class="hide">
+                @{ await Html.RenderPartialAsync("_CorrectionalFacilitieContractDetails"); }
+            </div>
+        </div>
+    </div>
+</form>

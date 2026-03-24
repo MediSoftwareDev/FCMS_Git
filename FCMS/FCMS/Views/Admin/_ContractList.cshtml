@@ -1,0 +1,70 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.Admin;
+@model Clients
+@{
+    string isAdmin = string.Empty;
+    var RolePermission = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleAccess");
+    if (RolePermission == "R")
+    {
+        isAdmin = "hide";
+    }
+}
+<div class="row panel-body">
+    <div class="col-lg-10 m-10">
+        <input type="hidden" id="hrfReferenceId" value='@Model.ReferenceId' />
+        @if (Model.ClientContractList.Count != 0)
+        {
+            <table id="tblClientEmployee" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Sno</th>
+                        @*<th>Version</th>*@
+                        <th>Facility Contract Name</th>
+                        <th>Facility Contract Start Date</th>
+                        <th>Facility Contract End Date</th>
+                        @*<th>Contract Renewed Date</th>
+                            <th>Length(Years)</th>*@
+                        <th>Active</th>
+                        @*<th>ALS1</th>
+                            <th>ALS2</th>
+                            <th>BLS</th>
+                            <th>Mileage</th>*@
+                        <th class="@isAdmin">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{int i = 0;
+                        foreach (var item in Model.ClientContractList)
+                        {
+                            i++;
+                            <tr id="@item.ID">
+                                <td id="txtSno" class="tr1">@i</td>
+                                @*<td id="txtVersion" class="tr1">@item.Version</td>*@
+                                <td id="txtContractName" class="tr1">@item.ContractTitle</td>
+                                <td id="txtContractSignedDate" class="tr1">@item.ContractSignedDate</td>
+                                <td id="txtContractExpiryDate" class="tr1">@item.ContractExpiryDate</td>
+                                @*<td id="txtContractEffDate" class="tr1">@item.ContractEffDate</td>
+                                    <td id="txtContractLength" class="tr1">@item.ContractLength</td>*@
+                                <td id="txtStatus" class="tr1">
+                                    @if (item.Active)
+                                    {<span>Yes</span>}
+                                    else
+                                    {<span>No</span>}
+                                </td>
+                                @*<td id="txtALS1" class="tr1">@item.ALS1</td>
+                                    <td id="txtALS2" class="tr1">@item.ALS2</td>
+                                    <td id="txtBLS" class="tr1">@item.BLS</td>
+                                    <td id="txtMileage" class="tr1">@item.Mileage</td>*@
+                                <td class="tr1">
+                                    <button id="btnContractEdit" type="button" Onclick="ConfirmContractEdit('@item.ID','@item.ReferenceID')" title="Edit" class="fa fa-lg fa-edit  text-inverse form-control1 p-l-0 p-r-0 @isAdmin" style="border:none; background-color:transparent"></button>
+                                    <button id="btnContractDelete" type="button" Onclick="ConfirmContractDelete('@item.ID')" title="Delete" class="fa fa-lg fa-trash-o  text-inverse form-control1 p-l-0 p-r-0 @isAdmin" style="border:none; background-color:transparent"></button>
+                                </td>
+                            </tr>
+                        } }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+

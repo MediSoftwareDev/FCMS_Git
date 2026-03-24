@@ -1,0 +1,63 @@
+﻿@using FCMS.ViewModels.Contract;
+@model Contracts
+<div class="modal fade" id="CFeeDetailsForm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <button class="btn btn-xs btn-icon btn-circle btn-default" id="btnFeeDetailsClose" onclick="closeFeeDetails()"><i class="fa fa-close"></i></button>
+                    </div>
+                    <h4 class="panel-title" id="feedetailsTitle">Fee Details</h4>
+                </div>
+
+                <form id="feeDetailsFrm" method="post" class="form-horizontal">
+                    <div class="panel-body panel-form p-t-15 m-t-10">
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label class="col-md-4 col-sm-4 field p-l-2 p-r-0 text-success text-right" for="ALS">ALS : </label>
+                            <div class="col-md-6 col-sm-6 col-lg-6 p-l-5 p-r-0">
+                                <text>$</text>  @Html.DisplayFor(m => m.ClientContractFeeDetails.ALS)
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label class="col-md-4 col-sm-4 field p-l-2 p-r-0 text-success text-right" for="ALS">ALS NE : </label>
+                            <div class="col-md-6 col-sm-6 col-lg-6 p-l-5 p-r-0">
+                                <text>$</text>  @Html.DisplayFor(m => m.ClientContractFeeDetails.ALSNE)
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label class="col-md-4 col-sm-4 field p-l-2 p-r-0 text-success text-right" for="ALS2">ALS2 : </label>
+                            <div class="col-md-6 col-sm-6 col-lg-6 p-l-5 p-r-0">
+                                <text>$</text>  @Html.DisplayFor(m => m.ClientContractFeeDetails.ALS2)
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label class="col-md-4 col-sm-4 field p-l-2 p-r-0 text-success text-right" for="BLS">BLS : </label>
+                            <div class="col-md-6 col-sm-6 col-lg-6 p-l-5 p-r-0">
+                                <text>$</text>  @Html.DisplayFor(m => m.ClientContractFeeDetails.BLS)
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label class="col-md-4 col-sm-4 field p-l-2 p-r-0 text-success text-right" for="BLS">BLS NE : </label>
+                            <div class="col-md-6 col-sm-6 col-lg-6 p-l-5 p-r-0">
+                                <text>$</text>  @Html.DisplayFor(m => m.ClientContractFeeDetails.BLSNE)
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label class="col-md-4 col-sm-4 field p-l-2 p-r-0 text-success text-right" for="Mileage">Mileage : </label>
+                            <div class="col-md-6 col-sm-6 col-lg-6 p-l-5 p-r-0">
+                                <text>$</text>  @Html.DisplayFor(m => m.ClientContractFeeDetails.Mileage)
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                            <label class="col-md-4 col-sm-4 field p-l-2 p-r-0 text-success text-right" for="Notes">Notes :</label>
+                            <div class="col-md-6 col-sm-6 col-lg-6 p-l-5 p-r-0">
+                                @Html.DisplayFor(m => m.ClientContractFeeDetails.Notes)
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

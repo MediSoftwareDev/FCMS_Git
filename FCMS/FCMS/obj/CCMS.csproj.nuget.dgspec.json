@@ -1,0 +1,109 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Vanitha\\CMS\\Source\\CCMS\\CCMS\\CCMS.csproj": {}
+  },
+  "projects": {
+    "E:\\Vanitha\\CMS\\Source\\CCMS\\CCMS\\CCMS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Vanitha\\CMS\\Source\\CCMS\\CCMS\\CCMS.csproj",
+        "projectName": "CCMS",
+        "projectPath": "E:\\Vanitha\\CMS\\Source\\CCMS\\CCMS\\CCMS.csproj",
+        "packagesPath": "C:\\Users\\MAHAHOME\\.nuget\\packages\\",
+        "outputPath": "E:\\Vanitha\\CMS\\Source\\CCMS\\CCMS\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\MAHAHOME\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.0": {
+          "dependencies": {
+            "AlanJuden.MvcReportViewer.NetCore": {
+              "target": "Package",
+              "version": "[1.0.10, )"
+            },
+            "BuildBundlerMinifier": {
+              "target": "Package",
+              "version": "[2.8.391, )"
+            },
+            "DotNetCore.NPOI": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[4.5.2.1, )"
+            },
+            "Microsoft.AspNetCore.All": {
+              "target": "Package",
+              "version": "[2.0.7, )"
+            },
+            "Microsoft.AspNetCore.DataProtection.SystemWeb": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.4, )"
+            },
+            "Microsoft.jQuery.Unobtrusive.Ajax": {
+              "target": "Package",
+              "version": "[3.2.5, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.0.8.3, )"
+            },
+            "jQuery.Validation": {
+              "target": "Package",
+              "version": "[1.17.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.406\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

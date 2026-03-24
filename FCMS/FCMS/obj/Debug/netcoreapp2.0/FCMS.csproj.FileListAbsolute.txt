@@ -1,0 +1,22 @@
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\web.config
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\appsettings.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\bower.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\bundleconfig.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\DemoData\DemoData.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\DemoData\DemoDataDraft.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\DemoData\DemoDataTemp.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\package.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\Properties\launchSettings.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\wwwroot\Contracts\Sample Clients Master.xlsx
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\FCMS.deps.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\FCMS.runtimeconfig.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\FCMS.runtimeconfig.dev.json
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\FCMS.dll
+E:\Vanitha\CMS\Source\FCMS\FCMS\bin\Debug\netcoreapp2.0\FCMS.pdb
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Debug\netcoreapp2.0\FCMS.AssemblyInfoInputs.cache
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Debug\netcoreapp2.0\FCMS.AssemblyInfo.cs
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Debug\netcoreapp2.0\FCMS.csproj.CoreCompileInputs.cache
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Debug\netcoreapp2.0\FCMS.dll
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Debug\netcoreapp2.0\FCMS.pdb
+E:\Vanitha\CMS\Source\FCMS\FCMS\obj\Debug\netcoreapp2.0\FCMS.genruntimeconfig.cache

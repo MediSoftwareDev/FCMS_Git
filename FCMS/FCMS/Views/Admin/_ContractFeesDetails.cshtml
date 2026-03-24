@@ -1,0 +1,55 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.Admin;
+@model Clients
+@{
+
+}
+
+<form id="ContractFeesDetails" class="form-horizontal">
+    <h4>Fee Details</h4>
+    <hr />
+    <div id="FeesDetails">
+        <div class="form-group col-sm-2 col-md-2 col-lg-2 p-l-0" data-parsley-validate="true">
+            <label class="control-label col-md-5 col-sm-5 col-lg-5 p-l-0" for="ALS">ALS @*<span style="color:red">*</span>*@</label>
+            <div class="col-md-7 col-sm-7 col-lg-7 p-l-0 controls input-group">
+                <span class="input-group-addon p-l-1 p-r-2">$</span>
+                @Html.TextBoxFor(m => m.ClientsDetails.ALS, new { @class = "form-control", @placeholder = "Enter ALS Fee", data_parsley_required = "true", data_parsley_trigger = "keyup", min = "0", max = "100000000000", data_parsley_pattern = "[0-9]\\d*(\\.\\d+)?$" })
+            </div>
+        </div>
+        <div class="form-group col-sm-2 col-md-2 col-lg-2 p-l-0" data-parsley-validate="true">
+            <label class="control-label col-md-5 col-sm-5 col-lg-5 p-l-0" for="ALSNE">ALS NE @*<span style="color:red">*</span>*@</label>
+            <div class="col-md-7 col-sm-7 col-lg-7 p-l-0 controls input-group">
+                <span class="input-group-addon p-l-1 p-r-2">$</span>
+                @Html.TextBoxFor(m => m.ClientsDetails.ALSNE, new { @class = "form-control", @placeholder = "Enter ALS NE Fee", data_parsley_required = "true", data_parsley_trigger = "keyup", min = "0", max = "100000000000", data_parsley_pattern = "[0-9]\\d*(\\.\\d+)?$" })
+            </div>
+        </div>
+        <div class="form-group col-sm-2 col-md-2 col-lg-2 p-l-0" data-parsley-validate="true">
+            <label class="control-label col-md-5 col-sm-5 col-lg-5 p-l-0" for="ALS2">ALS 2 @*<span style="color:red">*</span>*@</label>
+            <div class="col-md-7 col-sm-7 col-lg-7 p-l-0 controls input-group">
+                <span class="input-group-addon p-l-1 p-r-2">$</span>
+                @Html.TextBoxFor(m => m.ClientsDetails.ALS2, new { @class = "form-control", @placeholder = "Enter ALS 2 Fee", data_parsley_required = "true", data_parsley_trigger = "keyup", min = "0", max = "100000000000", data_parsley_pattern = "[0-9]\\d*(\\.\\d+)?$" })
+            </div>
+        </div>
+        <div class="form-group col-sm-2 col-md-2 col-lg-2 p-l-0" data-parsley-validate="true">
+            <label class="control-label col-md-5 col-sm-5 col-lg-5 p-l-0" for="BLS">BLS @*<span style="color:red">*</span>*@</label>
+            <div class="col-md-7 col-sm-7 col-lg-7 p-l-0 controls input-group">
+                <span class="input-group-addon p-l-1 p-r-2">$</span>
+                @Html.TextBoxFor(m => m.ClientsDetails.BLS, new { @class = "form-control", @placeholder = "Enter BLS Fee", data_parsley_required = "true", data_parsley_trigger = "keyup", min = "0", max = "100000000000", data_parsley_pattern = "[0-9]\\d*(\\.\\d+)?$" })
+            </div>
+        </div>
+        <div class="form-group col-sm-2 col-md-2 col-lg-2 p-l-0" data-parsley-validate="true">
+            <label class="control-label col-md-5 col-sm-5 col-lg-5 p-l-0" for="BLSNE">BLS NE @*<span style="color:red">*</span>*@</label>
+            <div class="col-md-7 col-sm-7 col-lg-7 p-l-0 controls input-group">
+                <span class="input-group-addon p-l-1 p-r-2">$</span>
+                @Html.TextBoxFor(m => m.ClientsDetails.BLSNE, new { @class = "form-control", @placeholder = "Enter BLS NE Fee", data_parsley_required = "true", data_parsley_trigger = "keyup", min = "0", max = "100000000000", data_parsley_pattern = "[0-9]\\d*(\\.\\d+)?$" })
+            </div>
+        </div>
+        <div class="form-group col-sm-2 col-md-2 col-lg-2 p-l-0" data-parsley-validate="true">
+            <label class="control-label col-md-5 col-sm-5 col-lg-5 p-l-0" for="Year4">Mileage @*<span style="color:red">*</span>*@</label>
+            <div class="col-md-7 col-sm-7 col-lg-7 p-l-0 controls input-group">
+                <span class="input-group-addon p-l-1 p-r-2">$</span>
+                @Html.TextBoxFor(m => m.ClientsDetails.Mileage, new { @class = "form-control", @placeholder = "Enter Mileage Fee", data_parsley_required = "true", data_parsley_trigger = "keyup", min = "0", max = "100000000000", data_parsley_pattern = "[0-9]\\d*(\\.\\d+)?$" })
+            </div>
+        </div>
+    </div>
+</form>

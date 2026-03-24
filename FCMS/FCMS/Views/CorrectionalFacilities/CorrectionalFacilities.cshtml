@@ -1,0 +1,1283 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.CorrectionalFacilities
+@model CorrectionalFacilities
+@{
+    string isAdmin = string.Empty;
+    string isPermission = string.Empty;
+    var Changeproject = HttpContextAccessor.HttpContext.Session.Get<List<UserProjectRole>>("Changeproject");
+    var RoleId = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleID");
+    var NotificationCount = HttpContextAccessor.HttpContext.Session.Get<string>("NotificationCount");
+    var RolePermission = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleAccess");
+    string UserId = HttpContextAccessor.HttpContext.Session.Get<string>("SessionUserID");
+    if (RoleId == "194c4cc1-4a1e-4861-abbb-302d02f7d825")
+    {
+        isAdmin = "AE";
+    }
+    if (RolePermission == "R")
+    {
+        isPermission = "hide";
+    }
+
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Correctional Facilities</title>
+    @section Styles {
+        <link href='@Url.Content("~/css/DataTables.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/css/BootstrapDatepicker.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/DataTables/media/css/dataTables.bootstrap.min.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/simple-line-icons/css/simple-line-icons.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/bootstrap-sweetalert/sweetalert.css")' rel="stylesheet" />
+        <link href='@Url.Content("~/plugins/parsley/src/parsley.css")' rel="stylesheet" />
+
+        <style>
+            td.details-control {
+                background: url('~/img/details_open.png') no-repeat center center;
+                cursor: pointer;
+            }
+
+            tr.shown td.details-control {
+                background: url('~/img/details_close.png') no-repeat center center;
+            }
+
+
+            .input-daterange input {
+                text-align: left !important;
+            }
+
+            #tblErrorList tfoot .form-control {
+                padding-left: 3px !important;
+                height: 20px;
+                font-size: 11px;
+                font-weight: normal;
+            }
+
+            tfoot {
+                display: table-header-group !important;
+            }
+
+            .modal-dialog {
+                width: 970px !important;
+                margin: 30px auto;
+            }
+
+            .lbl-align {
+                text-align: left !important;
+                font-weight: 700;
+            }
+
+            #userForm hr {
+                margin-top: 5px !important;
+                margin-bottom: 10px !important;
+            }
+
+            #userForm h4 {
+                margin: 0px;
+                padding-left: 10px;
+            }
+
+            .head-div {
+                float: right;
+                margin-top: -30px;
+            }
+
+            .ui-autocomplete {
+                overflow: auto;
+                height: 300px;
+            }
+
+            #divCorrectionalFacilitieDetails .form-group {
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+                margin-bottom: 0px !important;
+            }
+
+            #divCorrectionalFacilitieDetails .text-success {
+                color: #009591 !important;
+            }
+
+            .ui-front {
+                z-index: 2000 !important;
+            }
+
+            .text-decoration {
+                text-decoration: none !important;
+            }
+        </style>
+
+        <style type="text/css">
+            .toolbar {
+                float: right !important;
+                margin: 10px !important;
+            }
+        </style>
+    }
+
+</head>
+<body>
+    <input type="hidden" id="hrfCorrectionalFacilities" value='@Url.Content("~/CorrectionalFacilities/CorrectionalFacilities")' />
+    <input type="hidden" id="hrfContractDetails" value='@Url.Content("~/Contract/Contracts/")' />
+    <input type="hidden" id="hrfSearchClient" value='@Url.Content("~/CorrectionalFacilities/GetSearchCorrectionalFacilitie")' />
+    <input type="hidden" id="hrfCorrectionalFacilitieId" value="" />
+    <input type="hidden" id="hrfCompanyname" value="" />
+    <input type="hidden" id="hrfContractId" value="" />
+    <input type="hidden" id="hrfStatus" value="" />
+    <input type="hidden" id="hrfStatusID" value="" />
+    <input type="hidden" id="hfReviewYear" />
+    <input type="hidden" id="hfrClientID" value="" />
+    <input type="hidden" id="hfrDataClientID" value=0 />
+    <input type="hidden" id="hrfSentBy" value="" />
+    <input type="hidden" id="hrfMailTo" value="" />
+    <input type="hidden" id="hrfMailAttachment" value="" />
+    <input type="hidden" id="hrfContractRefID" value="" />
+
+    <input type="hidden" id="hrfContactRefID" value="" />
+
+    <div class="content" id="content">
+        <ol class="breadcrumb pull-right">
+            <li><a href="@Url.Action("Index","Home")">Home</a></li>
+            <li><a href="javascript:;">Clients & Contracts</a></li>
+            <li class="active">Contract</li>
+        </ol>
+        <h1 class="page-header">Correctional Facilities<small></small></h1>
+
+        <ul class="nav nav-tabs customtab" role="tablist">
+            <li class="nav-item @isAdmin"> <a class="nav-link" data-toggle="tab" id="tCorrectionalFacilitieSearchHead" href="#divCorrectionalFacilitieSearchHead" role="tab"><span class="hidden-sm-up"><i class="fa fa-search"></i></span> <span class="hiddpen-xs-down">Correctional Facilities Search</span></a> </li>
+            <li class="nav-item @isAdmin"> <a class="nav-link" data-toggle="tab" id="tCorrectionalFacilitieAddHead" href="#divCorrectionalFacilitieAddHead" role="tab"><span class="hidden-sm-up"><i class="fa fa-user"></i></span> <span class="hidpden-xs-down">Add Correctional Facilities</span></a> </li>
+            @*<li class="nav-item @isAdmin"> <a class="nav-link" data-toggle="tab" id="tCorrectionalFacilitieBulkUploadHead" href="#divCorrectionalFacilitieBulkUploadHead" role="tab"><span class="hidden-sm-up"><i class="fa fa-users"></i></span> <span class="hidpden-xs-down">Bulk CorrectionalFacilitie Upload</span></a> </li>*@
+        </ul>
+        <div id="alertsuccess" class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Success!</strong> Details saved.
+        </div>
+        <div class="tab-pane active" id="divCorrectionalFacilitieSearchHead" role="tabpanel">
+            <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" id="expandcollapse" data-click="panel-collapse" data-original-title="" title="" data-init="true"><i class="fa fa-minus"></i></a>
+                    </div>
+                    <h4 class="panel-title" id="changeTeam">Correctional Facilities Search</h4>
+                </div>
+                <div id="divCorrectionalFacilitieSearch">
+                    @{ await Html.RenderPartialAsync("_CorrectionalFacilitieSearch"); }
+                </div>
+
+                <div id="divCorrectionalFacilitieOtherDetails" class="m-1 hide">
+
+                    <ul class="nav nav-tabs customtab" role="tablist">
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tCorrectionalFacilitieContacts" href="#divCorrectionalFacilitieContacts" role="tab"><span class="hidden-sm-up"><i class="fa fa-sticky-note"></i></span> <span class="hidpden-xs-down">Contacts</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tCommonNotes" href="#divCommomNotes" role="tab"><span class="hidden-sm-up"><i class="fa fa-sticky-note"></i></span> <span class="hidpden-xs-down">Notes</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-toggle="tab" id="tversionhistory" href="#divVersionHistroy" role="tab"><span class="hidden-sm-up"><i class="fa fa-history"></i></span> <span class="hidpden-xs-down">History</span></a> </li>
+                    </ul>
+                    <div class="tab-pane" id="divCorrectionalFacilitieContacts" role="tabpanel">
+                        <div id="CorrectionalFacilitieContacts">
+                            @{ await Html.RenderPartialAsync("_CorrectionalFacilitieContactList", Model); }
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="divCommomNotes" role="tabpanel">
+                        <div id="CommomNotes">
+                            @{ await Html.RenderPartialAsync("_CorrectionalFacilitieNotes", Model); }
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="divVersionHistroy" role="tabpanel">
+                        <div id="VersionHistroy">
+                            @{ await Html.RenderPartialAsync("_CorrectionalFacilitieHistory", Model); }
+                        </div>
+                    </div>
+
+                </div>
+                @if (Model.CorrectionalFacilitieList != null)
+                {
+                    <div id="divCorrectionalFacilitieList">
+                        @{await Html.RenderPartialAsync("_CorrectionalFacilitieList", Model); }
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane" id="divCorrectionalFacilitieAddHead" role="tabpanel">
+            <div id="divCorrectionalFacilitieAdd">
+                @{await Html.RenderPartialAsync("_CorrectionalFacilitieAdd", Model); }
+            </div>
+        </div>
+        <div class="tab-pane" id="divCorrectionalFacilitieBulkUploadHead" role="tabpanel">
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts{
+    <script src='@Url.Content("~/js/DataTables.js")'></script>
+    <script src='@Url.Content("~/plugins/parsley/dist/parsley.js")'></script>
+    <script src='@Url.Content("~/plugins/DataTables/media/js/dataTables.bootstrap.js")'></script>
+    <script src='@Url.Content("~/js/ui-modal-notification.demo.min.js")'></script>
+    <script src='@Url.Content("~/plugins/bootstrap-sweetalert/sweetalert.js")'></script>
+    <script src='@Url.Content("~/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js")'></script>
+    <script src='@Url.Content("~/plugins/masked-input/masked-input.min.js")'></script>
+    <script src='@Url.Content("~/js/CommonUtils.js")'></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Notification.init();
+            CorrectionalFacilitieSearch();
+            BtnSearch();
+            LoadCorrectionalFacilitieList();
+            StatesOnchange();
+            CheckBox();
+            CancelTeam();
+            fromDashboard();
+
+            $('#alertNotessuccess').hide();
+
+            $("#tCorrectionalFacilitieSearchHead").click();
+            $("#divCorrectionalFacilitieAddHead").hide();
+            $("#divCorrectionalFacilitieBulkUploadHead").hide();
+
+
+            $('#alertsuccess').hide();
+
+            $("#tCorrectionalFacilitieContacts").click();
+            $("#CommomNotes").hide();
+            $("#VersionHistroy").hide();
+
+            $(".nav-link").click(function () {
+                ClearForm();
+                var tabid = this.id;
+                if (tabid == "tCorrectionalFacilitieSearchHead") {
+
+                    $("#divCorrectionalFacilitieSearchHead").show();
+                    $("#divCorrectionalFacilitieAddHead").hide();
+                    $("#divCorrectionalFacilitieBulkUploadHead").hide();
+
+
+                    $('#divCorrectionalFacilitieDetails').addClass('hide');
+                    $('#divCorrectionalFacilitieList').removeClass('hide');
+
+                    $('#divCorrectionalFacilitieOtherDetails').removeClass('show');
+                    $("#divCorrectionalFacilitieOtherDetails").addClass('hide');
+
+                }
+                else if (tabid == "tCorrectionalFacilitieAddHead") {
+                    $("#divCorrectionalFacilitieSearchHead").hide();
+                    $("#divCorrectionalFacilitieAddHead").show();
+                    $("#divCorrectionalFacilitieBulkUploadHead").hide();
+                }
+                else if (tabid == "tCorrectionalFacilitieBulkUploadHead") {
+                    $("#divCorrectionalFacilitieSearchHead").hide();
+                    $("#divCorrectionalFacilitieAddHead").hide();
+                    $("#divCorrectionalFacilitieBulkUploadHead").show();
+                }
+                else if (tabid == "tversionhistory") {
+                    $("#VersionHistroy").show();
+                    $("#CommomNotes").hide();
+                    $("#CorrectionalFacilitieContacts").hide();
+                }
+                else if (tabid == "tCorrectionalFacilitieContacts") {
+                    $("#VersionHistroy").hide();
+                    $("#CommomNotes").hide();
+                    $("#CorrectionalFacilitieContacts").show();
+                }
+                else if (tabid == "tCommonNotes") {
+                    $("#VersionHistroy").hide();
+                    $("#CorrectionalFacilitieContacts").hide();
+                    $("#CommomNotes").show();
+
+                    $("#btnNoteSubmit").prop('value', 'Submit');
+                    $("#CommonNote").val("");
+                    $("#hrfCommonNotesId").val("");
+                    $("#hrfCorrectionalFacilitieId").val("");
+                }
+
+            });
+        });
+
+        function CorrectionalFacilitieSearch() {
+            var eleClientSearch = $('#CorrectionalFacilitieSearch').autocomplete({
+                scroll: true,
+                minLength: 0,
+                source: function (request, response) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: $('#hrfSearchClient').val(),
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.value, value: item.value, Id: item.id };
+                            }));
+                        },
+                        error: function (req, status, error) {
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('#hrfCorrectionalFacilitieId').val(ui.item.Id);
+                    CorrectionalFacilitieDetailsLoad();
+                    return ui.item.value;
+                },
+            }).focus(function () {
+                $(this).autocomplete("search", "");
+            });
+        }
+
+        function CorrectionalFacilitieDetailsLoad()
+        {
+            //$("#tcontractdetails").click();
+
+            var url = "@Url.Action("CorrectionalFacilitieDetails", "CorrectionalFacilities")";
+            var jsonData = { Id: $('#hrfCorrectionalFacilitieId').val() };
+
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                $('#divCorrectionalFacilitieSearch').html(resp);
+                $('#divCorrectionalFacilitieDetails').removeClass('hide');
+                $('#divCorrectionalFacilitieList').addClass('hide');
+                CorrectionalFacilitieSearch();
+                logDatatable();
+                NotesDatatable();
+                CorrectionalFacilitieContactsDatatable($('#hrfCorrectionalFacilitieId').val(),0);
+
+                $('#CorrectionalFacilitieContacts').html(resp.CorrectionalFacilitiesContactsList);
+
+                if ($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.IsAlert)').val() == "True") {
+                    swal({
+                        title: "Delinquent facility, contact your supervisor",
+                        //text: "Do you want to Continue?",
+                        type: "warning",
+                        //showCancelButton: true,
+                        confirmButtonClass: 'btn-primary',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+
+                if ($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ContractPricing)').val() == "False") {
+                    $('.ContractPricing').html("No");
+
+                }
+                else {
+                    $('.ContractPricing').html("Yes");
+                    //<a href="_blank" class="btnLetterIncludedview fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration"></a>
+                }
+
+
+                var LetterPath = '@Html.ActionLink("", "ViewFiles", "CorrectionalFacilities", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                LetterPath = LetterPath.replace('FN**', escape($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.LetterPath)').val()));
+
+
+                if ($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.LetterIncluded)').val() == "False") {
+                    $('.LetterIncluded').html("No");
+                }
+                else {
+                    $('.LetterIncluded').html("Yes" + LetterPath);
+                    //<a href="_blank" class="btnLetterIncludedview fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration"></a>
+                }
+                var W9Path = '@Html.ActionLink("", "ViewFiles", "CorrectionalFacilities", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                W9Path = W9Path.replace('FN**', escape($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.W9Path)').val()));
+
+                if ($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.W9)').val() == "False") {
+                    $('.W9').html("No");
+                }
+                else {
+                    $('.W9').html("Yes" + W9Path);
+                }
+
+                var VendorPath = '@Html.ActionLink("", "ViewFiles", "CorrectionalFacilities", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                VendorPath = VendorPath.replace('FN**', escape($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.VendorPath)').val()));
+
+                if ($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.VendorLetter)').val() == "False") {
+                    $('.VendorLetter').html("No");
+                }
+                else {
+                    $('.VendorLetter').html("Yes" + VendorPath);
+                }
+
+                var InvoiceTemplatePath = '@Html.ActionLink("", "ViewFiles", "CorrectionalFacilities", new { fileName = "FN**" }, new { @target = "_blank", @class = "fa fa-eye text-inverse form-control1 p-l-0 p-r-0 m-5 text-decoration" })';
+                InvoiceTemplatePath = InvoiceTemplatePath.replace('FN**', escape($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ID)').val()+'\\'+$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceTemplatePath)').val()));
+
+                if ($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceTemplate)').val() == "False") {
+                    $('.InvoiceTemplate').html("No");
+                }
+                else {
+                    $('.InvoiceTemplate').html("Yes" + InvoiceTemplatePath);
+                }
+
+            });
+        }
+
+         function logDatatable()
+         {
+             $("#divCorrectionalFacilitieOtherDetails").addClass('hide');
+             $("#divCorrectionalFacilitieOtherDetails").addClass('show');
+            var dtTblList;
+            PageValue = $('#Page').val();
+            if ($.fn.DataTable.isDataTable('#tblCorrectionalFacilitieHistoryTable')) {
+                dtTblList = $('#tblCorrectionalFacilitieHistoryTable').DataTable().ajax.reload();
+
+            } else
+            {
+                dtTblList = $('#tblCorrectionalFacilitieHistoryTable').DataTable(
+                   {
+                       ajax: {
+                           url: '@Url.Content("~/CorrectionalFacilities/CorrectionalFacilitieLog")',
+                           type: "POST",
+                           datatype: "json",
+                           data: function (d) {
+                               d.correctionalFacilitieId = $('#hrfCorrectionalFacilitieId').val();
+                           },
+                           error: function (result) {
+                               console.log(result);
+                           }
+                       },
+                       columns: [
+                           { data: "logTime", name: "date" },
+                           { data: "userName", name: "actionby" },
+                           { data: "comments", name: "action" },
+                       ],
+                       autoWidth: false,
+                       order: [],
+                       language: {
+                           processing: "Processing...Please Wait"
+                       }
+
+                   })
+                $(dtTblList.table().container()).removeClass('form-inline');
+
+
+            }
+        }
+
+        function NotesDatatable() {
+            var dtTblList;
+            if ($.fn.DataTable.isDataTable('#tblCorrectionalFacilitieNotesTable')) {
+                dtTblList = $('#tblCorrectionalFacilitieNotesTable').DataTable().ajax.reload();
+
+            } else {
+                dtTblList = $('#tblCorrectionalFacilitieNotesTable').DataTable(
+                   {
+                       ajax: {
+                           url: '@Url.Content("~/CorrectionalFacilities/CorrectionalFacilitieNotesDetails")',
+                           type: "POST",
+                           datatype: "json",
+                           data: function (d) {
+                               d.CorrectionalFacilitieId = $('#hrfCorrectionalFacilitieId').val();
+                           },
+                           error: function (result) {
+                               console.log(result);
+                           }
+                       },
+                        columns: [
+                           { data: "notes", name: "notes" },
+                           { data: "addedBy", name: "added by" },
+                           { data: "addedOn", name: "added on" },
+                       ],
+                       columnDefs: [
+                       {
+                           targets: 3,
+                           render: function (data, type, row, meta) {
+                               var Edit = '<a href="javascript:;" id="' + row["id"] + '" class="btnNotesedit fa fa-lg fa-edit text-inverse form-control1 p-l-0 p-r-0 m-5 @*@isPermission*@" style="border:none; background-color:transparent;display: initial;"></a>';
+                               var Delete = '<a href="javascript:;" id="' + row["id"] + '" class="btnNotesdelete fa fa-lg fa-trash-o text-inverse form-control1 p-l-0 p-r-0 m-5 @*@isPermission*@" style="border:none; background-color:transparent;display: initial;"></a>';
+
+                               if (row["userID"] == '@UserId' || '@RoleId' == '2c0cdf89-9984-4f82-bcf3-f3382e5a843c')
+                                   return Edit + Delete;
+                               else
+                                   return '';
+                           }
+                       }
+                       ],
+                       autoWidth: false,
+                       order: [],
+                       language: {
+                           processing: "Processing...Please Wait"
+                       }
+
+                   })
+                $(dtTblList.table().container()).removeClass('form-inline');
+
+                $('#tblCorrectionalFacilitieNotesTable tbody td .btnNotesdelete').live('click', function () {
+                    var tr = $(this).closest('tr');
+                    var NotesID = $(this).attr("id");
+                    $("#hrfCommonNotesId").val(NotesID);
+                    ConfirmNotesDelete(NotesID);
+                });
+
+                $('#tblCorrectionalFacilitieNotesTable tbody td .btnNotesedit').live('click', function () {
+                    var tr = $(this).closest('tr');
+                    var NotesID = $(this).attr("id");
+                    EditNote(NotesID);
+
+                });
+            }
+        }
+
+
+
+         //Delete Notes
+        function ConfirmNotesDelete(NotesID) {
+            var response = swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this detail!",
+                type: "error",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, delete it!'
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var url = "@Url.Action("DeleteCorrectionalFacilitieNotes", "CorrectionalFacilities")";
+                    var jsonData = { Id: NotesID };
+                    AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                        $("#hrfCommonNotesId").val("");
+                        NotesDatatable();
+                        logDatatable();
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+        };
+
+         //Edit Notes
+        function EditNote(NotesID) {
+            var url = "@Url.Action("EditNotes", "CorrectionalFacilities")";
+            var formData = new FormData();
+            formData.append('Id', NotesID);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    $("#hrfCommonNotesId").val(NotesID);
+                    $("#hrfCorrectionalFacilitieId").val(result.data[0]["correctionalFacilitieId"]);
+                    $("#CommonNote").val(result.data[0]["notes"]);
+                    $("#btnNoteSubmit").prop('value', 'Update');
+
+                    if (result.data[0]["correctionalFacilitieId"] != 'undefined' && result.data[0]["correctionalFacilitieId"] != null && result.data[0]["correctionalFacilitieId"] != '') {
+                        $($('#@Html.IdFor(m => m.CorrectionalFacilitieNotes.CorrectionalFacilitieId)')).val(result.data[0]["correctionalFacilitieId"]);
+                    }
+                },
+                error: function (err) {
+                }
+            });
+        };
+
+         $("#btnNoteSubmit").on('click', function () {
+            $('#hrfCommonNotesId').attr("data-parsley-required", true);
+            $('#CommonNote').attr("data-parsley-required", true);
+
+            var validationresult = $('#NotesForm').parsley().validate();
+            if (validationresult) {
+                SaveNotes();
+            }
+        });
+
+        $("#btnNoteClear").on('click', function () {
+            $("#btnNoteSubmit").prop('value', 'Submit');
+            $("#CommonNote").val("");
+            $("#hrfCommonNotesId").val("");
+           // $("#hrfCorrectionalFacilitieId").val("");
+            NotesDatatable();
+        });
+
+        function SaveNotes()
+        {
+            var GetId = $('#hrfCommonNotesId').val();
+            GetId = (GetId == "" ? 0 : GetId);
+            var GetCorrectionalFacilitieId = $('#hrfCorrectionalFacilitieId').val();
+            var GetNotes = $('#CommonNote').val();
+
+            var ClientContractNoteDetails = JSON.stringify({
+                ID: GetId,
+                CorrectionalFacilitieId: GetCorrectionalFacilitieId,
+                Notes: GetNotes
+
+            });
+            var url = "@Url.Action("SaveCorrectionalFacilitieNotes", "CorrectionalFacilities")";
+            var formData = new FormData();
+            formData.append('Id', GetId);
+            formData.append('CorrectionalFacilitieId', GetCorrectionalFacilitieId);
+            formData.append('Notes', GetNotes);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    CorrectionalFacilitieDetailsLoad();
+                },
+                error: function (err) {
+                }
+            });
+
+
+            $("#btnNoteSubmit").prop('value', 'Submit');
+            $("#CommonNote").val("");
+            $("#hrfCommonNotesId").val("");
+            //$("#hrfCorrectionalFacilitieId").val("");
+            NotesDatatable();
+        }
+
+        function LoadCorrectionalFacilitieList() {
+            $('#tblCorrectionalFacilities').DataTable({
+                searching: true,
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': [-1]
+                }],
+                "columnDefs": [
+                    { "type": "num", "targets": 0 }
+                ],
+                "order": [0, 'asc'],
+                dom: 'l<"toolbar">frtip',
+                initComplete: function () {
+                    $("div.toolbar")
+                       .html('<a id="btnCorrectionalFacilitieExport" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o text-success"></i> </a>');
+                    $('#btnCorrectionalFacilitieExport').on('click', function () {
+                        var url = "@Url.Action("DownloadCorrectionalFacilities", "CorrectionalFacilities")";
+                        var jsonData = {};
+                        AjaxRequestJsonPostContent(url, jsonData, function (resp, status, req) {
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = resp;
+                            a.download = 'CorrectionalFacilities.xlsx';
+                            document.body.appendChild(a);
+                            a.click();
+                        });
+                    });
+                }
+            });
+        }
+
+        function BtnSearch() {
+            $('#btnSearch').on('click', function () {
+                CorrectionalFacilitieDetailsLoad();
+            });
+        }
+
+        function runScript(e) {
+            //See notes about 'which' and 'key'
+            if (e.keyCode == 13) {
+                if ($('#hrfCorrectionalFacilitieId').val() != '') {
+                    CorrectionalFacilitieDetailsLoad();
+
+                }
+                return false;
+            }
+        }
+
+        function CheckBox() {
+            $('#ContractPricing').on('click', function () {
+                $('#NoContractPricing').attr('checked', false);
+            });
+            $('#NoContractPricing').on('click', function () {
+                $('#ContractPricing').attr('checked', false);
+            });
+
+
+            $("#LetterIncluded").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked)
+                {
+                    $('#divLetterCopy').addClass("hide");
+                }
+            });
+            $('#LetterIncluded').on('click', function () {
+                $('#NoLetterIncluded').attr('checked', false);
+                var GetLetterIncluded = $('#LetterIncluded:checked').val();
+                if (GetLetterIncluded == "true") {
+                    $('#divLetterCopy').removeClass("hide");
+                }
+            });
+            $('#NoLetterIncluded').on('click', function () {
+                $('#LetterIncluded').attr('checked', false);
+                var GetLetterIncluded = $('#NoLetterIncluded:checked').val();
+                if (GetLetterIncluded == "true") {
+                    $('#divLetterCopy').addClass("hide");
+                    $('#LetterCopy').val("");
+                }
+            });
+
+            $("#W9").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked) {
+                    $('#divW9Copy').addClass("hide");
+                }
+            });
+            $('#W9').on('click', function () {
+                $('#NoW9').attr('checked', false);
+                var GetW9 = $('#W9:checked').val();
+                if (GetW9 == "true") {
+                    $('#divW9Copy').removeClass("hide");
+                }
+            });
+            $('#NoW9').on('click', function () {
+                $('#W9').attr('checked', false);
+                var GetW9 = $('#NoW9:checked').val();
+                if (GetW9 == "true") {
+                    $('#divW9Copy').addClass("hide");
+                    $('#W9Copy').val("");
+                }
+            });
+
+            $("#VendorLetter").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked) {
+                    $('#divVendorLetterCopy').addClass("hide");
+                }
+            });
+            $('#VendorLetter').on('click', function () {
+                $('#NoVendorLetter').attr('checked', false);
+                var GetVendorLetter = $('#VendorLetter:checked').val();
+                if (GetVendorLetter == "true") {
+                    $('#divVendorLetterCopy').removeClass("hide");
+                }
+            });
+            $('#NoVendorLetter').on('click', function () {
+                $('#VendorLetter').attr('checked', false);
+                var GetVendorLetter = $('#NoVendorLetter:checked').val();
+                if (GetVendorLetter == "true") {
+                    $('#divVendorLetterCopy').addClass("hide");
+                    $('#VendorLetterCopy').val("");
+                }
+            });
+
+            $("#InvoiceTemplate").change(function () {
+                var ischecked = $(this).is(':checked');
+                if (!ischecked) {
+                    $('#divInvoiceTemplateCopy').addClass("hide");
+                }
+            });
+            $('#InvoiceTemplate').on('click', function () {
+                $('#NoInvoiceTemplate').attr('checked', false);
+                var GetInvoiceTemplate = $('#InvoiceTemplate:checked').val();
+                if (GetInvoiceTemplate == "true") {
+                    $('#divInvoiceTemplateCopy').removeClass("hide");
+                }
+            });
+            $('#NoInvoiceTemplate').on('click', function () {
+                $('#InvoiceTemplate').attr('checked', false);
+                var GetInvoiceTemplate = $('#NoInvoiceTemplate:checked').val();
+                if (GetInvoiceTemplate == "true") {
+                    $('#divInvoiceTemplateCopy').addClass("hide");
+                    $('#InvoiceTemplateCopy').val("");
+                }
+            });
+        }
+
+        $('#btnCorrectionalFacilitieSubmit').live('click', function () {
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Name)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Address)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.StateID)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.CityID)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ZipCode)').attr("data-parsley-required", true);
+            //$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Phone)').attr("data-parsley-required", false);
+            //$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.FaxNumber)').attr("data-parsley-required", false);
+            //$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.EmailID)').attr("data-parsley-required", false);
+            //$('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ContactName)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Department)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ClientSpecific)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ContractPricing)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceP)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceSchedule)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.LetterIncluded)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.W9)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.VendorLetter)').attr("data-parsley-required", true);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceTemplate)').attr("data-parsley-required", true);
+
+
+
+            $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.FaxNumber)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').attr("data-parsley-required", false);
+
+            if ($('#LetterIncluded').is(':checked')) {
+                $('#LetterCopy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#LetterCopy').attr("data-parsley-required", false);
+            }
+
+            if ($('#W9').is(':checked')) {
+                $('#W9Copy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#W9Copy').attr("data-parsley-required", false);
+            }
+
+            if ($('#VendorLetter').is(':checked')) {
+                $('#VendorLetterCopy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#VendorLetterCopy').attr("data-parsley-required", false);
+            }
+
+            if ($('#InvoiceTemplate').is(':checked')) {
+                $('#InvoiceTemplateCopy').attr("data-parsley-required", true);
+            }
+            else {
+                $('#InvoiceTemplateCopy').attr("data-parsley-required", false);
+            }
+
+            var validationresult = $('#CorrectionalFacilitiesfrm').parsley().validate();
+            if (validationresult) {
+                var GetName= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Name)').val();
+                var GetAddress= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Address)').val();
+                var GetStateId= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.StateID)').val();
+                var GetCityId= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.CityID)').val();
+                var GetZipCode= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ZipCode)').val();
+                var GetPhone= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Phone)').val();
+                var GetFaxNumber= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.FaxNumber)').val();
+                var GetEmailID= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.EmailID)').val();
+                var GetContactName= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ContactName)').val();
+                var GetDepartment= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.Department)').val();
+                var GetClientSpecific = $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ClientSpecific)').val();
+
+                GetClientSpecific = (GetClientSpecific == "" ? 0 : GetClientSpecific);
+
+                var GetContractPricing;
+                if ($('#ContractPricing').is(':checked')) {
+                    GetContractPricing = true;
+                }
+                else if ($('#NoContractPricing').is(':checked')) {
+                    GetContractPricing = false;
+                }
+
+                var GetInvoicePreference;
+                GetInvoicePreference = $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceP)').val();
+
+                var GetInvoiceSchedule = $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceSchedule)').val();
+
+                var GetLetterIncluded;
+                if ($('#LetterIncluded').is(':checked')) {
+                    GetLetterIncluded = true;
+                }
+                else if ($('#NoLetterIncluded').is(':checked')) {
+                    GetLetterIncluded = false;
+                }
+
+                //var GetLetterPath= $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.LetterPath)').val();
+
+                var GetW9;
+                if ($('#W9').is(':checked')) {
+                    GetW9 = true;
+                }
+                else if ($('#NoW9').is(':checked')) {
+                    GetW9 = false;
+                }
+                //var GetW9Path = $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.W9Path)').val();
+
+                var GetVendorLetter;
+                if ($('#VendorLetter').is(':checked')) {
+                    GetVendorLetter = true;
+                }
+                else if ($('#NoVendorLetter').is(':checked')) {
+                    GetVendorLetter = false;
+                }
+                //var GetVendorPath = $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.VendorPath)').val();
+
+                 var GetInvoiceTemplate;
+                if ($('#InvoiceTemplate').is(':checked')) {
+                    GetInvoiceTemplate = true;
+                }
+                else if ($('#NoInvoiceTemplate').is(':checked')) {
+                    GetInvoiceTemplate = false;
+                }
+                //var GetInvoiceTemplatePath = $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.InvoiceTemplatePath)').val();
+
+                var GetAlert;
+                if ($('#IsAlert').is(':checked')) {
+                    GetAlert = true;
+                }
+                else {
+                    GetAlert = false;
+                }
+
+                var GetId = $('#hfId').val();
+                GetId = (GetId == "" ? 0 : GetId);
+
+                var GetContactRefID = $('#hrfContactRefID').val();
+                GetContactRefID = (GetContactRefID == "" ? 0 : GetContactRefID);
+
+                //alert(GetContactRefID);
+
+                var CorrectionalFacilitieDetails = JSON.stringify({
+                    Id: GetId,
+                    Name: GetName,
+                    Address: GetAddress,
+                    StateId: GetStateId,
+                    CityId: GetCityId,
+                    ZipCode: GetZipCode,
+                    Phone: GetPhone,
+                    FaxNumber: GetFaxNumber,
+                    EmailID: GetEmailID,
+                    ContactName: GetContactName,
+                    Department: GetDepartment,
+                    ClientSpecific: GetClientSpecific,
+                    ContractPricing:GetContractPricing,
+                    InvoiceP: GetInvoicePreference,
+                    InvoiceSchedule: GetInvoiceSchedule,
+                    LetterIncluded: GetLetterIncluded,
+                    W9: GetW9,
+                    VendorLetter: GetVendorLetter,
+                    InvoiceTemplate: GetInvoiceTemplate,
+                    IsAlert: GetAlert,
+                    ContactsRefID: GetContactRefID
+                });
+                var url = "@Url.Action("SaveCorrectionalFacilities", "CorrectionalFacilities")";
+                var jsonData = CorrectionalFacilitieDetails;
+                AjaxRequestJsonPostContent(url, jsonData, function (resp, status, req) {
+                    if (resp.correctionalFacilitieId > 0) {
+                        if (window.FormData !== undefined) {
+                            var formData = new FormData();
+                            formData.append('CorrectionalFacilitieId', resp.correctionalFacilitieId);
+                            formData.append('LetterCopy', $('#LetterCopy')[0].files[0]);
+                            formData.append('W9Copy', $('#W9Copy')[0].files[0]);
+                            formData.append('VendorLetterCopy', $('#VendorLetterCopy')[0].files[0]);
+                            formData.append('InvoiceTemplateCopy', $('#InvoiceTemplateCopy')[0].files[0]);
+                            var url = "@Url.Action("SaveHospialFiles", "CorrectionalFacilities")";
+                            $.ajax({
+                                url: url,
+                                type: "POST",
+                                contentType: false,
+                                processData: false,
+                                data: formData,
+                                success: function (result) {
+                                    $('#divCorrectionalFacilitieList').html(resp);
+                                    $('#alertsuccess').show();
+                                    $('#btnCorrectionalFacilitieSubmit').val('Submit');
+                                    $("#tCorrectionalFacilitieSearchHead").click();
+
+                                    setTimeout(function () {
+                                        $('#alertsuccess').hide();
+                                        $('#alertsuccess').removeClass('show');
+                                    }, 2000);
+                                    $('#CorrectionalFacilitiesfrm').parsley().destroy();
+                                    ClearForm();
+                                    CancelTeam();
+                                    LoadCorrectionalFacilitieList();
+                                    location.href = $('#hrfCorrectionalFacilities').val();
+                                },
+                                error: function (err) {
+
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        function CitiesOnchange()
+        {
+            $('.CitiesList').live('change', function () {
+                var url = '@Url.Action("GetState", "Admin")';
+                var CityId = $(this).val();
+                var jsonData = { CityId: CityId };
+                AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                    $($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.StateID)')).get(0).options.length = 0;
+                    $("<option value = >Select a State</option>").appendTo($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.StateID)'));
+                    $.each(resp, function (index) {
+                        $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.StateID)').append($("<option></option>").attr('value', this.id).text(this.value));
+                    });
+                });
+
+            });
+        }
+
+        function StatesOnchange() {
+            $('.StatesList').live('change', function () {
+                var StateId = $(this).val();
+                $('#hfStateId').val(StateId);
+                SetCity();
+            });
+        }
+
+        function SetCity() {
+            var StateId = $('#hfStateId').val();
+            var CityId = $('#hfCityId').val();
+            var url = '@Url.Action("GetCity", "Admin")';
+            var jsonData = { StateId: StateId };
+
+
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                $($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.CityID)')).get(0).options.length = 0;
+                $("<option value = >Select a City</option>").appendTo($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.CityID)'));
+                $.each(resp, function (index) {
+                    $('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.CityID)').append($("<option></option>").attr('value', this.id).text(this.value));
+                });
+                if (CityId != 'undefined' && CityId != null && CityId != '') {
+                    $($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.CityID)')).val(CityId);
+                }
+            });
+        }
+
+        function ClearForm() {
+            $('#CorrectionalFacilitiesfrm').find('input:text').val('');
+            $("textarea").val("");
+            $("#CorrectionalFacilitiesfrm").prop('selectedIndex', 0);
+            $('#CorrectionalFacilitiesfrm').find('input:checkbox').removeAttr('checked');
+            $('#CorrectionalFacilitiesfrm').find('select').val(0);
+            $('#CorrectionalFacilitiesfrm').find('input:file').val('');
+            $('#NotesForm').find('input:text').val('');
+
+            $('#divLetterCopy').addClass("hide");
+            $('#divW9Copy').addClass("hide");
+            $('#divVendorLetterCopy').addClass("hide");
+            $('#divInvoiceTemplateCopy').addClass("hide");
+        }
+
+        function ViewCorrectionalFacilities(CorrectionalFacilitieID) {
+            $('#hrfCorrectionalFacilitieId').val(CorrectionalFacilitieID);
+            CorrectionalFacilitieDetailsLoad();
+        }
+
+        function EditCorrectionalFacilities(CorrectionalFacilitieID) {
+
+            $('#hfId').val(CorrectionalFacilitieID);
+            var url = "@Url.Action("EditCorrectionalFacilities", "CorrectionalFacilities")";
+            var jsonData = { Id: CorrectionalFacilitieID };
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                $("#tCorrectionalFacilitieAddHead").click();
+                $('#divCorrectionalFacilitieAdd').html(resp);
+
+                $('#hrfContactRefID').val($('#@Html.IdFor(m => m.CorrectionalFacilitieDetails.ContactsRefID)').val());
+
+                var GetContractPricing = ($('.ContractPricing:checked').val());
+                if (GetContractPricing === 'true') {
+                    $('#NoContractPricing').attr('checked', false);
+                }
+                else {
+                    $('#NoContractPricing').attr('checked', true);
+                }
+
+                var GetLetterIncluded = ($('.LetterIncluded:checked').val());
+                if (GetLetterIncluded === 'true') {
+                    $('#NoLetterIncluded').attr('checked', false);
+                    $('#divLetterCopy').removeClass("hide");
+                }
+                else {
+                        $('#NoLetterIncluded').attr('checked', true);
+                        $('#divLetterCopy').addClass("hide");
+                }
+
+                var GetW9 = ($('.W9:checked').val());
+                if (GetW9 === 'true') {
+                    $('#NoW9').attr('checked', false);
+                    $('#divW9Copy').removeClass("hide");
+                }
+                else {
+                    $('#NoW9').attr('checked', true);
+                    $('#divW9Copy').addClass("hide");
+                }
+
+                var GetVendorLetter = ($('.VendorLetter:checked').val());
+                if (GetVendorLetter === 'true') {
+                    $('#NoVendorLetter').attr('checked', false);
+                    $('#divVendorLetterCopy').removeClass("hide");
+                }
+                else {
+                    $('#NoVendorLetter').attr('checked', true);
+                    $('#divVendorLetterCopy').addClass("hide");
+                }
+                var GetInvoiceTemplate = ($('.InvoiceTemplate:checked').val());
+                if (GetInvoiceTemplate === 'true') {
+                    $('#NoInvoiceTemplate').attr('checked', false);
+                    $('#divInvoiceTemplateCopy').removeClass("hide");
+                }
+                else {
+                    $('#NoInvoiceTemplate').attr('checked', true);
+                    $('#divInvoiceTemplateCopy').addClass("hide");
+                }
+
+                $('#btnCorrectionalFacilitieSubmit').val('Update');
+
+
+                SetCity();
+                CheckBox();
+                CancelTeam();
+            });
+        }
+
+       function ConfirmDelete(CorrectionalFacilitieID) {
+            $("#alertsuccess").hide();
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this detail!",
+                type: "error",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, delete it!'
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var url = "@Url.Action("DeleteCorrectionalFacilities", "CorrectionalFacilities")";
+                    var jsonData = { CorrectionalFacilitieID: CorrectionalFacilitieID };
+                    AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                        $('#divCorrectionalFacilitieList').html(resp);
+                        //$('#alertsuccess').show();
+                        $('#btnCorrectionalFacilitieSubmit').val('Submit');
+                        $("#tCorrectionalFacilitieSearchHead").click();
+
+                        //setTimeout(function () {
+                        //    $('#alertsuccess').hide();
+                        //    $('#alertsuccess').removeClass('show');
+                        //}, 2000);
+                        $('#CorrectionalFacilitiesfrm').parsley().destroy();
+                        ClearForm();
+                        LoadCorrectionalFacilitieList();
+                        location.href = $('#hrfCorrectionalFacilities').val();
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+        };
+       function CancelTeam() {
+            $('#btnCancel').click(function (e) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Data in the page will be lost!",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn-primary',
+                    confirmButtonText: 'Confirm'
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            location.href = $('#hrfCorrectionalFacilities').val();
+                        }
+                    });
+            });
+        }
+
+        function fromDashboard() {
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams !== null && typeof (urlParams) !== undefined) {
+                var id = urlParams.get('id');
+                if (id != null) {
+                    $('#hrfCorrectionalFacilitieId').val(id);
+                    CorrectionalFacilitieDetailsLoad();
+                }
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+    $('#btnCorrectionalFacilitieContactAdd').live('click', function () {
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.FaxNumber)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').attr("data-parsley-required", true);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').attr("data-parsley-required", true);
+
+
+        var GetPhone= $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').val();
+        var GetFaxNumber= $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.FaxNumber)').val();
+        var GetEmailID= $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').val();
+        var GetContactName= $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').val();
+        var GetClientName = $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').val();
+        GetClientName = (GetClientName == "" ? 0 : GetClientName);
+
+        $('#hrfContactRefID').val();
+        var GetReferenceID = $('#hrfContactRefID').val() == '' ? 0 : $('#hrfContactRefID').val();
+
+         var GetId = $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ID)').val();
+         GetId = (GetId == "" ? 0 : GetId);
+
+        if (GetContactName == "" && GetPhone == "" && GetFaxNumber == "" && GetEmailID == "") {
+            alert("Select client specific and enter any one of the contact details");
+            return false;
+        }
+        else {
+            var CorrectionalFacilitieDetails = JSON.stringify({
+                Id: GetId,
+                Phone: GetPhone,
+                FaxNumber: GetFaxNumber,
+                EmailID: GetEmailID,
+                ContactName: GetContactName,
+                ClientName: GetClientName,
+                RefID: GetReferenceID
+            });
+
+             var url = "@Url.Action("AddCorrectionalFacilitieContacts", "CorrectionalFacilities")";
+            var jsonData = CorrectionalFacilitieDetails;
+            AjaxRequestJsonPostContent(url, jsonData, function (resp, status, req) {
+                //$('#divCorrectionalFacilitieContactListform').html(resp);
+                //alert(resp.referenceId);
+                $('#hrfContactRefID').val(resp.referenceId);
+                CorrectionalFacilitieContactsDatatable(0, resp.referenceId)
+                ClearContacts();
+                $('#btnCorrectionalFacilitieContactAdd').val('Add');
+                CancelTeam();
+            });
+        }
+    });
+
+    function ClearContacts() {
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ID)').val('0');
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').val('');
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').val('');
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').val('');
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.FaxNumber)').val('');
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').val('');
+    }
+
+    function CorrectionalFacilitieContactsDatatable(CorrectionalFacilitieID, RefID) {
+            //alert(CorrectionalFacilitieID);
+            var url = "@Url.Action("GetCorrectionalFacilitieContacts", "CorrectionalFacilities")";
+            var jsonData = { CorrectionalFacilitieID: CorrectionalFacilitieID,RefID: RefID};
+            AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                //alert(resp);
+                if (CorrectionalFacilitieID != 0) {
+                    $('#CorrectionalFacilitieContacts').html(resp);
+                    $("#tblCorrectionalFacilitiesContacts th:last-child, #tblCorrectionalFacilitiesContacts td:last-child").remove();
+                }
+                else {
+                    $('#divCorrectionalFacilitieContactListform').html(resp);
+                }
+            });
+        }
+
+    function ConfirmCorrectionalFacilitieContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID) {
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ID)').val(ID);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').val(ClientID);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').val(ContactName);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').val(Phone);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.FaxNumber)').val(FaxNumber);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').val(EmailID);
+
+        $('#btnCorrectionalFacilitieContactAdd').val('Update');
+    }
+
+    function ConfirmCorrectionalFacilitieContactDelete(ID,RefID) {
+         swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this detail!",
+                type: "error",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'Yes, delete it!'
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var url = "@Url.Action("DeleteCorrectionalFacilitiesContacts", "CorrectionalFacilities")";
+                    var jsonData = { CorrectionalFacilitieContactID: ID };
+                    AjaxRequestJsonPost(url, jsonData, function (resp, status, req) {
+                        CorrectionalFacilitieContactsDatatable(0, RefID)
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+    }
+    </script>
+}
+

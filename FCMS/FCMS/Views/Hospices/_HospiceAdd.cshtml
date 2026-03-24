@@ -1,0 +1,269 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.Hospices;
+@model Hospices
+@{
+    string isAdmin = string.Empty;
+    var RolePermission = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleAccess");
+    if (RolePermission == "R")
+    {
+        isAdmin = "hide";
+    }
+}
+<input type="hidden" id="hfId" value="@Model.HospiceDetails.ID" />
+<input type="hidden" id="hfStateId" value="@Model.HospiceDetails.StateID" />
+<input type="hidden" id="hfCityId" value="@Model.HospiceDetails.CityID" />
+<div class="panel panel-inverse" data-sortable-id="form-validation-1">
+    <div class="panel-heading">
+        @*<div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default collapsed" id="expandcollapse" data-click="panel-collapse" data-original-title="" title="" data-init="true"><i class="fa fa-plus"></i></a>
+            </div>*@
+
+        <h4 class="panel-title" id="changeteam">Add Hospice</h4>
+
+    </div>
+
+    <form id="Hospicesfrm" method="post" class="form-horizontal">
+        <div class="panel-body panel-form p-t-15 m-t-10">
+            <div class="row col-12 p-10" id="HospiceDetails">
+                <div class="col-lg-4">
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="Name">Name<span style="color:red">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @Html.HiddenFor(m => m.HospiceDetails.ID)
+                            @Html.HiddenFor(m => m.HospiceDetails.ContactsRefID)
+                            @Html.TextBoxFor(m => m.HospiceDetails.Name, new { @class = "form-control", @placeholder = "Enter Name", data_parsley_required = "true" })
+                            @*<span class="text-danger" id="spanCompanyId" hidden>CompanyId Already Exist! Enter a new ID</span>*@
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="Address">Address<span style="color:red">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @Html.TextBoxFor(m => m.HospiceDetails.Address, new { @class = "form-control", @placeholder = "Enter Address", data_parsley_required = "true" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="State">State<span style="color:red">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @Html.DropDownListFor(m => m.HospiceDetails.StateID, new SelectList(Model.StatesList, "Id", "Value"), "Select State", new { @class = "form-control StatesList", data_parsley_required = "true" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="City">City<span style="color:red">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @Html.DropDownListFor(m => m.HospiceDetails.CityID, new SelectList(Model.CitiesList, "Id", "Value"), "Select City", new { @class = "form-control CitiesList", data_parsley_required = "true" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="ZipCode">Zip Code<span style="color:red">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls" data-parsley-validate="true">
+                            @Html.TextBoxFor(m => m.HospiceDetails.ZipCode, new { @class = "form-control", @placeholder = "Enter Zip Code", data_parsley_required = "true" })
+                        </div>
+                    </div>
+                    @*<div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                            <label class="control-label col-md-4 col-sm-4" for="Phone">Phone</label>
+                            <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                @Html.TextBoxFor(m => m.HospiceDetails.Phone, new { @class = "form-control", @placeholder = "Enter Phone" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                            <label class="control-label col-md-4 col-sm-4" for="FaxNumber">Fax Number</label>
+                            <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                @Html.TextBoxFor(m => m.HospiceDetails.FaxNumber, new { @class = "form-control", @placeholder = "Enter Fax Number" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                            <label class="control-label col-md-4 col-sm-4" for="EmailID">Email ID</label>
+                            <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                @Html.TextBoxFor(m => m.HospiceDetails.EmailID, new { @class = "form-control", @placeholder = "Enter Email ID" })
+                            </div>
+                        </div>*@
+
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <div class="row row-space-10">
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                                @*<div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                        <label class="control-label col-md-4 col-sm-4" for="ContactName">Contact Name</label>
+                                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                            @Html.TextBoxFor(m => m.HospiceDetails.ContactName, new { @class = "form-control", @placeholder = "Enter Contact Name" })
+                                        </div>
+                                    </div>*@
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="ClientSpecific">Client Specific<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        @Html.DropDownListFor(m => m.HospiceDetails.ClientSpecific, new SelectList(Model.ClientSpecificList, "Id", "Value"), "ALL Clients", new { @class = "form-control", data_parsley_required = "true" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="Department">Department</label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        @Html.TextBoxFor(m => m.HospiceDetails.Department, new { @class = "form-control", @placeholder = "Enter Department" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="InvoiceSchedule">Invoice Preference<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        @Html.DropDownListFor(m => m.HospiceDetails.InvoiceP, new SelectList(Model.InvoicePreferenceList, "Id", "Value"), "Select Invoice Preference", new { @class = "form-control", data_parsley_required = "true" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="InvoiceSchedule">Invoice Schedule<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        @Html.DropDownListFor(m => m.HospiceDetails.InvoiceSchedule, new SelectList(Model.InvoiceScheduleList, "Id", "Value"), "Select Invoice Schedule", new { @class = "form-control", data_parsley_required = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="ContractPricing">Contract Pricing<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.ContractPricing, new { @class = "ContractPricing", @id = "ContractPricing" })
+                                            <label for="ContractPricing">Yes</label>
+                                        </div>
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.ContractPricing, new { @class = "ContractPricing", @id = "NoContractPricing" })
+                                            <label for="NoContractPricing">No</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="Alert">Alert</label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.IsAlert, new { @class = "IsAlert", @id = "IsAlert" })
+                                            <label for="IsAlert"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="LetterIncluded">Letter Included<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.LetterIncluded, new { @class = "LetterIncluded", @id = "LetterIncluded" })
+                                            <label for="LetterIncluded">Yes</label>
+                                        </div>
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.LetterIncluded, new { @class = "LetterIncluded", @id = "NoLetterIncluded" })
+                                            <label for="NoLetterIncluded">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0 hide" id="divLetterCopy">
+                                    <label class="control-label col-md-4 col-sm-4" for="LetterCopy">Letter Copy<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls input-group">
+                                        <input type="file" id="LetterCopy" class="form-control" name="file" accept=".pdf" />
+                                        <span style="color:red;font:bolder;" id="fileErrorMessage"></span>
+                                        <small class="text-primary">(Allowed Document Format : pdf)</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="W9">W-9<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.W9, new { @class = "W9", @id = "W9" })
+                                            <label for="W9">Yes</label>
+                                        </div>
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.W9, new { @class = "W9", @id = "NoW9" })
+                                            <label for="NoW9">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0 hide" id="divW9Copy">
+                                    <label class="control-label col-md-4 col-sm-4" for="W9Copy">W-9 Copy<span style="color:red">*</span></label>
+
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls input-group" data-parsley-validate="true">
+                                        <input type="file" id="W9Copy" class="form-control" name="file" accept=".pdf" data-parsley-required="true" />
+                                        <span style="color:red;font:bolder;" id="fileErrorMessage"></span>
+                                        <small class="text-primary">(Allowed Document Format : pdf)</small>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="VendorLetter">Vendor Letter<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.VendorLetter, new { @class = "VendorLetter", @id = "VendorLetter" })
+                                            <label for="VendorLetter">Yes</label>
+                                        </div>
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.VendorLetter, new { @class = "VendorLetter", @id = "NoVendorLetter" })
+                                            <label for="NoVendorLetter">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0 hide" id="divVendorLetterCopy">
+                                    <label class="control-label col-md-4 col-sm-4" for="VendorLetterCopy">Vendor Letter Copy<span style="color:red">*</span></label>
+
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls input-group" data-parsley-validate="true">
+                                        <input type="file" id="VendorLetterCopy" class="form-control" name="file" accept=".pdf" data-parsley-required="true" />
+                                        <span style="color:red;font:bolder;" id="fileErrorMessage"></span>
+                                        <small class="text-primary">(Allowed Document Format : pdf)</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0">
+                                    <label class="control-label col-md-4 col-sm-4" for="InvoiceTemplate">Invoice Template<span style="color:red">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.InvoiceTemplate, new { @class = "InvoiceTemplate", @id = "InvoiceTemplate" })
+                                            <label for="InvoiceTemplate">Yes</label>
+                                        </div>
+                                        <div class="checkbox checkbox-css radio-inline">
+                                            @Html.CheckBoxFor(m => m.HospiceDetails.InvoiceTemplate, new { @class = "InvoiceTemplate", @id = "NoInvoiceTemplate" })
+                                            <label for="NoInvoiceTemplate">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6 p-0 hide" id="divInvoiceTemplateCopy">
+                                    <label class="control-label col-md-4 col-sm-4" for="InvoiceTemplateCopy">Invoice Template Copy<span style="color:red">*</span></label>
+
+                                    <div class="col-md-8 col-sm-8 col-lg-8 controls input-group" data-parsley-validate="true">
+                                        <input type="file" id="InvoiceTemplateCopy" class="form-control" name="file" accept=".csv,.xls,.xlsx,.doc,.docx,.pdf" data-parsley-required="true" />
+                                        @*application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel*@
+                                        <span style="color:red;font:bolder;" id="fileErrorMessage"></span>
+                                        <small class="text-primary">(Allowed Document Format : .csv,.xls,.xlsx,.doc,.docx,.pdf)</small>
+                                    </div>
+
+                                </div>
+                            </div>
+                            @*<div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divHospiceContactDetailsform">
+                @{ Html.RenderPartial("_HospiceContactDetails", Model); }
+            </div>
+            <div id="divHospiceContactListform">
+                @{ Html.RenderPartial("_HospiceContactList", Model); }
+            </div>
+            @if (RolePermission == "F")
+            {
+                <div class="form-group col-sm-12 text-center">
+                    <input type="button" id="btnHospiceSubmit" class="btn btn-sm btn-primary m-r-5 @isAdmin" value="Submit" />
+                    <input type="button" id="btnCancel" class="btn btn-sm btn-default m-r-5" value="Cancel" />
+                </div>
+            }
+        </div>
+    </form>
+</div>

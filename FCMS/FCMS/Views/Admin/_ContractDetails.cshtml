@@ -1,0 +1,114 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using FCMS.ViewModels.Admin;
+@model Clients
+@{
+    string isAdmin = string.Empty;
+    var RolePermission = HttpContextAccessor.HttpContext.Session.Get<string>("SessionRoleAccess");
+    if (RolePermission == "R")
+    {
+        isAdmin = "hide";
+    }
+}
+@if (RolePermission == "F")
+{
+<form id="ClientContractDetailsfrm" method="post" class="form-horizontal" data-parsley-validate="true">
+    <h4>Facility Contract Details</h4>
+        <hr />
+
+    
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                <label class="control-label col-md-6 col-sm-6" for="ContractName">Facility Contract Name <span style="color:red">*</span></label>
+                <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls">
+                    @Html.HiddenFor(m => m.ClientsDetails.ContractID)
+                    @*@Html.TextBoxFor(m => m.ClientsDetails.ContractTitle, new { @class = "form-control", @placeholder = "Enter Contract Name" })*@
+                    @Html.DropDownListFor(m => m.ClientsDetails.ContractTitleId, new SelectList(Model.ContractTitleList, "Id", "Value"), "Select Facility Contract Name", new { @class = "form-control " })
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                <label class="control-label col-md-6 col-sm-6" for="ContractSignedDate">Facility Contract Start Date<span style="color:red">*</span></label>
+                <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls input-daterange datepicker-autoClose input-group">
+                    @Html.TextBoxFor(m => m.ClientsDetails.ContractSignedDate, new { @class = "form-control DateMask datepicker-autoClose", @placeholder = "Enter Contract Start Date", data_parsley_required = "true" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                <label class="control-label col-md-6 col-sm-6" for="ContractEffDate">Facility Contract Renewed Date</label>
+                <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls input-daterange  datepicker-autoClose input-group" data-parsley-validate="true">
+                    @Html.TextBoxFor(m => m.ClientsDetails.ContractEffDate, new { @class = "form-control DateMask datepicker-autoClose", @placeholder = "Enter Contract Renewed Date", data_parsley_required = "true" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                <label class="control-label col-md-6 col-sm-6" for="ContractExpiryDate">Facility Contract End Date<span style="color:red">*</span></label>
+                <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls input-daterange datepicker-autoClose input-group">
+                    @Html.TextBoxFor(m => m.ClientsDetails.ContractExpiryDate, new { @class = "form-control DateMask datepicker-autoclose date", @placeholder = "Enter Contract End Date", data_parsley_required = "true" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                <label class="control-label col-md-6 col-sm-6" for="ContractLength"> Length (Years) <span style="color:red">*</span></label>
+                <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls">
+                    @Html.TextBoxFor(m => m.ClientsDetails.ContractLength, new { @class = "form-control", @placeholder = "Enter Contract Length", data_parsley_required = "true" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-12">
+
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                <label class="control-label col-md-6 col-sm-6" for="AgreementType"> Agreement Type <span style="color:red">*</span></label>
+                <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls">
+                    @Html.DropDownListFor(m => m.ClientsDetails.AgreementTypeId, new SelectList(Model.ContractAgreementTypeList, "Id", "Value"), "Select Agreement Type", new { @class = "form-control AgreementTypeList" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                <label class="control-label col-md-6 col-sm-6" for="Agreement">Agreement<span class="mandatory" style="color:red">*</span></label>
+                <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls">
+                    <input type="file" id="Agreementfile" class="form-control" name="file" accept=".pdf" data-parsley-required="true" />
+                    <span style="color:red;font:bolder;" id="fileErrorMessage"></span>
+                    <small class="text-primary">(Allowed Document Format : pdf)</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="divContractFeesDetailsform">
+        @{ Html.RenderPartial("_ContractFeesDetails", Model); }
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0  controls">
+                <input type="button" id="btnContractAdd" class="btn btn-sm btn-info m-t-5 @isAdmin" value="Add" />
+            </div>
+        </div>
+    </div>
+</form>
+}
+    

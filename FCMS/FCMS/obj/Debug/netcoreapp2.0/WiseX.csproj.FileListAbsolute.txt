@@ -1,0 +1,12 @@
+D:\Development\Bhanu\WiseX\src\WiseX\bin\Debug\netcoreapp2.0\WiseX.deps.json
+D:\Development\Bhanu\WiseX\src\WiseX\bin\Debug\netcoreapp2.0\WiseX.runtimeconfig.json
+D:\Development\Bhanu\WiseX\src\WiseX\bin\Debug\netcoreapp2.0\WiseX.runtimeconfig.dev.json
+D:\Development\Bhanu\WiseX\src\WiseX\bin\Debug\netcoreapp2.0\WiseX.dll
+D:\Development\Bhanu\WiseX\src\WiseX\bin\Debug\netcoreapp2.0\WiseX.pdb
+D:\Development\Bhanu\WiseX\src\WiseX\obj\Debug\netcoreapp2.0\WiseX.csproj.CoreCompileInputs.cache
+D:\Development\Bhanu\WiseX\src\WiseX\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\Development\Bhanu\WiseX\src\WiseX\obj\Debug\netcoreapp2.0\WiseX.AssemblyInfoInputs.cache
+D:\Development\Bhanu\WiseX\src\WiseX\obj\Debug\netcoreapp2.0\WiseX.AssemblyInfo.cs
+D:\Development\Bhanu\WiseX\src\WiseX\obj\Debug\netcoreapp2.0\WiseX.dll
+D:\Development\Bhanu\WiseX\src\WiseX\obj\Debug\netcoreapp2.0\WiseX.pdb
+D:\Development\Bhanu\WiseX\src\WiseX\obj\Debug\netcoreapp2.0\WiseX.csprojResolveAssemblyReference.cache

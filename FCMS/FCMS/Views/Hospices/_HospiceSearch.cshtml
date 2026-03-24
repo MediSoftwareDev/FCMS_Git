@@ -1,0 +1,120 @@
+﻿@using FCMS.ViewModels.Hospices
+@model Hospices
+<form id="userForm" method="post" class="form-horizontal">
+    <div class="panel-body panel-form p-t-15  m-t-10">
+        <div class="form-group col-sm-12 col-md-12 col-lg-12" id="Companyfilter">
+            <label class="control-label col-md-4 col-sm-4">Name</label>
+            <div class="col-md-3 col-sm-3 col-lg-3 controls" onkeypress="return runScript(event)">
+                @Html.TextBox("HospiceSearch", null, new { @class = "form-control", @placeholder = "Enter Name ", data_parsley_required = "true" })
+            </div>
+            <div class="col-md-3 col-sm-3 col-lg-3 controls">
+                <input id="btnSearch" type="button" class="btn btn-sm btn-primary m-r-5 hide" value="Search" />
+            </div>
+        </div>
+        <div class="hide m-10" id="divHospiceDetails">
+            <h4>Hospice Details</h4>
+            <hr />
+            <div class="table-responsive" data-scrollbar="true" data-init="true">
+                <table class="table table-profile width-full">
+                    <tbody>
+                        <tr>
+                            @Html.HiddenFor(m => m.HospiceDetails.ID)
+                            @Html.HiddenFor(m => m.HospiceDetails.ContractPricing)
+                            @Html.HiddenFor(m => m.HospiceDetails.LetterIncluded)
+                            @Html.HiddenFor(m => m.HospiceDetails.W9)
+                            @Html.HiddenFor(m => m.HospiceDetails.VendorLetter)
+                            @Html.HiddenFor(m => m.HospiceDetails.InvoiceTemplate)
+                            @Html.HiddenFor(m => m.HospiceDetails.LetterPath)
+                            @Html.HiddenFor(m => m.HospiceDetails.W9Path)
+                            @Html.HiddenFor(m => m.HospiceDetails.VendorPath)
+                            @Html.HiddenFor(m => m.HospiceDetails.InvoiceTemplatePath)
+                            @Html.HiddenFor(m => m.HospiceDetails.IsAlert)
+                            <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">Name</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.Name)</td>
+                            @*<td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Phone</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.Phone) </td>*@
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">State</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.HospiceDetails.StateName)</td>
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Client Specific</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.ClientSpecificName) </td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Contract Pricing</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 ContractPricing">@Html.DisplayFor(m => m.HospiceDetails.ContractPricing) </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">Address</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.Address) </td>
+                            @*<td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Fax Number</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.FaxNumber)</td>*@
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Zip Code</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.ZipCode)</td>
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Invoice Preference</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 InvoicePreference">@Html.DisplayFor(m => m.HospiceDetails.InvoiceP) </td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Invoice Schedule</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.InvoiceSchedule)</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">City</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.CityName) </td>
+                            @*<td style="width: 10%!important"  class="field p-l-5 p-r-0 text-success text-left">EmailID</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.HospiceDetails.EmailID)</td>*@
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Department</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.HospiceDetails.Department)</td>
+
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Letter Included</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 LetterIncluded"> @Html.DisplayFor(m => m.HospiceDetails.LetterIncluded)</td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">W-9</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 W9">@Html.DisplayFor(m => m.HospiceDetails.W9)</td>
+                        </tr>
+                        <tr>
+                            @*<td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">State</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.HospiceDetails.StateName)</td>*@
+                            @*<td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Contact Name</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.HospiceDetails.ContactName)</td>*@
+                            <td style="width: 48%!important" colspan="6" class="field p-l-5 p-r-0 text-success text-left"></td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Vendor Letter</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 VendorLetter">@Html.DisplayFor(m => m.HospiceDetails.VendorLetter)</td>
+                            <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Invoice Template</td>
+                            <td style="width: 1%!important" class="field text-success">:</td>
+                            <td style="width: 15%!important" class="p-l-5 p-r-2 InvoiceTemplate">@Html.DisplayFor(m => m.HospiceDetails.InvoiceTemplate)</td>
+                        </tr>
+                        @*<tr>
+                                <td style="width: 6%!important" class="field p-l-5 p-r-0 text-success text-left">Zip Code</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2">@Html.DisplayFor(m => m.HospiceDetails.ZipCode)</td>
+                                <td style="width: 10%!important" class="field p-l-5 p-r-0 text-success text-left">Department</td>
+                                <td style="width: 1%!important" class="field text-success">:</td>
+                                <td style="width: 15%!important" class="p-l-5 p-r-2"> @Html.DisplayFor(m => m.HospiceDetails.Department)</td>
+                            </tr>*@
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="divHospiceContractDetails" class="hide">
+                @{ await Html.RenderPartialAsync("_HospiceContractDetails"); }
+            </div>
+        </div>
+    </div>
+</form>
