@@ -11,41 +11,13 @@
     <div class="panel-body">
         <table id="tblUserList" class="table table-striped table-bordered table-hover">
             <thead>
-                <tr>
-                    @*<th>Sno</th>*@
-
-                    <th>Company Id</th>
-                    <th>Company Name</th>
-                    <th>Facility Contract Name</th>
-                    <th>Residency Code</th>
-                    <th>Facility Contract End Date</th>
-                    <th>AgreementType</th>
-                    <th>Account Executive</th>
-                    @*<th>Status</th>
-        <th>Notes</th> new changes made
-            <th>Contract Status</th>*@
-                    <th hidden="hidden">Contract Title Id</th>
-                    <th hidden="hidden">Action</th>
+                <tr>                   
+                    <th>ID</th>
+                    <th>Facility Name</th>
+                    <th># Of Accounts</th>
+                    <th>Balance</th>   
                 </tr>
-            </thead>
-            @*<tbody>
-                    @{int i = 0;
-                        @foreach (var item in Model.ChartBoxPropertiesList)
-                        {
-                            i++;
-                       <tr onclick="RowOnclick">
-                        <td>@item.UserName</td>
-                        <td>@item.CompanyID</td>
-                        <td>@item.CompanyName</td>
-                        <td>@item.ContractSignedDate</td>
-                        <td>@item.AggrementType</td>
-                        <td>@item.Status</td>
-                        <td class="tr1 hide">
-                           <a href='@Url.Content("~/Contract/Contracts/?id=" + @item.CompanyID + "&name=" + item.CompanyName)'><i class="fa fa-md fa-eye text-inverse"></i></a>
-                        </td>
-                    </tr>
-                        } }
-                </tbody>*@
+            </thead>           
         </table>
     </div>
 </div>

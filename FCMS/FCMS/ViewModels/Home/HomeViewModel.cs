@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using WiseX.Models;
 using WiseX.ViewModels.Admin;
+using NPOI.OpenXml4Net.OPC;
 
 namespace WiseX.ViewModels.Home
 {
@@ -17,6 +18,7 @@ namespace WiseX.ViewModels.Home
         public IList<ChartBoxProperties> ChartBoxPropertiesList;
         public IList<ChartBoxPropertiesLoad> ChartBoxPropertiesLoad;
         public IList<ChartBoxFacilityPropertiesLoad> ChartBoxFacilityPropertiesLoad;
+        public IList<NonEmergencyFacilityBalanceLoad> NonEmergencyFacilityBalanceLoad;
 
         public IList<Topcoders> Topcoders;
         public IList<ReceivedvsCompleted> ReceivedvsCompleted;
@@ -91,6 +93,19 @@ namespace WiseX.ViewModels.Home
         public int InvoiceByMail { get; set; }
         public int InvoiceByFax { get; set; }
         public int InvoiceTemplate { get; set; }
+        public int NonEmergencyFacilityBalanceCount { get; set; }
+        public decimal NonEmergencyFacilityBalance { get; set; }
+        public int NonEmergencyFacilityPaymentCount { get; set; }
+        public decimal NonEmergencyFacilityPayment { get; set; }
+        public int CorrectionalInstitutionBalanceCount { get; set; }
+        public decimal CorrectionalInstitutionBalance { get; set; }
+        public int CorrectionalPaymentsCount { get; set; }
+        public decimal CorrectionalPaymentsBalance { get; set; }
+        public int ClientFacilityAgingwithNotesCount { get; set; }
+        public decimal ClientFacilityAgingwithNotesBalance { get; set; }
+
+        //public int SkilledNursing { get; set; }
+        //public int Correctional { get; set; }
     }
 
     public class ChartBoxProperties
@@ -120,7 +135,7 @@ namespace WiseX.ViewModels.Home
         public int ClientId { get; set; }
         public int ContractId { get; set; }
         public string AggrementType { get; set; }
-       // public string Status { get; set; }
+        // public string Status { get; set; }
         public int TotalCount { get; set; }
         public string ResidencyCode { get; set; }
         public string Notes { get; set; }
@@ -290,5 +305,14 @@ namespace WiseX.ViewModels.Home
     {
         [Key]
         public int NCount { get; set; }
+    }
+    public class NonEmergencyFacilityBalanceLoad
+    {
+        [Key]
+        public long? ID { get; set; }
+        public string FacilityName { get; set; }
+        public int NoofAccounts { get; set; }
+        public decimal  Balance { get; set; }
+        
     }
 }

@@ -1,11 +1,85 @@
 ﻿@using WiseX.ViewModels.Home
 @model HomeViewModel
+<style>
+    .custom-box {
+        border: 2px solid #333;
+        background-color: #e6cfc2; /* light peach */
+        padding: 0;
+        flex-direction: column;
+        justify-content:space-between;
+        height:167px;
+        
+    }
+
+        /* Header (top section) */
+        .custom-box .box-header {
+            text-align: left;
+            padding: 25px 10px;
+            font-weight: bolder;
+            margin-bottom:15px;
+            
+
+        }
+
+            .custom-box .box-header h4 {
+                text-transform: uppercase;
+                margin: 0;
+                font-size: 16px;
+                letter-spacing: 0px;
+                font-weight: bolder;
+            }
+
+        /* Footer (bottom section) */
+        .custom-box .box-footer {
+            display: flex;
+            justify-content: space-between;
+            background-color: skyblue;
+            padding: 10px 15px;
+            font-weight: bold;
+            margin-top: 15%;
+        }
+        /* Note Management style*/
+        .custom-box .box-footer-nm {
+            display: flex;
+            justify-content: space-between;
+            background-color: skyblue;
+            padding: 10px 15px;
+            font-weight: bold;
+            margin-top:-8%;
+            color:black;
+            
+        }
+
+            .custom-box .box-footer .left,
+            .custom-box .box-footer .right {
+                font-size: 14px;
+                color:black;
+            }
+    /* Row for NE Facility & Correctional */
+    .header-row {
+        display: flex;
+        justify-content: space-between;
+        color:black;
+        margin-top: 15%;
+    }
+
+        /* Left & Right text */
+        .header-row .left {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .header-row .right {
+            text-align: right;
+            font-weight: 600;
+        }
+</style>
 <div class="panel panel-inverse p-10">
     <div class="panel-body panel-form p-t-15 m-t-10">
         <!-- begin row -->
         <div class="row m-l-5">
             <!-- begin col-4 -->
-            <div class="col-md-3 col-sm-6 col-lg-3">
+           @*  <div class="col-md-3 col-sm-6 col-lg-3">
                 <div class="widget widget-stats bg-green Agreements" id="ActiveContracts">
                     <div><a id="btnDashboardExport1" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o"></i> </a></div>
                     <a href="javascript:;">
@@ -17,17 +91,41 @@
                     <div class="stats-link">
                         <a id="Check" href="javascript:;" class="p-b-25">
                             <i class="fa fa-file-o-right hide"></i>
-                            <h4>Facility Contracts Active</h4>
+                            @* <h4>Facility Contracts Active</h4> 
+                            <h4 class="p-b-20"  style="text-transform: uppercase;">Non-Emergency Facility Balance</h4>
 
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> *@
+                <div class="col-md-3 col-sm-6 col-lg-3">
+                <div class="widget widget-stats custom-box bg-green" id="NonEmergencyFacilityBalance">
+
+                        <!-- Top Title -->
+                        <div class="box-header">
+                            <h4>Non-Emergency Facility Balance</h4>
+                        </div>
+
+                        <!-- Bottom Section -->
+                        <div class="box-footer">
+                        <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.NonEmergencyFacilityBalanceCount</div>
+                       @*  <div class="right">
+                            BALANCE $ :
+                            <span id="NonEmergencyFacilityBalanceClick" style="cursor:pointer;">
+                                @Model.ChartBoxes.NonEmergencyFacilityBalance
+                            </span>
+                        </div> *@
+                        <div class="right">BALANCE :$ <span id="NonEmergencyFacilityBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.NonEmergencyFacilityBalance </span></div>
+                       
+                        </div>
+
+                    </div>
+                </div>
             <!-- end col-4 -->
             <!-- begin col-4 -->
             <div class="col-md-3 col-sm-6 col-lg-3">
-                <div class="widget widget-stats Agreements" style="background-color:#bf7775" id="ExpairedContract">
-                    <div><a id="btnDashboardExport2" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                <div class="widget widget-stats custom-box Agreements" style="background-color:#bf7775" id="NonEmergencyFacilityPayment">
+                   @*  <div><a id="btnDashboardExport2" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
                     <a href="javascript:;">
                         <div class="stats-icon"><i class="fa fa-anchor"></i></div>
                         <div class="stats-info">
@@ -38,50 +136,29 @@
                     <div class="stats-link">
                         <a href="javascript:;" class="p-b-25">
                             <i class="fa fa-file-o-right hide"></i>
-                            <h4>Facility Contracts Expired</h4>
+                           @*  <h4>Facility Contracts Expired</h4> 
+                            <h4 class="p-b-20"  style="text-transform: uppercase;">NE Facility Payments</h4>
                         </a>
-
-
+                    </div> *@
+                    <!-- Top Title -->
+                    <div class="box-header">
+                        <h4>NE Facility Payments</h4>
                     </div>
-                </div>
-            </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-3 col-sm-6 col-lg-3">
-                <div class="widget widget-stats Agreements" style="background-color:#7f9a9e" id="FacilityHospitals">
-                    <div><a id="btnDashboardExport3" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
-                    <a href="javascript:;">
-                        <div class="stats-icon"><i class="fa fa-h-square"></i></div>
-                        <div class="stats-info">
-                            <p>@Model.ChartBoxes.Hospitals</p>
-                        </div>
-                    </a>
-                    <div class="stats-link">
-                        <a href="javascript:;" class="p-b-25"> <i class="fa fa-file-o-right hide"></i>  <h4>Hospitals</h4></a>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.NonEmergencyFacilityPaymentCount</div>
+                        <div class="right">BALANCE :$ <span id="NonEmergencyFacilityPaymentClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.NonEmergencyFacilityPayment </span> </div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
             </div>
             <!-- end col-4 -->
             <!-- begin col-4 -->
             <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
-                <div class="widget widget-stats Agreements" style="background-color:#e4b776" id="FacilityHospice">
-                    <div><a id="btnDashboardExport4" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
-                    <a href="javascript:;">
-                        <div class="stats-icon"><i class="fa fa-hospital-o"></i></div>
-                        <div class="stats-info">
-                            <p>@Model.ChartBoxes.Hospice</p>
-                        </div>
-                    </a>
-                    <div class="stats-link">
-                        <a href="javascript:;" class="p-b-25"> <i class="fa fa-reply-all hide"></i><h4>Hospice</h4></a>
-                    </div>
-                </div>
-            </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
-                <div class="widget widget-stats Agreements" style="background-color:#adb574" id="FacilityNursingHomes">
-                    <div><a id="btnDashboardExport5" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                <div class="widget widget-stats custom-box Agreements" style="background-color:#adb574" id="CorrectionalInstitutionBalance">
+                   @*  <div><a id="btnDashboardExport5" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
                     <a href="javascript:;">
                         <div class="stats-icon"><i class="fa fa-user-md"></i></div>
                         <div class="stats-info">
@@ -89,15 +166,30 @@
                         </div>
                     </a>
                     <div class="stats-link">
-                        <a href="javascript:;" class="p-b-25"><i class="fa fa-file-o-right hide"></i> <h4>Nursing Homes</h4></a>
+                        <a href="javascript:;" class="p-b-25">
+                            <i class="fa fa-file-o-right hide"></i>
+                            @*   <h4>Nursing Homes</h4></a> 
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Correctional Institution Balance</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Correctional Institution Balance</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.CorrectionalInstitutionBalanceCount</div>
+                        <div class="right">BALANCE :$ <span id="CorrectionalInstitutionBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.CorrectionalInstitutionBalance </span></div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
             </div>
             <!-- end col-4 -->
             <!-- begin col-4 -->
             <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
-                <div class="widget widget-stats bg-black-lighter Agreements" id="FacilityCorrectionsFacilities">
-                    <div><a id="btnDashboardExport6" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                <div class="widget widget-stats custom-box bg-blue Agreements" id="CorrectionalPaymentsBalance">
+                    @* <div><a id="btnDashboardExport6" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
                     <a href="javascript:;">
                         <div class="stats-icon"><i class="fa fa-money"></i></div>
                         <div class="stats-info">
@@ -105,47 +197,30 @@
                         </div>
                     </a>
                     <div class="stats-link">
-                        <a href="javascript:;" class="p-b-25"><i class="fa fa-file-o-right hide"></i> <h4>Correctional Facilities</h4></a>
+                        <a href="javascript:;" class="p-b-25">
+                            <i class="fa fa-file-o-right hide"></i>
+                            @* <h4>Correctional Facilities</h4></a> 
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Correctional Payments</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Correctional Payments</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.CorrectionalPaymentsCount</div>
+                        <div class="right">BALANCE :$ <span id="CorrectionalPaymentsBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.CorrectionalPaymentsBalance </span></div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
             </div>
             <!-- end col-4 -->
             <!-- begin col-4 -->
             <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
-                <div class="widget widget-stats Agreements" style="background-color:#9cc5c2 " id="InvoiceByEmail">
-                    <div><a id="btnDashboardExport7" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
-                    <a href="javascript:;">
-                        <div class="stats-icon"><i class="fa fa-pencil-square-o"></i></div>
-                        <div class="stats-info">
-                            <p>@Model.ChartBoxes.InvoiceByEmail</p>
-                        </div>
-                    </a>
-                    <div class="stats-link">
-                        <a href="javascript:;"><i class="fa fa-file-o-right hide"></i> <h4 class="p-b-20">Invoice By Email</h4></a>
-                    </div>
-                </div>
-            </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
-                <div class="widget widget-stats Agreements" style="background-color:#bebf6a" id="InvoiceByMail">
-                    <div><a id="btnDashboardExport8" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
-                    <a href="javascript:;">
-                        <div class="stats-icon"><i class="fa fa-envelope-o"></i></div>
-                        <div class="stats-info">
-                            <p>@Model.ChartBoxes.InvoiceByMail</p>
-                        </div>
-                    </a>
-                    <div class="stats-link">
-                        <a href="javascript:;"><i class="fa fa-file-o-right hide"></i> <h4 class="p-b-20">Invoice By Mail</h4></a>
-                    </div>
-                </div>
-            </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
-                <div class="widget widget-stats Agreements" style="background-color: #A5ECAE " id="InvoiceByFax">
-                    <div><a id="btnDashboardExport9" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                <div class="widget widget-stats custom-box Agreements" style="background-color: #A5ECAE " id="InvoiceByFax">
+                    @* <div><a id="btnDashboardExport9" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
                     <a href="javascript:;">
                         <div class="stats-icon"><i class="fa fa-fax"></i></div>
                         <div class="stats-info">
@@ -153,15 +228,34 @@
                         </div>
                     </a>
                     <div class="stats-link">
-                        <a href="javascript:;"><i class="fa fa-file-o-right hide"></i> <h4 class="p-b-20">Invoice By Fax</h4></a>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-o-right hide"></i>
+                            @* <h4 class="p-b-20">Invoice By Fax</h4> 
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Note Management (Detailed)</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Note Management (Detailed)</h4>
+                         <div class="header-row">
+                            <div class="left">NE Facility</div>
+                            <div class="right">Correctional</div>
+                        </div> 
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer-nm">
+                        <div class="left"># Pending</div>
+                        <div class="right"># Pending</div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
             </div>
             <!-- end col-4 -->
             <!-- begin col-4 -->
             <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
-                <div class="widget widget-stats Agreements" style="background-color: #48DEDE" id="InvoiceTemplate">
-                    <div><a id="btnDashboardExport10" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                <div class="widget widget-stats custom-box Agreements" style="background-color: #48DEDE" id="ClientFacilityAgingwithNotes">
+                   @*  <div><a id="btnDashboardExport10" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
                     <a href="javascript:;">
                         <div class="stats-icon"><i class="fa fa-tasks"></i></div>
                         <div class="stats-info">
@@ -169,7 +263,202 @@
                         </div>
                     </a>
                     <div class="stats-link">
-                        <a href="javascript:;"><i class="fa fa-file-o-right hide"></i> <h4 class="p-b-20">Invoice Template</h4></a>
+                        <a href="javascript:;">
+                            <i class="fa fa-file-o-right hide"></i>
+                            @*  <h4 class="p-b-20">Invoice Template</h4> 
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Client Facility Aging with Notes</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Client Facility Aging with Notes</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.ClientFacilityAgingwithNotesCount</div>
+                        <div class="right">BALANCE :$ <span id="ClientFacilityAgingwithNotesBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.ClientFacilityAgingwithNotesBalance </span></div>
+                        @*  ClientFacilityAgingwithNotesBalance<div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
+                    </div>
+                </div>
+            </div>
+            <!-- end col-4 -->
+           
+            <!-- begin col-4 -->
+            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
+                <div class="widget widget-stats custom-box Agreements" style="background-color:#9cc5c2 " id="InvoiceByEmail">
+                   @*  <div><a id="btnDashboardExport7" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                    <a href="javascript:;">
+                        <div class="stats-icon"><i class="fa fa-pencil-square-o"></i></div>
+                        <div class="stats-info">
+                            <p>@Model.ChartBoxes.InvoiceByEmail</p>
+                        </div>
+                    </a>
+                    <div class="stats-link">
+                        <a href="javascript:;"><i class="fa fa-file-o-right hide"></i> 
+                          @*   <h4 class="p-b-20">Invoice By Email</h4></a> 
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Global Report(All Facilities)</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Global Report(All Facilities)</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left"># OF</div>
+                        <div class="right">BALANCE</div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
+                    </div>
+                </div>
+            </div>
+            <!-- end col-4 -->
+            <!-- begin col-4 -->
+            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
+                <div class="widget widget-stats custom-box Agreements" style="background-color:#bebf6a" id="InvoiceByMail">
+                    @* <div><a id="btnDashboardExport8" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                    <a href="javascript:;">
+                        <div class="stats-icon"><i class="fa fa-envelope-o"></i></div>
+                        <div class="stats-info">
+                            <p>@Model.ChartBoxes.InvoiceByMail</p>
+                        </div>
+                    </a>
+                    <div class="stats-link">
+                        <a href="javascript:;"><i class="fa fa-file-o-right hide"></i>
+                           @*  <h4 class="p-b-20">Invoice By Mail</h4></a> 
+                            <h4 class="p-b-20" style="text-transform: uppercase;">All Facility Contracts</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>All Facility Contracts</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left"># ACTIVE : @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right"># EXPIRED : @Model.ChartBoxes.ExpairedContracts</div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
+                    </div>
+                </div>
+            </div>
+            <!-- end col-4 -->
+            <!-- begin col-4 -->        
+            <div class="col-md-3 col-sm-6 col-lg-3">
+                <div class="widget widget-stats custom-box Agreements" style="background-color:#7f9a9e" id="FacilityHospitals">
+                   @*  <div><a id="btnDashboardExport3" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                    <a href="javascript:;">
+                        <div class="stats-icon"><i class="fa fa-h-square"></i></div>
+                        <div class="stats-info">
+                            <p>@Model.ChartBoxes.Hospitals</p>
+                        </div>
+                    </a>
+                    <div class="stats-link">
+                        <a href="javascript:;">
+                            <i class="fa fa-file-o-right hide"></i>
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Hospitals</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Hospitals</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left">TOTAL # : @Model.ChartBoxes.Hospitals </div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
+                    </div>
+                </div>
+            </div>
+            <!-- end col-4 -->
+            <!-- begin col-4 -->
+            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
+                <div class="widget widget-stats custom-box Agreements" style="background-color:#e4b776" id="FacilityHospice">
+                   @*  <div><a id="btnDashboardExport4" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                    <a href="javascript:;">
+                        <div class="stats-icon"><i class="fa fa-hospital-o"></i></div>
+                        <div class="stats-info">
+                            <p>@Model.ChartBoxes.Hospice</p>
+                        </div>
+                    </a>
+                    <div class="stats-link">
+                        <a href="javascript:;" >
+                            <i class="fa fa-reply-all hide"></i>
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Hospice</h4>
+                        </a>
+                    </div> 
+                     </div> *@
+                    <div class="box-header">
+                    <h4>Hospice</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left">TOTAL # : @Model.ChartBoxes.Hospice</div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
+                    </div>
+                </div>
+            </div>
+            <!-- end col-4 -->
+            <!-- begin col-4 -->
+            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
+                <div class="widget widget-stats custom-box Agreements" style="background-color: #A5ECAE " id="SkilledNursing">
+                   @*  <div><a id="btnDashboardExport11" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                    <a href="javascript:;">
+                        <div class="stats-icon"><i class="fa fa-h-square"></i></div>
+                        <div class="stats-info">
+                            <p>@Model.ChartBoxes.SkilledNursing</p>
+                        </div>
+                    </a>
+                    <div class="stats-link">
+                        <a href="javascript:;">
+                            <i class="fa fa-file-o-right hide"></i>
+                            @* <h4 class="p-b-20">Invoice By Fax</h4> 
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Skilled Nursing</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Skilled Nursing</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left">TOTAL # : @Model.ChartBoxes.NursingHomes</div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
+                    </div>
+                </div>
+            </div>
+            <!-- end col-4 -->
+            <!-- begin col-4 -->
+            <div class="col-md-3 col-sm-6 col-lg-3 p-b-25">
+                <div class="widget widget-stats custom-box Agreements" style="background-color: #48DEDE" id="Correctional">
+                    @* <div><a id="btnDashboardExport12" href="javascript:;" class="" title="Download"><i class="fa fa-lg fa-file-excel-o "></i> </a></div>
+                    <a href="javascript:;">
+                        <div class="stats-icon"><i class="ffa fa-hospital-o"></i></div>
+                        <div class="stats-info">
+                            <p>@Model.ChartBoxes.Correctional</p>
+                        </div>
+                    </a>
+                    <div class="stats-link">
+                        <a href="javascript:;">
+                            <i class="fa fa-file-o-right hide"></i>
+                            @*  <h4 class="p-b-20">Invoice Template</h4> *
+                            <h4 class="p-b-20" style="text-transform: uppercase;">Correctional</h4>
+                        </a>
+                    </div> *@
+                    <div class="box-header">
+                        <h4>Correctional</h4>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="box-footer">
+                        <div class="left">TOTAL # : @Model.ChartBoxes.CorrectionsFacilities</div>
+                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
             </div>

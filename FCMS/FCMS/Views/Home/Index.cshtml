@@ -92,7 +92,7 @@
             {
                 $('#HNotifcationForm').modal('show');
             }
-
+            hideLoader();
         });
 
         function LoadDashboardList()
@@ -101,37 +101,41 @@
                 $('#HNotifcationForm').modal('hide');
             });
 
-            $('#ActiveContracts').on('click', function () {
+            $('#NonEmergencyFacilityBalanceClick').on('click', function () {
+                showLoader();
                 var name = $(this).find('h4').text;
                 $("#Contractsname").html();
                 var BoxName = "B1";
                 $("#hrfBoxId").val("B1");
-                $('#Contractsname').text('Facility Contracts Active');
-                ApprovalDatatable();
+                $('#Contractsname').text('Non-Emergency Facility Balance');
+                NonEmergencyFacilityBalanceDatatable();
             });
-            $('#ExpairedContract').on('click', function () {
+            $('#NonEmergencyFacilityPaymentClick').on('click', function () {
+                showLoader();
                 var BoxName = "B2";
                 $("#hrfBoxId").val("B2");
-                $('#Contractsname').text('Facility Contracts Expaired');
-                ApprovalDatatable();
+                $('#Contractsname').text('Non-Emergency Facility Payment');
+                NonEmergencyFacilityBalanceDatatable();
             });
-            $('#FacilityHospitals').on('click', function () {
+            $('#CorrectionalInstitutionBalanceClick').on('click', function () {
+                showLoader();
                 var BoxName = "B3";
                 $("#hrfBoxId").val("B3");
-                $('#FacilityName').text('Hospitals');
-                ApprovalFacilityDatatable();
+                $('#FacilityName').text('Correctional Institution Balance');
+                NonEmergencyFacilityBalanceDatatable();
             });
-            $('#FacilityHospice').on('click', function () {
+            $('#CorrectionalPaymentsBalanceClick').on('click', function () {
+                showLoader();
                 var BoxName = "B4";
                 $("#hrfBoxId").val("B4");
-                $('#FacilityName').text('Hospice');
-                ApprovalFacilityDatatable();
+                $('#FacilityName').text('Correctional Payments');
+                NonEmergencyFacilityBalanceDatatable();
             });
-            $('#FacilityNursingHomes').on('click', function () {
+            $('#ClientFacilityAgingwithNotesBalanceClick').on('click', function () {
                 var BoxName = "B5";
                 $("#hrfBoxId").val("B5");
-                $('#FacilityName').text('Nursing Homes');
-                ApprovalFacilityDatatable();
+                $('#FacilityName').text('Client Facility Aging with Notes');
+                ClientFacilityAgingwithNotesBalanceDatatable();
             });
             $('#FacilityCorrectionsFacilities').on('click', function () {
                 var BoxName = "B6";
@@ -470,6 +474,220 @@
             }
         }
 
+       
+        function NonEmergencyFacilityBalanceDatatable()
+        {
+            
+            $('#divBoxesList').removeClass('hide');
+            $('#divBoxesFacilityList').addClass('hide');
+            var dtTblApprovalList;
+            var BoxValue= $("#hrfBoxId").val();
+            console.log(BoxValue);
+
+            if ($.fn.DataTable.isDataTable('#tblUserList')) {
+                //$('#tblUserList').DataTable().ajax.reload();
+                dtTblApprovalList = $('#tblUserList').DataTable().ajax.reload();
+            } else {
+
+                dtTblApprovalList = $('#tblUserList').DataTable(
+                   {
+                       ajax: {
+                           url: '@Url.Content("~/Home/GetDashboardList1")',
+                           type: "POST",
+                           datatype: "json",
+                           data: function (d) {
+                               d.BoxName = $("#hrfBoxId").val();
+                           },
+                           error: function (result) {
+                               console.log(result);
+                            },
+                            complete: function () {
+                                hideLoader(); // ✅ correct place
+                            }
+                        },                         
+                       columns: [
+                            { data: "id", name: "id", "width": "10%" },
+                            { data: "facilityName", name: "facilityName", "width": "30%" },
+                            { data: "noofAccounts", name: "noofAccounts", "width": "30%" },
+                            { data: "balance", name: "balance", render: function (data) {
+                                return data ? "$ " + parseFloat(data).toFixed(2) : "0.00";
+                            },"width": "30%" }
+                        ],
+                       autoWidth: false,
+                       searching: true,
+                       "order": [ 0, 'asc' ],
+                       language: {
+                           processing: "Processing...Please Wait"
+                       }
+                   });
+                }
+         if ($("#hrfBoxId").val() === "B1" || $("#hrfBoxId").val() === "B3")
+         {
+            $("#tblUserList thead th:last").text("Balance");
+         } 
+         else
+         {
+            $("#tblUserList thead th:last").text("Payments MTD");
+          }
+                
+        }
+           function ClientFacilityAgingwithNotesBalanceDatatable() {
+
+            $('#divBoxesList').removeClass('hide');
+            $('#divBoxesFacilityList').addClass('hide');
+
+            var tableId = '#tblUserList';
+            var boxValue = $("#hrfBoxId").val();
+
+            console.log(boxValue);
+
+            // If already initialized → reload
+            if ($.fn.DataTable.isDataTable(tableId)) {
+                $(tableId).DataTable().ajax.reload(null, false);
+                return;
+            }
+
+            // Initialize DataTable
+            $(tableId).DataTable({
+                processing: true,
+                serverSide: false, // change to true only if using server-side paging
+
+                ajax: {
+                    url: '@Url.Content("~/Home/GetDashboardList1")',
+                    type: "POST",
+                    dataType: "json",
+                    dataSrc: "data", // ✅ IMPORTANT (matches controller return)
+
+                    data: function (d) {
+                        d.BoxName = $("#hrfBoxId").val();
+                    },
+
+                    beforeSend: function () {
+                        showLoader(); // optional
+                    },
+
+                    complete: function () {
+                        hideLoader(); // ✅ loader stops here
+                    },
+
+                    error: function (xhr, error, thrown) {
+                        console.log("Error:", xhr.responseText);
+                    }
+                },
+
+                columns: [
+                    { data: "id", name: "id", width: "10%" },
+                    { data: "facilityName", name: "facilityName", width: "30%" },
+                    { data: "noofAccounts", name: "noofAccounts", width: "30%" },
+                    {
+                        data: "balance",
+                        name: "balance",
+                        width: "30%",
+                        render: function (data) {
+                            return data ? "$ " + parseFloat(data).toFixed(2) : "$ 0.00";
+                        }
+                    }
+                ],
+
+                autoWidth: false,
+                searching: true,
+                ordering: true,
+                order: [[0, 'asc']],
+
+                language: {
+                    processing: "Processing... Please Wait"
+                },
+
+                destroy: true // ✅ avoids reinitialization errors
+            });
+        }
+
+        // function ClientFacilityAgingwithNotesBalanceDatatable()
+        // {
+            
+        //     $('#divBoxesList').removeClass('hide');
+        //     $('#divBoxesFacilityList').addClass('hide');
+        //     var dtTblApprovalList;
+        //     var BoxValue= $("#hrfBoxId").val();
+        //     console.log(BoxValue);
+
+        //     if ($.fn.DataTable.isDataTable('#tblUserList')) {
+        //         //$('#tblUserList').DataTable().ajax.reload();
+        //         dtTblApprovalList = $('#tblUserList').DataTable().ajax.reload();
+        //     } else {
+
+        //         dtTblApprovalList = $('#tblUserList').DataTable(
+        //            {
+        //                ajax: {
+        //                    url: '@Url.Content("~/Home/GetDashboardListForB5")',
+        //                    type: "POST",
+        //                    datatype: "json",
+        //                    data: function (d) {
+        //                        d.BoxName = $("#hrfBoxId").val();
+        //                    },
+        //                    error: function (result) {
+        //                        console.log(result);
+        //                     },
+        //                     complete: function () {
+        //                         hideLoader(); // ✅ correct place
+        //                     }
+        //                 },                         
+        //                columns: [
+        //                     { data: "id", name: "id", "width": "10%" },
+        //                     { data: "facilityName", name: "facilityName", "width": "30%" },
+        //                     { data: "noofAccounts", name: "noofAccounts", "width": "30%" },
+        //                     { data: "balance", name: "balance", render: function (data) {
+        //                         return data ? "$ " + parseFloat(data).toFixed(2) : "0.00";
+        //                     },"width": "30%" }
+        //                 ],
+        //                autoWidth: false,
+        //                searching: true,
+        //                "order": [ 0, 'asc' ],
+        //                language: {
+        //                    processing: "Processing...Please Wait"
+        //                }
+        //            });
+        //         }
+        // }
+        
     </script>
+    @* <script>
+         $(document).ready(function () {
+        $("#NonEmergencyFacilityBalanceClick").click(function () {
+
+            $('#divBoxesList').removeClass('hide');
+            $('#divBoxesFacilityList').addClass('hide');
+            var dtTblApprovalList;
+
+            //PageValue = $('#Page').val();
+            if ($.fn.DataTable.isDataTable('#tblUserList')) {
+                dtTblApprovalList = $('#tblUserList').DataTable().ajax.reload();
+                //$('#tblChartList')
+            } else {
+
+                dtTblApprovalList = $('#tblUserList').DataTable(
+                   {
+                       ajax: {
+                           url: '@Url.Content("~/Home/GetDashboardList1")',
+                           type: "POST",
+                           datatype: "json",
+                           data: function (d) {
+                               d.BoxName = $("#hrfBoxId").val();
+                           },
+                           error: function (result) {
+                               console.log(result);
+                           }
+                       },                       
+                       autoWidth: false,
+                       searching: true,
+                       "order": [ 0, 'asc' ],
+                       language: {
+                           processing: "Processing...Please Wait"
+                       }
+                   });
+                   }
+        });
+        });
+    </script> *@
 }
 

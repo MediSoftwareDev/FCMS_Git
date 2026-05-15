@@ -27,7 +27,9 @@ namespace WiseX.Services
             ChartProperties lst = new ChartProperties();
             try
             {
-                lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes]").FirstOrDefaultAsync();
+                _applicationDbContext.Database.SetCommandTimeout(300);
+                //lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes]").FirstOrDefaultAsync();
+                lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes_New]").FirstOrDefaultAsync();
             }
             catch (Exception Ex) { }
             return lst;
@@ -60,7 +62,7 @@ namespace WiseX.Services
             try
             {
                 // lst = await _applicationDbContext.ChartBoxPropertiesLoad.FromSql("EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName,@UserID", ParamStart, ParamLength, DashBoardName, ParamUserID).ToListAsync();
-                lst = await _applicationDbContext.ChartBoxPropertiesLoad.FromSql("EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName", ParamStart, ParamLength, DashBoardName).ToListAsync();
+               lst = await _applicationDbContext.ChartBoxPropertiesLoad.FromSql("EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName", ParamStart, ParamLength, DashBoardName).ToListAsync();
             }
             catch (Exception Ex)
             {
@@ -76,7 +78,7 @@ namespace WiseX.Services
             var ParamStart = new SqlParameter("@Start", Start);
             var ParamLength = new SqlParameter("@Length", Length);
             try
-            { 
+            {
                 lst = await _applicationDbContext.ChartBoxFacilityPropertiesLoad.FromSql("EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName", ParamStart, ParamLength, DashBoardName).ToListAsync();
             }
             catch (Exception Ex)
@@ -85,5 +87,59 @@ namespace WiseX.Services
             }
             return lst;
         }
+        public async Task<List<NonEmergencyFacilityBalanceLoad>> GetBoxesNEFacilityList(int Start, int Length, string BoxName, string UserID)
+        {
+            List<NonEmergencyFacilityBalanceLoad> lst = new List<NonEmergencyFacilityBalanceLoad>();
+            var DashBoardName = new SqlParameter("@BoxName", BoxName);
+            var ParamStart = new SqlParameter("@Start", Start);
+            var ParamLength = new SqlParameter("@Length", Length);
+            try
+            { 
+                lst = await _applicationDbContext.NonEmergencyFacilityBalanceLoad.FromSql("EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName", ParamStart, ParamLength, DashBoardName).ToListAsync();
+            }
+            catch (Exception Ex)
+            {
+
+            }
+            return lst;
+        }
+        public async Task<List<Dictionary<string, object>>> GetBoxesForB5Data(int Start, int Length, string BoxName, string UserID)
+        {
+            var result = new List<Dictionary<string, object>>();
+
+            using (var conn = _applicationDbContext.Database.GetDbConnection())
+            {
+                await conn.OpenAsync();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "[SP_getClientFacilityAgingwithNotesDataList]";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //cmd.Parameters.Add(new SqlParameter("@Start", Start));
+                    //cmd.Parameters.Add(new SqlParameter("@Length", Length));
+                    //cmd.Parameters.Add(new SqlParameter("@BoxName", BoxName));
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var row = new Dictionary<string, object>();
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                row[reader.GetName(i)] = reader[i];
+                            }
+
+                            result.Add(row);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
     }
 }

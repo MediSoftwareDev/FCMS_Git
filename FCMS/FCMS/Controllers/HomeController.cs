@@ -123,18 +123,39 @@ namespace WiseX.Controllers
             return PartialView("_BoxesList", homeViewModel);
         }
 
+        public async Task<ActionResult> GetDashboardListForB5(string BoxName)
+        {
+            // HomeService HS = new HomeService();
+            int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
+            int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
+            string UserID = HttpContext.Session.GetString("UserID");
+            var list= await _homeService.GetBoxesForB5Data(Start, Length, BoxName, UserID);
+            return Json(new { data = list });
+        }
+
+        //public JsonResult GetDashboardListForB5(string BoxName)
+        //{
+        //    var list = service.GetData(BoxName);
+        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        //}
         public async Task<ActionResult> GetDashboardList1(string BoxName)
         {
             HomeViewModel homeViewModel = new HomeViewModel();
             int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
             int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
             string UserID = HttpContext.Session.GetString("UserID");
-            homeViewModel.ChartBoxPropertiesLoad = await _homeService.GetBoxesList1(Start, Length, BoxName, UserID);
-            int totalrows = (homeViewModel.ChartBoxPropertiesLoad.Count > 0 ? homeViewModel.ChartBoxPropertiesLoad.First().TotalCount : 0);
-            int totalRowsAfterFiltering = (homeViewModel.ChartBoxPropertiesLoad.Count > 0 ? homeViewModel.ChartBoxPropertiesLoad.First().TotalCount : 0);
+            homeViewModel.NonEmergencyFacilityBalanceLoad = await _homeService.GetBoxesNEFacilityList(Start, Length, BoxName, UserID);
+            int totalrows = 0;// (homeViewModel.NonEmergencyFacilityBalanceLoad.Count > 0 ? homeViewModel.NonEmergencyFacilityBalanceLoad.First().TotalCount : 0);
+            int totalRowsAfterFiltering = 0;// (homeViewModel.NonEmergencyFacilityBalanceLoad.Count > 0 ? homeViewModel.NonEmergencyFacilityBalanceLoad.First().TotalCount : 0);
 
-            return Json(new { data = homeViewModel.ChartBoxPropertiesLoad, draw = HttpContext.Request.Form["draw"], recordsTotal = totalrows, recordsFiltered = totalRowsAfterFiltering });
-        }
+            return Json(new { data = homeViewModel.NonEmergencyFacilityBalanceLoad, draw = HttpContext.Request.Form["draw"] , recordsTotal = totalrows, recordsFiltered = totalRowsAfterFiltering });
+
+               //homeViewModel.ChartBoxPropertiesLoad = await _homeService.GetBoxesList1(Start, Length, BoxName, UserID);
+               //     int totalrows = (homeViewModel.ChartBoxPropertiesLoad.Count > 0 ? homeViewModel.ChartBoxPropertiesLoad.First().TotalCount : 0);
+               //     int totalRowsAfterFiltering = (homeViewModel.ChartBoxPropertiesLoad.Count > 0 ? homeViewModel.ChartBoxPropertiesLoad.First().TotalCount : 0);
+
+                //     return Json(new { data = homeViewModel.ChartBoxPropertiesLoad, draw = HttpContext.Request.Form["draw"], recordsTotal = totalrows, recordsFiltered = totalRowsAfterFiltering });
+            }
 
         public async Task<ActionResult> GetFacilityDashboardList(string BoxName)
         {

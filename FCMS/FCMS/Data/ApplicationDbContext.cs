@@ -83,6 +83,7 @@ namespace WiseX.Data
         public virtual DbSet<ChartProperties> ChartProperties { get; set; }
         public virtual DbSet<ChartBoxProperties> ChartBoxProperties { get; set; }
         public virtual DbSet<ChartBoxPropertiesLoad> ChartBoxPropertiesLoad { get; set; }
+        public virtual DbSet<NonEmergencyFacilityBalanceLoad> NonEmergencyFacilityBalanceLoad { get; set; }
         public virtual DbSet<UserSessionDetails> UserSessionDetails { get; set; }
 
 

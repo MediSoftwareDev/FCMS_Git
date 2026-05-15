@@ -93,7 +93,7 @@
     <script type="text/javascript">
     $(document).ready(function () {
         $('#alertdanger').hide();
-
+                hideLoader();
         if ($('#hdnUserName').val() != "" && $('#hdnPassword').val() != "") {
             LoginPage($('#hdnUserName').val(), $('#hdnPassword').val(),"YES");
         }
@@ -108,11 +108,13 @@
                 }
             }
         }
+           
     });
 
 
     function ManualLogin() {
         $('#login-form').on('submit', function (e) {
+                showLoader();
             e.preventDefault();
             var UserName = $('#username').val();
             var Password = $('#password').val();
@@ -135,16 +137,19 @@
                 type: 'POST',
                 contentType: "application/json; charset=utf-8",
                 data: LoginViewModel,
+
+                  
                 success: function (result)
                 {
                     $('#alertdanger').hide();
+
                     if (result.message == "" || result.message == null) {
                         @*location.href = "@Url.Action("Index","Home")";*@
                         $('#divLogin').hide();
                         $('#divProjects').html(result);
                         $('#divProjects').removeClass("hide");
                         $('#divProjects').show();
-
+                             showLoader();
                         $('#btnPrjCancel').on('click', function () {
                             $('#divLogin').show();
                             $('#divProjects').html(result);
@@ -156,6 +161,7 @@
                         if (result.message == "failure") {
                             $('#alertMsg').text('Invalid login attempt');
                             $('#alertdanger').show();
+                                 hideLoader();
                         }
                         else if (result.message == "NewLogin")
                         {
@@ -177,6 +183,7 @@
                             location.href = "@Url.Action("Index","Home")";
                         }
                     }
+                       
                 },
                 error: function (result)
                 {
