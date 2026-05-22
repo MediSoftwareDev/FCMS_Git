@@ -89,20 +89,21 @@ namespace WiseX.ViewModels.Home
         public int Hospice { get; set; }
         public int NursingHomes { get; set; }
         public int CorrectionsFacilities { get; set; }
-        public int InvoiceByEmail { get; set; }
-        public int InvoiceByMail { get; set; }
-        public int InvoiceByFax { get; set; }
-        public int InvoiceTemplate { get; set; }
+        //public int InvoiceByEmail { get; set; }
+        //public int InvoiceByMail { get; set; }
+        //public int InvoiceByFax { get; set; }
+        //public int InvoiceTemplate { get; set; }
         public int NonEmergencyFacilityBalanceCount { get; set; }
-        public decimal NonEmergencyFacilityBalance { get; set; }
+        public int NonEmergencyFacilityBalance { get; set; }
         public int NonEmergencyFacilityPaymentCount { get; set; }
-        public decimal NonEmergencyFacilityPayment { get; set; }
+        public int NonEmergencyFacilityPayment { get; set; }
         public int CorrectionalInstitutionBalanceCount { get; set; }
-        public decimal CorrectionalInstitutionBalance { get; set; }
+        public int CorrectionalInstitutionBalance { get; set; }
         public int CorrectionalPaymentsCount { get; set; }
-        public decimal CorrectionalPaymentsBalance { get; set; }
-        public int ClientFacilityAgingwithNotesCount { get; set; }
-        public decimal ClientFacilityAgingwithNotesBalance { get; set; }
+        public int CorrectionalPaymentsBalance { get; set; }
+        public int GlobalReportsCount { get; set; }
+        //public int ClientFacilityAgingwithNotesCount { get; set; }
+        //public decimal ClientFacilityAgingwithNotesBalance { get; set; }
 
         //public int SkilledNursing { get; set; }
         //public int Correctional { get; set; }
@@ -154,6 +155,9 @@ namespace WiseX.ViewModels.Home
         public string FacilityType { get; set; }
         public int OriginalID { get; set; }
         public int TotalCount { get; set; }
+        public string Phone { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 
     public class Daycount

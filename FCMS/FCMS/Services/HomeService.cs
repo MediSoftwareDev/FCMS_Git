@@ -26,10 +26,11 @@ namespace WiseX.Services
         {
             ChartProperties lst = new ChartProperties();
             try
-            {
+            { 
                 _applicationDbContext.Database.SetCommandTimeout(300);
-                //lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes]").FirstOrDefaultAsync();
-                lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes_New]").FirstOrDefaultAsync();
+                lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes_Latest]").FirstOrDefaultAsync();                                                                                
+               // lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes]").FirstOrDefaultAsync();
+               // lst = await _applicationDbContext.ChartProperties.FromSql("EXEC [Dashboard].[GetBoxes_New]").FirstOrDefaultAsync();
             }
             catch (Exception Ex) { }
             return lst;
@@ -95,7 +96,7 @@ namespace WiseX.Services
             var ParamLength = new SqlParameter("@Length", Length);
             try
             { 
-                lst = await _applicationDbContext.NonEmergencyFacilityBalanceLoad.FromSql("EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName", ParamStart, ParamLength, DashBoardName).ToListAsync();
+                lst = await _applicationDbContext.NonEmergencyFacilityBalanceLoad.FromSql( "EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName", ParamStart, ParamLength, DashBoardName).ToListAsync();
             }
             catch (Exception Ex)
             {
@@ -143,3 +144,4 @@ namespace WiseX.Services
 
     }
 }
+ 
