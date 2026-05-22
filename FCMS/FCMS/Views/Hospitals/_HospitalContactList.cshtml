@@ -23,6 +23,8 @@
                         <th>Phone</th>
                         <th>Fax Number</th>
                         <th>Email ID</th>
+                        <th>Bill Type</th>
+                        <th>Instructions</th>
                         <th class="@isAdmin">Action</th>
                     </tr>
                 </thead>
@@ -38,8 +40,10 @@
                                 <td id="txtPhone" class="tr1">@item.Phone</td>
                                 <td id="txtFaxNumber" class="tr1">@item.FaxNumber</td>
                                 <td id="txtEmailID" class="tr1">@item.EmailID</td>
+                                 <td id="ddlBillType" class="tr1">@item.BillType</td>
+                                <td id="txtInstructions" class="tr1">@item.Instructions</td>
                                 <td class="tr1">
-                                    <button id="btnContractEdit" type="button" Onclick="ConfirmHospitalContactEdit('@item.ID', '@item.ClientID', '@item.ContactName', '@item.Phone', '@item.FaxNumber', '@item.EmailID')" title="Edit" class="fa fa-lg fa-edit  text-inverse form-control1 p-l-0 p-r-0 @isAdmin" style="border:none; background-color:transparent"></button>
+                                    <button id="btnContractEdit" type="button" Onclick="ConfirmHospitalContactEdit('@item.ID', '@item.ClientID', '@item.ContactName', '@item.Phone', '@item.FaxNumber', '@item.EmailID','@item.BillType','@item.Instructions')" title="Edit" class="fa fa-lg fa-edit  text-inverse form-control1 p-l-0 p-r-0 @isAdmin" style="border:none; background-color:transparent"></button>
                                     <button id="btnContractDelete" type="button" Onclick="ConfirmHospitalContactDelete('@item.ID', '@item.RefID')" title="Delete" class="fa fa-lg fa-trash-o  text-inverse form-control1 p-l-0 p-r-0 @isAdmin" style="border:none; background-color:transparent"></button>
                                 </td>
                             </tr>

@@ -795,6 +795,8 @@
             $('#@Html.IdFor(m => m.NursingHomesContacts.EmailID)').attr("data-parsley-required", false);
             $('#@Html.IdFor(m => m.NursingHomesContacts.ContactName)').attr("data-parsley-required", false);
             $('#@Html.IdFor(m => m.NursingHomesContacts.ClientName)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.NursingHomesContacts.BillType)').attr("data-parsley-required", false);
+            $('#@Html.IdFor(m => m.NursingHomesContacts.Instructions)').attr("data-parsley-required", false);
 
             if ($('#LetterIncluded').is(':checked')) {
                 $('#LetterCopy').attr("data-parsley-required", true);
@@ -1176,6 +1178,8 @@
         $('#@Html.IdFor(m => m.NursingHomesContacts.EmailID)').attr("data-parsley-required", false);
         $('#@Html.IdFor(m => m.NursingHomesContacts.ContactName)').attr("data-parsley-required", true);
         $('#@Html.IdFor(m => m.NursingHomesContacts.ClientName)').attr("data-parsley-required", true);
+        $('#@Html.IdFor(m => m.NursingHomesContacts.BillType)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.NursingHomesContacts.Instructions)').attr("data-parsley-required", false);
 
 
         var GetPhone= $('#@Html.IdFor(m => m.NursingHomesContacts.Phone)').val();
@@ -1183,6 +1187,8 @@
         var GetEmailID= $('#@Html.IdFor(m => m.NursingHomesContacts.EmailID)').val();
         var GetContactName= $('#@Html.IdFor(m => m.NursingHomesContacts.ContactName)').val();
         var GetClientName = $('#@Html.IdFor(m => m.NursingHomesContacts.ClientName)').val();
+         var GetBillType = $('#@Html.IdFor(m => m.NursingHomesContacts.BillType)').val();
+        var GetInstructions = $('#@Html.IdFor(m => m.NursingHomesContacts.Instructions)').val();
         GetClientName = (GetClientName == "" ? 0 : GetClientName);
 
         $('#hrfContactRefID').val();
@@ -1203,6 +1209,8 @@
                 EmailID: GetEmailID,
                 ContactName: GetContactName,
                 ClientName: GetClientName,
+                BillType: GetBillType,
+                Instructions: GetInstructions,
                 RefID: GetReferenceID
             });
 
@@ -1227,6 +1235,8 @@
         $('#@Html.IdFor(m => m.NursingHomesContacts.Phone)').val('');
         $('#@Html.IdFor(m => m.NursingHomesContacts.FaxNumber)').val('');
         $('#@Html.IdFor(m => m.NursingHomesContacts.EmailID)').val('');
+        $('#@Html.IdFor(m => m.NursingHomesContacts.BillType)').val('');
+        $('#@Html.IdFor(m => m.NursingHomesContacts.Instructions)').val('');
     }
 
     function NursingHomeContactsDatatable(NursingHomeID, RefID) {
@@ -1245,13 +1255,15 @@
             });
         }
 
-    function ConfirmNursingHomeContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID) {
+    function ConfirmNursingHomeContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID,BillType,Instructions) {
         $('#@Html.IdFor(m => m.NursingHomesContacts.ID)').val(ID);
         $('#@Html.IdFor(m => m.NursingHomesContacts.ClientName)').val(ClientID);
         $('#@Html.IdFor(m => m.NursingHomesContacts.ContactName)').val(ContactName);
         $('#@Html.IdFor(m => m.NursingHomesContacts.Phone)').val(Phone);
         $('#@Html.IdFor(m => m.NursingHomesContacts.FaxNumber)').val(FaxNumber);
         $('#@Html.IdFor(m => m.NursingHomesContacts.EmailID)').val(EmailID);
+        $('#@Html.IdFor(m => m.NursingHomesContacts.BillType)').val(BillType);
+        $('#@Html.IdFor(m => m.NursingHomesContacts.Instructions)').val(Instructions);
 
         $('#btnNursingHomeContactAdd').val('Update');
     }

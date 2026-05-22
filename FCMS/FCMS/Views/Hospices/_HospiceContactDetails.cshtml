@@ -52,17 +52,48 @@
                             @Html.TextBoxFor(m => m.HospicesContacts.EmailID, new { @class = "form-control", @placeholder = "Enter Email ID", data_parsley_required = "true" })
                         </div>
                     </div>
-                    <div class="form-group col-sm-4 col-md-4 col-lg-4 p-0">
-                        <div class="col-lg-2">
-                        </div>
-                        <div class="col-lg-10">
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0  controls">
-                                <input type="button" id="btnHospiceContactAdd" class="btn btn-sm btn-info m-t-5 @isAdmin" value="Add" />
-                                @*<input type="button" id="btnCancel" class="btn btn-sm btn-default m-r-5" value="Cancel" />*@
+                        <div class="form-group col-sm-4 col-md-4 col-lg-4 p-0">
+                            <label class="control-label col-md-4 col-sm-4" for="BillType">
+                                Bill Type
+                            </label>
+
+                            <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                @Html.DropDownListFor(
+                                    m => m.HospicesContacts.BillType,
+                                    new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Text = "Single Invoice", Value = "Single Invoice" },
+                                        new SelectListItem { Text = "Consolidated Invoice", Value = "Consolidated Invoice" },
+                                        new SelectListItem { Text = "Spreadsheet", Value = "Spreadsheet" },
+                                        new SelectListItem { Text = "HCFA 1500", Value = "HCFA 1500" }
+                                    },
+                                    "-- Select Bill Type --",
+                                    new
+                                    {
+                                        @class = "form-control",
+                                        data_parsley_required = "true"
+                                    })
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                         <div class="form-group col-sm-4 col-md-4 col-lg-4 p-0">
+                            <label class="control-label col-md-4 col-sm-4" for="Instructions">Instructions cg@*<span style="color:red">*</span>*@</label>
+                            <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                                @Html.TextBoxFor(m => m.HospicesContacts.Instructions, new { @class = "form-control", @placeholder = "Enter the Instructions ", data_parsley_required = "true" })
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4 col-md-4 col-lg-4 p-0">
+                            <div class="col-lg-2">
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0  controls">
+                                    <input type="button" id="btnHospiceContactAdd" class="btn btn-sm btn-info m-t-5 @isAdmin" value="Add" />
+                                    @*<input type="button" id="btnCancel" class="btn btn-sm btn-default m-r-5" value="Cancel" />*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </form>

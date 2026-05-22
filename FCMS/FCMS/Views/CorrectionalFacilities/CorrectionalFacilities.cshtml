@@ -1176,6 +1176,8 @@
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').attr("data-parsley-required", false);
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').attr("data-parsley-required", true);
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').attr("data-parsley-required", true);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.BillType)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Instructions)').attr("data-parsley-required", false);
 
 
         var GetPhone= $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').val();
@@ -1183,6 +1185,8 @@
         var GetEmailID= $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').val();
         var GetContactName= $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').val();
         var GetClientName = $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').val();
+        var GetBillType = $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.BillType)').val();
+        var GetInstructions = $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Instructions)').val();
         GetClientName = (GetClientName == "" ? 0 : GetClientName);
 
         $('#hrfContactRefID').val();
@@ -1203,6 +1207,8 @@
                 EmailID: GetEmailID,
                 ContactName: GetContactName,
                 ClientName: GetClientName,
+                BillType: GetBillType,
+                Instructions: GetInstructions,
                 RefID: GetReferenceID
             });
 
@@ -1227,6 +1233,8 @@
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').val('');
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.FaxNumber)').val('');
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').val('');
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.BillType)').val('');
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Instructions)').val('');
     }
 
     function CorrectionalFacilitieContactsDatatable(CorrectionalFacilitieID, RefID) {
@@ -1245,13 +1253,15 @@
             });
         }
 
-    function ConfirmCorrectionalFacilitieContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID) {
+    function ConfirmCorrectionalFacilitieContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID,BillType,Instructions) {
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ID)').val(ID);
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ClientName)').val(ClientID);
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.ContactName)').val(ContactName);
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Phone)').val(Phone);
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.FaxNumber)').val(FaxNumber);
         $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.EmailID)').val(EmailID);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.BillType)').val(BillType);
+        $('#@Html.IdFor(m => m.CorrectionalFacilitiesContacts.Instructions)').val(Instructions);
 
         $('#btnCorrectionalFacilitieContactAdd').val('Update');
     }

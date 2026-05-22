@@ -1176,6 +1176,8 @@
         $('#@Html.IdFor(m => m.HospicesContacts.EmailID)').attr("data-parsley-required", false);
         $('#@Html.IdFor(m => m.HospicesContacts.ContactName)').attr("data-parsley-required", true);
         $('#@Html.IdFor(m => m.HospicesContacts.ClientName)').attr("data-parsley-required", true);
+        $('#@Html.IdFor(m => m.HospicesContacts.BillType)').attr("data-parsley-required", false);
+        $('#@Html.IdFor(m => m.HospicesContacts.Instructions)').attr("data-parsley-required", false);
 
 
         var GetPhone= $('#@Html.IdFor(m => m.HospicesContacts.Phone)').val();
@@ -1183,6 +1185,8 @@
         var GetEmailID= $('#@Html.IdFor(m => m.HospicesContacts.EmailID)').val();
         var GetContactName= $('#@Html.IdFor(m => m.HospicesContacts.ContactName)').val();
         var GetClientName = $('#@Html.IdFor(m => m.HospicesContacts.ClientName)').val();
+        var GetBillType= $('#@Html.IdFor(m => m.HospicesContacts.BillType)').val();
+        var GetInstructions = $('#@Html.IdFor(m => m.HospicesContacts.Instructions)').val();
         GetClientName = (GetClientName == "" ? 0 : GetClientName);
 
         $('#hrfContactRefID').val();
@@ -1203,6 +1207,8 @@
                 EmailID: GetEmailID,
                 ContactName: GetContactName,
                 ClientName: GetClientName,
+                BillType: GetBillType,
+                Instructions: GetInstructions,
                 RefID: GetReferenceID
             });
 
@@ -1227,6 +1233,8 @@
         $('#@Html.IdFor(m => m.HospicesContacts.Phone)').val('');
         $('#@Html.IdFor(m => m.HospicesContacts.FaxNumber)').val('');
         $('#@Html.IdFor(m => m.HospicesContacts.EmailID)').val('');
+        $('#@Html.IdFor(m => m.HospicesContacts.BillType)').val('');
+        $('#@Html.IdFor(m => m.HospicesContacts.Instructions)').val('');
     }
 
     function HospiceContactsDatatable(HospiceID, RefID) {
@@ -1245,13 +1253,15 @@
             });
         }
 
-    function ConfirmHospiceContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID) {
+    function ConfirmHospiceContactEdit(ID, ClientID, ContactName, Phone, FaxNumber, EmailID, BillType, Instructions) {
         $('#@Html.IdFor(m => m.HospicesContacts.ID)').val(ID);
         $('#@Html.IdFor(m => m.HospicesContacts.ClientName)').val(ClientID);
         $('#@Html.IdFor(m => m.HospicesContacts.ContactName)').val(ContactName);
         $('#@Html.IdFor(m => m.HospicesContacts.Phone)').val(Phone);
         $('#@Html.IdFor(m => m.HospicesContacts.FaxNumber)').val(FaxNumber);
         $('#@Html.IdFor(m => m.HospicesContacts.EmailID)').val(EmailID);
+        $('#@Html.IdFor(m => m.HospicesContacts.BillType)').val(BillType);
+        $('#@Html.IdFor(m => m.HospicesContacts.Instructions)').val(Instructions);
 
         $('#btnHospiceContactAdd').val('Update');
     }
