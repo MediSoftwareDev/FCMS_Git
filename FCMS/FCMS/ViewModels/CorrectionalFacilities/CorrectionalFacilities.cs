@@ -79,6 +79,8 @@ namespace FCMS.ViewModels.CorrectionalFacilities
         public string LastUpdatedBy { get; set; }
         public DateTime LastUpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 
     public class CorrectionalFacilitieDetails : EntityBase
@@ -116,6 +118,8 @@ namespace FCMS.ViewModels.CorrectionalFacilities
         public string LastUpdatedBy { get; set; }
         public DateTime LastUpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 
     
@@ -167,6 +171,8 @@ namespace FCMS.ViewModels.CorrectionalFacilities
         public string EmailID { get; set; }
         public string ContactName { get; set; }
         public int RefID { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 
     public class CorrectionalFacilitiesContactsList
@@ -180,5 +186,7 @@ namespace FCMS.ViewModels.CorrectionalFacilities
         public string EmailID { get; set; }
         public string ContactName { get; set; }
         public int RefID { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 }
