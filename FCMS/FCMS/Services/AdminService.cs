@@ -666,9 +666,11 @@ namespace WiseX.Services
                 var paramEmailID = new SqlParameter("@EmailID", hospitalsContacts.EmailID);
                 var paramContactName = new SqlParameter("@ContactName", hospitalsContacts.ContactName);
                 var paramRefID = new SqlParameter("@RefID", hospitalsContacts.RefID);
+                var paramBillType = new SqlParameter("@BillType", hospitalsContacts.BillType);
+                var paramInstructions = new SqlParameter("@Instructions", hospitalsContacts.Instructions);
                 var paramUserId = new SqlParameter("@UserID", userId);
 
-                check = await _applicationDbContext.HospitalsContactsList.FromSql("EXEC USP_tblHospitalsContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID,@UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID,paramUserId).ToListAsync();
+                check = await _applicationDbContext.HospitalsContactsList.FromSql("EXEC USP_tblHospitalsContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID,@BillType,@Instructions,@UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID, paramBillType, paramInstructions,  paramUserId).ToListAsync();
             }
             catch (Exception Ex)
             {
@@ -791,9 +793,11 @@ namespace WiseX.Services
                 var paramEmailID = new SqlParameter("@EmailID", hospitalsContacts.EmailID);
                 var paramContactName = new SqlParameter("@ContactName", hospitalsContacts.ContactName);
                 var paramRefID = new SqlParameter("@RefID", hospitalsContacts.RefID);
+                var paramBillType = new SqlParameter("@BillType", hospitalsContacts.BillType);
+                var paramInstructions = new SqlParameter("@Instructions", hospitalsContacts.Instructions);
                 var paramUserId = new SqlParameter("@UserID", userId);
 
-                check = await _applicationDbContext.HospicesContactsList.FromSql("EXEC USP_tblHospicesContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID,@UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID, paramUserId).ToListAsync();
+                check = await _applicationDbContext.HospicesContactsList.FromSql("EXEC USP_tblHospicesContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID,@BillType,@Instructions,@UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID, paramBillType, paramInstructions,paramUserId).ToListAsync();
             }
             catch (Exception Ex)
             {
@@ -915,9 +919,11 @@ namespace WiseX.Services
                 var paramEmailID = new SqlParameter("@EmailID", hospitalsContacts.EmailID);
                 var paramContactName = new SqlParameter("@ContactName", hospitalsContacts.ContactName);
                 var paramRefID = new SqlParameter("@RefID", hospitalsContacts.RefID);
+                var paramBillType = new SqlParameter("@BillType", hospitalsContacts.BillType);
+                var paramInstructions = new SqlParameter("@Instructions", hospitalsContacts.Instructions);
                 var paramUserId = new SqlParameter("@UserID", userId);
 
-                check = await _applicationDbContext.NursingHomesContactsList.FromSql("EXEC USP_tblNursingHomesContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID,@UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID, paramUserId).ToListAsync();
+                check = await _applicationDbContext.NursingHomesContactsList.FromSql("EXEC USP_tblNursingHomesContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID, @BillType, @Instructions, @UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID, paramBillType, paramInstructions, paramUserId).ToListAsync();
             }
             catch (Exception Ex)
             {
@@ -1038,9 +1044,11 @@ namespace WiseX.Services
                 var paramEmailID = new SqlParameter("@EmailID", hospitalsContacts.EmailID);
                 var paramContactName = new SqlParameter("@ContactName", hospitalsContacts.ContactName);
                 var paramRefID = new SqlParameter("@RefID", hospitalsContacts.RefID);
+                var paramBillType = new SqlParameter("@BillType", hospitalsContacts.BillType);
+                var paramInstructions = new SqlParameter("@Instructions", hospitalsContacts.Instructions);
                 var paramUserId = new SqlParameter("@UserID", userId);
 
-                check = await _applicationDbContext.CorrectionalFacilitiesContactsList.FromSql("EXEC USP_tblCorrectionalFacilitiesContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID,@UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID, paramUserId).ToListAsync();
+                check = await _applicationDbContext.CorrectionalFacilitiesContactsList.FromSql("EXEC USP_tblCorrectionalFacilitiesContacts_Insert @ID,@ClientName,@Phone,@FaxNumber,@EmailID,@ContactName,@RefID, @BillType, @Instructions, @UserID", paramID, paramClientName, paramPhone, paramFaxNumber, paramEmailID, paramContactName, paramRefID, paramBillType, paramInstructions, paramUserId).ToListAsync();
             }
             catch (Exception Ex)
             {
