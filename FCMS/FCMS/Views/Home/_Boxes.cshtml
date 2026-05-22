@@ -275,9 +275,9 @@
 
                     <!-- Bottom Section -->
                     <div class="box-footer">
-                        <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.ClientFacilityAgingwithNotesCount</div>
+                       @* <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.ClientFacilityAgingwithNotesCount</div>
                         <div class="right">BALANCE :$ <span id="ClientFacilityAgingwithNotesBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.ClientFacilityAgingwithNotesBalance </span></div>
-                        @*  ClientFacilityAgingwithNotesBalance<div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                          ClientFacilityAgingwithNotesBalance<div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
@@ -304,9 +304,9 @@
                         <h4>Global Report(All Facilities)</h4>
                     </div>
 
-                    <!-- Bottom Section -->
+                    <!-- Bottom Section GlobalReportsCount -->
                     <div class="box-footer">
-                        <div class="left"># OF</div>
+                        <div class="left"># OF Account : @Model.ChartBoxes.GlobalReportsCount </div>
                         <div class="right">BALANCE</div>
                         @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
@@ -338,7 +338,7 @@
                     <div class="box-footer">
                         <div class="left"># ACTIVE : @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right"># EXPIRED : @Model.ChartBoxes.ExpairedContracts</div>
-                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                         @* <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
@@ -360,13 +360,14 @@
                             <h4 class="p-b-20" style="text-transform: uppercase;">Hospitals</h4>
                         </a>
                     </div> *@
+                    
                     <div class="box-header">
                         <h4>Hospitals</h4>
                     </div>
 
                     <!-- Bottom Section -->
                     <div class="box-footer">
-                        <div class="left">TOTAL # : @Model.ChartBoxes.Hospitals </div>
+                        <div class="left">TOTAL # : <span id="FacilityHospitalTotalClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.Hospitals </span></div>
                         @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
@@ -396,7 +397,7 @@
 
                     <!-- Bottom Section -->
                     <div class="box-footer">
-                        <div class="left">TOTAL # : @Model.ChartBoxes.Hospice</div>
+                        <div class="left">TOTAL # : <span id="FacilityHospiceTotalClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.Hospice </span></div> 
                         @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
@@ -426,7 +427,7 @@
 
                     <!-- Bottom Section -->
                     <div class="box-footer">
-                        <div class="left">TOTAL # : @Model.ChartBoxes.NursingHomes</div>
+                        <div class="left">TOTAL # : <span id="SkilledNurshingTotalClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.NursingHomes </span></div> 
                         @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
@@ -456,7 +457,7 @@
 
                     <!-- Bottom Section -->
                     <div class="box-footer">
-                        <div class="left">TOTAL # : @Model.ChartBoxes.CorrectionsFacilities</div>
+                        <div class="left">TOTAL # : <span id="CorrectionalTotalClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.CorrectionsFacilities </span></div>
                         @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>

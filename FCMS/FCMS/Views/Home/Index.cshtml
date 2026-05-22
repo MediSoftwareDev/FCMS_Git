@@ -40,7 +40,10 @@
     <h1 class="page-header">Dashboard</h1>
     <!-- end page-header -->
     <!-- begin row -->
-    <div class="row" id="divBoxes">
+    @*  <div class="row" hide id="divEmptyDashboard">
+        @{ Html.RenderPartial("HomePage", Model); }
+    </div> *@
+    <div class="row"  id="divBoxes">
         @{ Html.RenderPartial("_Boxes", Model); }
     </div>
     <div class="rowList hide" id="divBoxesList">
@@ -86,6 +89,7 @@
     <script src='@Url.Content("~/js/apps.min.js")'></script>
     <script>
         $(document).ready(function () {
+            hideLoader();
             LoadDashboardList();
             LoadDashboardExcel();
             if(@message.Count()>0)
@@ -143,32 +147,57 @@
                 $('#FacilityName').text('Correctional Facilities');
                 ApprovalFacilityDatatable();
             });
-            $('#InvoiceByEmail').on('click', function () {
+            // $('#InvoiceByEmail').on('click', function () {
+            //     var BoxName = "B7";
+            //     $("#hrfBoxId").val("B7");
+            //     $('#FacilityName').text('Invoice By Email');
+            //     ApprovalFacilityDatatable();
+            // });
+            // $('#InvoiceByMail').on('click', function () {
+            //     var BoxName = "B8";
+            //     $("#hrfBoxId").val("B8");
+            //     $('#FacilityName').text('Invoice By Mail');
+            //     ApprovalFacilityDatatable();
+
+            // });
+            // $('#InvoiceByFax').on('click', function () {
+            //     var BoxName = "B9";
+            //     $("#hrfBoxId").val("B9");
+            //     $('#FacilityName').text('Invoice By Fax');
+            //     ApprovalFacilityDatatable();
+
+            // });
+            // $('#InvoiceTemplate').on('click', function () {
+            //     var BoxName = "B10";
+            //     $("#hrfBoxId").val("B10");
+            //     $('#FacilityName').text('Invoice Template');
+            //     ApprovalFacilityDatatable();
+
+            //});
+            // Facility Haspitals
+             $('#FacilityHospitalTotalClick').on('click', function () {
                 var BoxName = "B7";
                 $("#hrfBoxId").val("B7");
-                $('#FacilityName').text('Invoice By Email');
+                $('#FacilityName').text('Hospitals');
                 ApprovalFacilityDatatable();
             });
-            $('#InvoiceByMail').on('click', function () {
+             $('#FacilityHospiceTotalClick').on('click', function () {
                 var BoxName = "B8";
                 $("#hrfBoxId").val("B8");
-                $('#FacilityName').text('Invoice By Mail');
+                $('#FacilityName').text('Hospice');
                 ApprovalFacilityDatatable();
-
             });
-            $('#InvoiceByFax').on('click', function () {
+             $('#SkilledNurshingTotalClick').on('click', function () {
                 var BoxName = "B9";
                 $("#hrfBoxId").val("B9");
-                $('#FacilityName').text('Invoice By Fax');
+                $('#FacilityName').text('Skilled Nurshing');
                 ApprovalFacilityDatatable();
-
             });
-            $('#InvoiceTemplate').on('click', function () {
+             $('#CorrectionalTotalClick').on('click', function () {
                 var BoxName = "B10";
                 $("#hrfBoxId").val("B10");
-                $('#FacilityName').text('Invoice Template');
+                $('#FacilityName').text('Correctional');
                 ApprovalFacilityDatatable();
-
             });
         }
 
@@ -437,12 +466,30 @@
                         },
                         columns: [
                             { data: "originalID", name: "originalID", "width": "0%", visible: false },
-                            { data: "name", name: "name", "width": "30%" },
-                            { data: "contactName", name: "contactName", "width": "25%" },
-                            { data: "emailAddress", name: "emailAddress", "width": "25%" },
-                            { data: "invoicePreference", name: "invoicePreference", "width": "10%" },
-                            { data: "invoiceSchedule", name: "invoiceSchedule", "width": "10%" },
-                            { data: "facilityType", name: "facilityType", "width": "0%", visible: false }
+                            { data: "name", name: "name", "width": "25%" },
+                            { data: "contactName", name: "contactName", "width": "10%" },
+                            { data: "emailAddress", name: "emailAddress", "width": "20%" },
+                            { data: "phone", name: "phone", "width": "10%" },
+                            {
+                                data: "billType",
+                                name: "BillType",
+                                width: "15%",
+                                render: function (data, type, row, meta) {
+
+                                    let options = `
+                                        <option value="Single Invoice" ${data === 'Single Invoice' ? 'selected' : ''}>Single Invoice</option>
+                                        <option value="Consolidated Invoice" ${data === 'Consolidated Invoice' ? 'selected' : ''}>Consolidated Invoice</option>
+                                        <option value="Spreadsheet" ${data === 'Spreadsheet' ? 'selected' : ''}>Spreadsheet</option>
+                                        <option value="HCFA 1500" ${data === 'HCFA 1500' ? 'selected' : ''}>HCFA 1500</option>
+                                    `;
+
+                                    return `<select class="form-control billTypeDropdown">
+                                                ${options}
+                                            </select>`;
+                                }
+                            },
+                            { data: "instructions", name: "instructions", "width": "20%" }
+                            
                         ],
                         autoWidth: false,
                         searching: true,
@@ -454,23 +501,23 @@
 
                 $(dtTblApprovalList.table().container()).removeClass('form-inline');
 
-                $('#tblFacilityList tbody tr').live('click', function (evt) {
-                    var data = dtTblApprovalList.row(this).data();
-                    if (data["facilityType"] == 'Hospitals') {
-                        var baseUrl = '@Url.Content("~/Hospitals/Hospitals/?id=")';
-                    }
-                    else if (data["facilityType"] == 'Hospices') {
-                        var baseUrl = '@Url.Content("~/Hospices/Hospices/?id=")';
-                    }
-                    else if (data["facilityType"] == 'NursingHomes') {
-                        var baseUrl = '@Url.Content("~/NursingHomes/NursingHomes/?id=")';
-                    }
-                    else if (data["facilityType"] == 'CorrectionalFacilities') {
-                        var baseUrl = '@Url.Content("~/CorrectionalFacilities/CorrectionalFacilities/?id=")';
-                    }
-                    var url = baseUrl + data["originalID"];
-                    window.location.href = url;
-                });
+                // $('#tblFacilityList tbody tr').live('click', function (evt) {
+                //     var data = dtTblApprovalList.row(this).data();
+                //     if (data["facilityType"] == 'Hospitals') {
+                //         var baseUrl = '@Url.Content("~/Hospitals/Hospitals/?id=")';
+                //     }
+                //     else if (data["facilityType"] == 'Hospices') {
+                //         var baseUrl = '@Url.Content("~/Hospices/Hospices/?id=")';
+                //     }
+                //     else if (data["facilityType"] == 'NursingHomes') {
+                //         var baseUrl = '@Url.Content("~/NursingHomes/NursingHomes/?id=")';
+                //     }
+                //     else if (data["facilityType"] == 'CorrectionalFacilities') {
+                //         var baseUrl = '@Url.Content("~/CorrectionalFacilities/CorrectionalFacilities/?id=")';
+                //     }
+                //     var url = baseUrl + data["originalID"];
+                //     window.location.href = url;
+                // });
             }
         }
 

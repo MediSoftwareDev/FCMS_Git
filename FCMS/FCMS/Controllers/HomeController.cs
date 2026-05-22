@@ -49,8 +49,6 @@ namespace WiseX.Controllers
             _configuration = configuration;
         }
 
-        //
-        // GET: /Home/
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
@@ -210,7 +208,7 @@ namespace WiseX.Controllers
             int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
             string UserID = HttpContext.Session.GetString("UserID");
             homeViewModel.ChartBoxFacilityPropertiesLoad = await _homeService.GetBoxesFacilityList(Start, Length, BoxName, UserID);
-            var data = homeViewModel.ChartBoxFacilityPropertiesLoad.Select(x => new { x.Name, x.ContactName, x.EmailAddress, x.InvoicePreference, x.InvoiceSchedule }).ToList();//,x.Status
+            var data = homeViewModel.ChartBoxFacilityPropertiesLoad.Select(x => new { x.Name, x.ContactName, x.EmailAddress, x.Phone, x.BillType, x.Instructions, x.InvoicePreference, x.InvoiceSchedule }).ToList();//,x.Status
             string sFileName = @"DashboardData.xlsx";
             string sWebRootFolder = _hostingEnvironment.WebRootPath;
             string UrlBase = _configuration["AppSettings:AppURL"].ToString() + sFileName;
