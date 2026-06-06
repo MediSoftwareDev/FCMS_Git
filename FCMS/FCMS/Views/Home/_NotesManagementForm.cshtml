@@ -1,0 +1,94 @@
+﻿ @using WiseX.ViewModels.Home
+@model HomeViewModel
+
+
+  <input type="hidden" id="hfId" value="@Model.NotesManagementForm[0].ID" /> 
+   <input type="hidden" id="hffacilityName" value="@Model.NotesManagementForm[0].Facility" /> 
+<div class="panel panel-inverse" data-sortable-id="form-validation-1">
+    <div class="panel-heading">       
+        <h4 class="panel-title" id="Notesmanagementteam">Notes Management Form</h4>
+    </div>
+    <div class="panel-body panel-form p-t-15 m-t-10">
+            <div class="row col-12 p-10" id="NoteManagementDetails">
+                
+                <div class="col-lg-6">
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="id">ID</label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                           @*  @Html.HiddenFor(m => m.NotesManagementFormDetails.ID) *@
+                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].ID
+                            } 
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="Facility">Facility</label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].Facility
+                            }                              
+                        </div>
+                    </div>
+                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="ContactName">Contact Name</label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                             @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].ContactName
+                            } 
+
+                        </div>
+                    </div>
+                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="ContactPhone">Contact Phone</label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].ContactPhone
+                            } 
+                        </div>
+                    </div>                     
+                 </div>
+                 <div class="col-lg-6">
+                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="Email">Contact Email</label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].ContactEmail
+                            } 
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="MailingAddress">Mailing Address</label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].MailingAddress
+                            } 
+                        </div>
+                    </div>
+                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="PereferredContactMethod">Pereferred Contact Method<span style="color:red">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].PereferredContactMethod
+                            } 
+                        </div>
+                    </div>
+                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
+                        <label class="control-label col-md-4 col-sm-4" for="InvoiceSchedule">Invoice Schedule</label>
+                        <div class="col-md-8 col-sm-8 col-lg-8 controls">
+                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                            {
+                                @Model.NotesManagementForm[0].InvoiceSchedule
+                            } 
+                        </div>
+                    </div>
+                    
+                 </div> 
+            </div>
+    </div>

@@ -192,5 +192,7 @@ namespace WiseX.Data
         public virtual DbSet<CorrectionalFacilitiesContactsList> CorrectionalFacilitiesContactsList { get; set; }
 
         public virtual DbSet<FacilityContractNameList> FacilityContractNameList { get; set; }
+
+        public virtual DbSet<NotesManagementFormDetails> NotesManagementFormDetails { get; set; }
     }
 }

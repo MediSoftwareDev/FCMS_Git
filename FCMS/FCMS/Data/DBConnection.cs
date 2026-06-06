@@ -7,8 +7,9 @@ namespace WiseX.Data
 {
     public class DBConnection
     {
-        //public static string CommonConnectionString = "Server=MEDI-SQL02.medicountdom.com;Database=MC_FCMS_Transaction;User ID=WebUser;Password=$t3v3$uck$@$$";
-        public static string ConnectionString = "Server=MEDI-SQL01.medicountdom.com;Database=MC_FCMS_Transaction_Test;User ID=WebUser;Password=$t3v3$uck$@$$";
+        //public static string CommonConnectionString = "Server=MEDI-SQL02.medicountdom.com;Database=MC_FCMS_Transaction_Test;User ID=WebUser;Password=$t3v3$uck$@$$";
+        //public static string ConnectionString = "Server=MEDI-SQL02.medicountdom.com;Database=MC_FCMS_Transaction_Test;User ID=WebUser;Password=$t3v3$uck$@$$";
+       public static string ConnectionString = "Server=MEDI-SQL01.medicountdom.com;Database=MC_FCMS_Transaction_Test;User ID=WebUser;Password=$t3v3$uck$@$$";
 
         //Dev
         //public static string ConnectionString = "Server=WTSRND01\\WTSRND01;Database=MC_CCMS_Transaction_Live;Trusted_Connection=True;MultipleActiveResultSets=true";

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 using WiseX.Data;
 using WiseX.ViewModels.Home;
-using System.Data;
 
 namespace WiseX.Services
 {
@@ -140,8 +141,97 @@ namespace WiseX.Services
 
             return result;
         }
+        public async Task<List<Dictionary<string, object>>> GetDashboardListCommonDetails(int Start, int Length, string BoxName, string UserID)
+        {
+            var result = new List<Dictionary<string, object>>();
 
+            using (var conn = _applicationDbContext.Database.GetDbConnection())
+            {
+                await conn.OpenAsync();
 
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "[Dashboard].[GetBoxsDetailsLoad]";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@Start", Start));
+                    cmd.Parameters.Add(new SqlParameter("@Length", Length));
+                    cmd.Parameters.Add(new SqlParameter("@BoxName", BoxName));
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var row = new Dictionary<string, object>();
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                row[reader.GetName(i)] = reader[i];
+                            }
+
+                            result.Add(row);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<List<NotesManagementFormDetails>> GetNotesManagementFormDetails(string facilityName, int Start, int Length, string Type )
+        {
+            List<NotesManagementFormDetails> lst = new List<NotesManagementFormDetails>();
+            var ParamFormFacilityName = new SqlParameter("@facilityName", facilityName);
+            var ParamStart = new SqlParameter("@Start", Start);
+            var ParamLength = new SqlParameter("@Length", Length);
+            var ParamType = new SqlParameter("@BoxName", Type);                       
+
+            try
+            {
+                lst = await _applicationDbContext.NotesManagementFormDetails.FromSql("EXEC [Dashboard].[GetBoxsDetailsLoad] @Start,@Length,@BoxName,@facilityName", ParamStart, ParamLength, ParamType, ParamFormFacilityName).ToListAsync();
+            }
+            catch (Exception Ex)
+            {
+
+            }
+            return lst;
+        }
+        public async Task<List<Dictionary<string, object>>> GetDashboardNoteManagementDetails(string facilityName)
+        {
+            var result = new List<Dictionary<string, object>>();
+
+            using (var conn = _applicationDbContext.Database.GetDbConnection())
+            {
+                await conn.OpenAsync();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "[Dashboard].[NotesManagementFacilityDetailsList]";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //cmd.Parameters.Add(new SqlParameter("@Start", Start));
+                    // cmd.Parameters.Add(new SqlParameter("@Length", Length));
+                    cmd.Parameters.Add(new SqlParameter("@facilityName", facilityName));
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var row = new Dictionary<string, object>();
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                row[reader.GetName(i)] = reader[i];
+                            }
+
+                            result.Add(row);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }
  

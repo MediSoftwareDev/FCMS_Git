@@ -244,10 +244,10 @@
 
                     <!-- Bottom Section -->
                     <div class="box-footer-nm">
-                        <div class="left"># Pending</div>
-                        <div class="right"># Pending</div>
-                        @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
-                        <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
+                        @* <div class="left"># Pending</div>
+                        <div class="right"># Pending</div> *@
+                         <div class="left"># OF ACCOUNTS: <span id="NotesManagementNEFacilityButtonClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.NotesManagementNEFacility </span></div>
+                        <div class="right"># OF ACCOUNTS: <span id="NotesManagementCorrectionalButtonClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.NotesManagementCorrectional </span></div>
                     </div>
                 </div>
             </div>
@@ -275,9 +275,9 @@
 
                     <!-- Bottom Section -->
                     <div class="box-footer">
-                       @* <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.ClientFacilityAgingwithNotesCount</div>
-                        <div class="right">BALANCE :$ <span id="ClientFacilityAgingwithNotesBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.ClientFacilityAgingwithNotesBalance </span></div>
-                          ClientFacilityAgingwithNotesBalance<div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
+                        <div class="left"># OF ACCOUNTS : @Model.ChartBoxes.ClientFacilityAgingWithNotesCounts</div>
+                        <div class="right">BALANCE :$ <span id="ClientFacilityAgingWithNotesBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.ClientFacilityAgingWithNotesBalance </span></div>
+                        @*  ClientFacilityAgingwithNotesBalance<div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
                 </div>
@@ -307,7 +307,7 @@
                     <!-- Bottom Section GlobalReportsCount -->
                     <div class="box-footer">
                         <div class="left"># OF Account : @Model.ChartBoxes.GlobalReportsCount </div>
-                        <div class="right">BALANCE</div>
+                        <div class="right">BALANCE : <span id="GlobalReportsCountBalanceClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.GlobalReportsBalance </span></div>
                         @*  <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>
@@ -337,7 +337,7 @@
                     <!-- Bottom Section -->
                     <div class="box-footer">
                         <div class="left"># ACTIVE : @Model.ChartBoxes.ActiveContracts</div>
-                        <div class="right"># EXPIRED : @Model.ChartBoxes.ExpairedContracts</div>
+                        <div class="right"># EXPIRED : <span id="FacilityExpairedContractsClick" style="cursor:pointer; color:blue;"> @Model.ChartBoxes.ExpairedContracts </span></div>
                          @* <div class="left"># OF: @Model.ChartBoxes.ActiveContracts</div>
                         <div class="right">BALANCE: @Model.ChartBoxes.Balance</div> *@
                     </div>

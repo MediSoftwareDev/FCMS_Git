@@ -21,7 +21,7 @@
     if (RoleId == "2c0cdf89-9984-4f82-bcf3-f3382e5a843c")
     {
         isAdmin = "hide";
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     }
 
 }
@@ -52,6 +52,10 @@
     <div class="rowList hide" id="divBoxesFacilityList">
         @{ Html.RenderPartial("_BoxesFacilityList", Model);}
     </div>
+    <div class="rowList hide" id="divBoxesGlobalReportList">
+        @{ Html.RenderPartial("_BoxesGlobalReportList", Model);}
+    </div>
+    
     <!-- end row -->
 </div>
 <div id="divNotificationForm">
@@ -116,6 +120,7 @@
             });
             $('#NonEmergencyFacilityPaymentClick').on('click', function () {
                 showLoader();
+                var name = $(this).find('h4').text;
                 var BoxName = "B2";
                 $("#hrfBoxId").val("B2");
                 $('#Contractsname').text('Non-Emergency Facility Payment');
@@ -123,81 +128,90 @@
             });
             $('#CorrectionalInstitutionBalanceClick').on('click', function () {
                 showLoader();
+                var name = $(this).find('h4').text;
                 var BoxName = "B3";
                 $("#hrfBoxId").val("B3");
-                $('#FacilityName').text('Correctional Institution Balance');
+                $('#Contractsname').text('Correctional Institution Balance');
                 NonEmergencyFacilityBalanceDatatable();
             });
             $('#CorrectionalPaymentsBalanceClick').on('click', function () {
                 showLoader();
+                var name = $(this).find('h4').text;
                 var BoxName = "B4";
                 $("#hrfBoxId").val("B4");
-                $('#FacilityName').text('Correctional Payments');
+                $('#Contractsname').text('Correctional Payments');
                 NonEmergencyFacilityBalanceDatatable();
-            });
-            $('#ClientFacilityAgingwithNotesBalanceClick').on('click', function () {
-                var BoxName = "B5";
-                $("#hrfBoxId").val("B5");
-                $('#FacilityName').text('Client Facility Aging with Notes');
-                ClientFacilityAgingwithNotesBalanceDatatable();
-            });
-            $('#FacilityCorrectionsFacilities').on('click', function () {
+            });    
+
+            $('#ClientFacilityAgingWithNotesBalanceClick').on('click', function () {
+                // showLoader();
+                var name = $(this).find('h4').text;
                 var BoxName = "B6";
                 $("#hrfBoxId").val("B6");
-                $('#FacilityName').text('Correctional Facilities');
-                ApprovalFacilityDatatable();
+                $('#FacilityHeadingName').text('Client Facility Aging with Notes');
+                ClientFacilityAgingwithNotesBalanceDatatable(BoxName);
             });
-            // $('#InvoiceByEmail').on('click', function () {
-            //     var BoxName = "B7";
-            //     $("#hrfBoxId").val("B7");
-            //     $('#FacilityName').text('Invoice By Email');
-            //     ApprovalFacilityDatatable();
-            // });
-            // $('#InvoiceByMail').on('click', function () {
-            //     var BoxName = "B8";
-            //     $("#hrfBoxId").val("B8");
-            //     $('#FacilityName').text('Invoice By Mail');
-            //     ApprovalFacilityDatatable();
-
-            // });
-            // $('#InvoiceByFax').on('click', function () {
-            //     var BoxName = "B9";
-            //     $("#hrfBoxId").val("B9");
-            //     $('#FacilityName').text('Invoice By Fax');
-            //     ApprovalFacilityDatatable();
-
-            // });
-            // $('#InvoiceTemplate').on('click', function () {
-            //     var BoxName = "B10";
-            //     $("#hrfBoxId").val("B10");
-            //     $('#FacilityName').text('Invoice Template');
-            //     ApprovalFacilityDatatable();
-
-            //});
-            // Facility Haspitals
-             $('#FacilityHospitalTotalClick').on('click', function () {
+            $('#GlobalReportsCountBalanceClick').on('click', function () {
+                //showLoader();
+                var name = $(this).find('h4').text;
                 var BoxName = "B7";
                 $("#hrfBoxId").val("B7");
-                $('#FacilityName').text('Hospitals');
-                ApprovalFacilityDatatable();
+                $('#FacilityHeadingName').text('Global Reports');
+                ClientFacilityGlobalReportDataTable(BoxName);
             });
-             $('#FacilityHospiceTotalClick').on('click', function () {
+            $('#FacilityExpairedContractsClick').on('click', function () {
+                var name = $(this).find('h4').text;
                 var BoxName = "B8";
                 $("#hrfBoxId").val("B8");
+                $('#FacilityHeadingName').text('All Facility Contracts');
+                AllFacilityContractsDataTable();
+            });
+            
+            //Facility Haspitals
+            $('#FacilityHospitalTotalClick').on('click', function () {
+                var BoxName = "B9";
+                $("#hrfBoxId").val("B9");
+                $('#FacilityName').text('Hospitals');
+                ApprovalFacilityDatatable();
+            });           
+            
+             $('#FacilityHospiceTotalClick').on('click', function () {
+                var BoxName = "B10";
+                $("#hrfBoxId").val("B10");
                 $('#FacilityName').text('Hospice');
                 ApprovalFacilityDatatable();
             });
              $('#SkilledNurshingTotalClick').on('click', function () {
-                var BoxName = "B9";
-                $("#hrfBoxId").val("B9");
+                var BoxName = "B11";
+                $("#hrfBoxId").val("B11");
                 $('#FacilityName').text('Skilled Nurshing');
                 ApprovalFacilityDatatable();
             });
              $('#CorrectionalTotalClick').on('click', function () {
-                var BoxName = "B10";
-                $("#hrfBoxId").val("B10");
+                var BoxName = "B12";
+                $("#hrfBoxId").val("B12");
                 $('#FacilityName').text('Correctional');
                 ApprovalFacilityDatatable();
+            });
+
+             $('#NotesManagementNEFacilityButtonClick').on('click', function () {
+                // showLoader();
+                var name = $(this).find('h4').text;
+                var BoxName = "B5";
+                $("#hrfBoxId").val("B5");
+                $('#FacilityHeadingName').text('Notes Management Facility');
+                NotesManagementNonEmergencyFacilityDatatable(BoxName);
+                
+            });
+
+             $('#NotesManagementCorrectionalButtonClick').on('click', function () {
+                // showLoader();
+                var name = $(this).find('h4').text;
+                var BoxName = "B13";
+                $("#hrfBoxId").val("B13");
+                $('#FacilityHeadingName').text('Notes Management Correctional');
+                NotesManagementCorrectionalDatatable(BoxName);
+                // hideLoader();
             });
         }
 
@@ -444,7 +458,7 @@
         function ApprovalFacilityDatatable() {
             $('#divBoxesFacilityList').removeClass('hide');
             $('#divBoxesList').addClass('hide');
-
+            $('#divBoxesGlobalReportList').addClass('hide');
             var dtTblApprovalList;
 
             if ($.fn.DataTable.isDataTable('#tblFacilityList')) {
@@ -527,6 +541,7 @@
             
             $('#divBoxesList').removeClass('hide');
             $('#divBoxesFacilityList').addClass('hide');
+            $('#divBoxesGlobalReportList').addClass('hide');
             var dtTblApprovalList;
             var BoxValue= $("#hrfBoxId").val();
             console.log(BoxValue);
@@ -578,153 +593,189 @@
           }
                 
         }
-           function ClientFacilityAgingwithNotesBalanceDatatable() {
-
-            $('#divBoxesList').removeClass('hide');
-            $('#divBoxesFacilityList').addClass('hide');
-
-            var tableId = '#tblUserList';
-            var boxValue = $("#hrfBoxId").val();
-
-            console.log(boxValue);
-
-            // If already initialized → reload
-            if ($.fn.DataTable.isDataTable(tableId)) {
-                $(tableId).DataTable().ajax.reload(null, false);
-                return;
-            }
-
-            // Initialize DataTable
-            $(tableId).DataTable({
-                processing: true,
-                serverSide: false, // change to true only if using server-side paging
-
-                ajax: {
-                    url: '@Url.Content("~/Home/GetDashboardList1")',
-                    type: "POST",
-                    dataType: "json",
-                    dataSrc: "data", // ✅ IMPORTANT (matches controller return)
-
-                    data: function (d) {
-                        d.BoxName = $("#hrfBoxId").val();
-                    },
-
-                    beforeSend: function () {
-                        showLoader(); // optional
-                    },
-
-                    complete: function () {
-                        hideLoader(); // ✅ loader stops here
-                    },
-
-                    error: function (xhr, error, thrown) {
-                        console.log("Error:", xhr.responseText);
-                    }
-                },
-
-                columns: [
-                    { data: "id", name: "id", width: "10%" },
-                    { data: "facilityName", name: "facilityName", width: "30%" },
-                    { data: "noofAccounts", name: "noofAccounts", width: "30%" },
-                    {
-                        data: "balance",
-                        name: "balance",
-                        width: "30%",
-                        render: function (data) {
-                            return data ? "$ " + parseFloat(data).toFixed(2) : "$ 0.00";
-                        }
-                    }
-                ],
-
-                autoWidth: false,
-                searching: true,
-                ordering: true,
-                order: [[0, 'asc']],
-
-                language: {
-                    processing: "Processing... Please Wait"
-                },
-
-                destroy: true // ✅ avoids reinitialization errors
-            });
-        }
-
-        // function ClientFacilityAgingwithNotesBalanceDatatable()
-        // {
-            
-        //     $('#divBoxesList').removeClass('hide');
-        //     $('#divBoxesFacilityList').addClass('hide');
-        //     var dtTblApprovalList;
-        //     var BoxValue= $("#hrfBoxId").val();
-        //     console.log(BoxValue);
-
-        //     if ($.fn.DataTable.isDataTable('#tblUserList')) {
-        //         //$('#tblUserList').DataTable().ajax.reload();
-        //         dtTblApprovalList = $('#tblUserList').DataTable().ajax.reload();
-        //     } else {
-
-        //         dtTblApprovalList = $('#tblUserList').DataTable(
-        //            {
-        //                ajax: {
-        //                    url: '@Url.Content("~/Home/GetDashboardListForB5")',
-        //                    type: "POST",
-        //                    datatype: "json",
-        //                    data: function (d) {
-        //                        d.BoxName = $("#hrfBoxId").val();
-        //                    },
-        //                    error: function (result) {
-        //                        console.log(result);
-        //                     },
-        //                     complete: function () {
-        //                         hideLoader(); // ✅ correct place
-        //                     }
-        //                 },                         
-        //                columns: [
-        //                     { data: "id", name: "id", "width": "10%" },
-        //                     { data: "facilityName", name: "facilityName", "width": "30%" },
-        //                     { data: "noofAccounts", name: "noofAccounts", "width": "30%" },
-        //                     { data: "balance", name: "balance", render: function (data) {
-        //                         return data ? "$ " + parseFloat(data).toFixed(2) : "0.00";
-        //                     },"width": "30%" }
-        //                 ],
-        //                autoWidth: false,
-        //                searching: true,
-        //                "order": [ 0, 'asc' ],
-        //                language: {
-        //                    processing: "Processing...Please Wait"
-        //                }
-        //            });
-        //         }
-        // }
         
-    </script>
-    @* <script>
-         $(document).ready(function () {
-        $("#NonEmergencyFacilityBalanceClick").click(function () {
+        function ClientFacilityAgingwithNotesBalanceDatatable(BoxName) {
+            $('#divBoxesList').addClass('hide');
+             $('#divBoxesFacilityList').addClass('hide');
+             $('#divBoxesGlobalReportList').removeClass('hide');
+                $.ajax({
+                    url: '/Home/GetDashboardListForClientAgingWithNotesB6',
+                    type: 'POST',
+                    data: { BoxName: BoxName },
+                    success: function (response) {
 
-            $('#divBoxesList').removeClass('hide');
+                        let data = response.data;
+
+                        if (!data || data.length === 0) {
+                            $('#tblFacilityGlobalReportList').html('<tr><td>No Data</td></tr>');
+                            return;
+                        }
+
+                        let columns = [];
+
+                        Object.keys(data[0]).forEach(function (key) {
+                            columns.push({
+                                title: key,
+                                data: key
+                            });
+                        });
+
+                        if ($.fn.DataTable.isDataTable('#tblFacilityGlobalReportList')) {
+                            $('#tblFacilityGlobalReportList').DataTable().destroy();
+                        }
+
+                        $('#tblFacilityGlobalReportList').empty(); // IMPORTANT FIX
+
+                        $('#tblFacilityGlobalReportList').DataTable({
+                            data: data,
+                            columns: columns,
+                            paging: true,
+                            searching: true,
+                            ordering: true,
+                            responsive: true
+                        });
+                    }
+                });
+            }
+        function ClientFacilityGlobalReportDataTable(BoxName) {
+            $('#divBoxesList').addClass('hide');
+             $('#divBoxesFacilityList').addClass('hide');
+             $('#divBoxesGlobalReportList').removeClass('hide');
+                $.ajax({
+                    url: '/Home/GetDashboardListForGlobalReportB7',
+                    type: 'POST',
+                    data: { BoxName: BoxName },
+                    success: function (response) {
+
+                        let data = response.data;
+
+                        if (!data || data.length === 0) {
+                            $('#tblFacilityGlobalReportList').html('<tr><td>No Data</td></tr>');
+                            return;
+                        }
+
+                        let columns = [];
+
+                        Object.keys(data[0]).forEach(function (key) {
+                            columns.push({
+                                title: key,
+                                data: key
+                            });
+                        });
+
+                        if ($.fn.DataTable.isDataTable('#tblFacilityGlobalReportList')) {
+                            $('#tblFacilityGlobalReportList').DataTable().destroy();
+                        }
+
+                        $('#tblFacilityGlobalReportList').empty(); // IMPORTANT FIX
+
+                        $('#tblFacilityGlobalReportList').DataTable({
+                            data: data,
+                            columns: columns,
+                            paging: true,
+                            searching: true,
+                            ordering: true,
+                            responsive: true
+                        });
+                    }
+                });
+            }
+           function AllFacilityContractsDataTable(BoxName) {
+             $('#divBoxesList').addClass('hide');
             $('#divBoxesFacilityList').addClass('hide');
+            $('#divBoxesGlobalReportList').removeClass('hide');
             var dtTblApprovalList;
+            var BoxValue= $("#hrfBoxId").val();
+            console.log(BoxValue);
 
-            //PageValue = $('#Page').val();
             if ($.fn.DataTable.isDataTable('#tblUserList')) {
+                //$('#tblUserList').DataTable().ajax.reload();
                 dtTblApprovalList = $('#tblUserList').DataTable().ajax.reload();
-                //$('#tblChartList')
             } else {
 
                 dtTblApprovalList = $('#tblUserList').DataTable(
                    {
                        ajax: {
-                           url: '@Url.Content("~/Home/GetDashboardList1")',
+                           url: '@Url.Content("~/Home/GetDashboardListForAllFacilityReportB8")',
                            type: "POST",
                            datatype: "json",
                            data: function (d) {
                                d.BoxName = $("#hrfBoxId").val();
                            },
+                           success: function (response) {
+
+                                let data = response.data;
+
+                                if (!data || data.length === 0) {
+                                    $('#tblFacilityGlobalReportList').html('<tr><td>No Data</td></tr>');
+                                    return;
+                                }
+
+                                let columns = [];
+
+                                Object.keys(data[0]).forEach(function (key) {
+                                    columns.push({
+                                        title: key,
+                                        data: key
+                                    });
+                                });
+
+                                if ($.fn.DataTable.isDataTable('#tblFacilityGlobalReportList')) {
+                                    $('#tblFacilityGlobalReportList').DataTable().destroy();
+                                }
+
+                                $('#tblFacilityGlobalReportList').empty(); // IMPORTANT FIX
+
+                                $('#tblFacilityGlobalReportList').DataTable({
+                                    data: data,
+                                    columns: columns,
+                                    paging: true,
+                                    searching: true,
+                                    ordering: true,
+                                    responsive: true,
+
+                                    createdRow: function (row, rowData, dataIndex) {
+
+                                        // 4th column (index 3)
+                                        let dateValue = $('td:eq(4)', row).text().trim();
+
+                                        if (dateValue !== '') {
+
+                                            // If your date format is MM/dd/yyyy
+                                            let parts = dateValue.split('/');
+
+                                            if (parts.length === 4) {
+
+                                                let cellDate = new Date(parts[2], parts[0] - 1, parts[1]);
+
+                                                let currentDate = new Date();
+
+                                                let diffDays = Math.floor(
+                                                    (currentDate - cellDate) / (1000 * 60 * 60 * 24)
+                                                );
+
+                                                // Greater than 90 days
+                                                if (diffDays > 90) {
+
+                                                    $('td:eq(4)', row).css({
+                                                        'background-color': 'red',
+                                                        'color': 'white',
+                                                        'font-weight': 'bold'
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            },
                            error: function (result) {
                                console.log(result);
-                           }
-                       },                       
+                            },
+                            complete: function () {
+                                hideLoader(); // ✅ correct place
+                            }
+                        },                         
+                       
                        autoWidth: false,
                        searching: true,
                        "order": [ 0, 'asc' ],
@@ -732,9 +783,146 @@
                            processing: "Processing...Please Wait"
                        }
                    });
-                   }
-        });
-        });
-    </script> *@
-}
+                }
+              }                
+            function NotesManagementNonEmergencyFacilityDatatable(BoxName) {
+            $('#divBoxesList').addClass('hide');
+             $('#divBoxesFacilityList').addClass('hide');
+             $('#divBoxesGlobalReportList').removeClass('hide');
+                $.ajax({
+                    url: '/Home/GetDashboardListForClientAgingWithNotesB5',
+                    type: 'POST',
+                    data: { BoxName: BoxName },
+                    success: function (response) {
+
+                        let data = response.data;
+
+                        if (!data || data.length === 0) {
+                            $('#tblFacilityGlobalReportList').html('<tr><td>No Data</td></tr>');
+                            return;
+                        }
+
+                       let columns = [];
+
+                        Object.keys(data[0]).forEach(function (key, index) {
+
+                            // Make the first column a hyperlink
+                            if (index === 0) {
+                                columns.push({
+                                    title: key,
+                                    data: key,
+                                    render: function (data, type, row) {
+                                        return '<a href="#" class="first-column-link" data-value="' + data + '">' + data + '</a>';
+                                    }
+                                });
+                            } else {
+                                columns.push({
+                                    title: key,
+                                    data: key
+                                });
+                            }
+
+                        });
+
+                        if ($.fn.DataTable.isDataTable('#tblFacilityGlobalReportList')) {
+                            $('#tblFacilityGlobalReportList').DataTable().destroy();
+                        }
+
+                        $('#tblFacilityGlobalReportList').empty(); // IMPORTANT FIX
+
+                        $('#tblFacilityGlobalReportList').DataTable({
+                            data: data,
+                            columns: columns,
+                            paging: true,
+                            searching: true,
+                            ordering: true,
+                            responsive: true
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+            // Handle hyperlink click
+                $(document).on('click', '.first-column-link', function (e) {
+                    e.preventDefault();
+
+                    var value = $(this).data('value');
+
+                    // Call your function here
+                    OpenDetails(value);
+
+                    // Or test:
+                    // alert(value);
+                });
+                function OpenDetails(id) {
+                //console.log("Clicked value:", id);
+
+                // Your custom logic here
+                 window.location.href = "/Home/NotesManagement?facilityName=" + id;
+            }
+            function NotesManagementCorrectionalDatatable(BoxName) {
+            $('#divBoxesList').addClass('hide');
+             $('#divBoxesFacilityList').addClass('hide');
+             $('#divBoxesGlobalReportList').removeClass('hide');
+                $.ajax({
+                    url: '/Home/GetDashboardListForClientAgingWithNotesB13',
+                    type: 'POST',
+                    data: { BoxName: BoxName },
+                    success: function (response) {
+
+                        let data = response.data;
+
+                        if (!data || data.length === 0) {
+                            $('#tblFacilityGlobalReportList').html('<tr><td>No Data</td></tr>');
+                            return;
+                        }
+
+                        let columns = [];
+
+                        Object.keys(data[0]).forEach(function (key, index) {
+
+                            // Make the first column a hyperlink
+                            if (index === 0) {
+                                columns.push({
+                                    title: key,
+                                    data: key,
+                                    render: function (data, type, row) {
+                                        return '<a href="#" class="first-column-link" data-value="' + data + '">' + data + '</a>';
+                                    }
+                                });
+                            } else {
+                                columns.push({
+                                    title: key,
+                                    data: key
+                                });
+                            }
+
+                        });
+
+                        if ($.fn.DataTable.isDataTable('#tblFacilityGlobalReportList')) {
+                            $('#tblFacilityGlobalReportList').DataTable().destroy();
+                        }
+
+                        $('#tblFacilityGlobalReportList').empty(); // IMPORTANT FIX
+
+                        $('#tblFacilityGlobalReportList').DataTable({
+                            data: data,
+                            columns: columns,
+                            paging: true,
+                            searching: true,
+                            ordering: true,
+                            responsive: true
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+            
+    </script>
+   
+    }
 

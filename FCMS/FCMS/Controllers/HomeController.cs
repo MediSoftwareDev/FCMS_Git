@@ -1,26 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using WiseX.Data;
 using WiseX.Helpers;
+using WiseX.Models;
 using WiseX.Services;
 using WiseX.ViewModels.Account;
-using WiseX.ViewModels.Home;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using WiseX.Models;
 using WiseX.ViewModels.Admin;
-using Microsoft.Extensions.Configuration;
-using System.IO;
-using OfficeOpenXml;
+using WiseX.ViewModels.Home;
 
 namespace WiseX.Controllers
 {
@@ -131,11 +132,57 @@ namespace WiseX.Controllers
             return Json(new { data = list });
         }
 
-        //public JsonResult GetDashboardListForB5(string BoxName)
-        //{
-        //    var list = service.GetData(BoxName);
-        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        //}
+        public async Task<JsonResult> GetDashboardListForGlobalReportB7(string BoxName)
+        {
+            int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
+            int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
+            string UserID = HttpContext.Session.GetString("UserID");
+
+            var list = await _homeService.GetDashboardListCommonDetails(Start, Length, BoxName, UserID);
+
+            return Json(new { data = list });
+        }
+        public async Task<JsonResult> GetDashboardListForAllFacilityReportB8(string BoxName)
+        {
+            int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
+            int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
+            string UserID = HttpContext.Session.GetString("UserID");
+
+            var list = await _homeService.GetDashboardListCommonDetails(Start, Length, BoxName, UserID);
+
+            return Json(new { data = list });
+        }
+
+        public async Task<JsonResult> GetDashboardListForClientAgingWithNotesB6(string BoxName)
+        {
+            int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
+            int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
+            string UserID = HttpContext.Session.GetString("UserID");
+
+            var list = await _homeService.GetDashboardListCommonDetails(Start, Length, BoxName, UserID);
+
+            return Json(new { data = list });
+        }
+        public async Task<JsonResult> GetDashboardListForClientAgingWithNotesB5(string BoxName)
+        {
+            int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
+            int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
+            string UserID = HttpContext.Session.GetString("UserID");
+
+            var list = await _homeService.GetDashboardListCommonDetails(Start, Length, BoxName, UserID);
+
+            return Json(new { data = list });
+        }
+        public async Task<JsonResult> GetDashboardListForClientAgingWithNotesB13(string BoxName)
+        {
+            int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
+            int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
+            string UserID = HttpContext.Session.GetString("UserID");
+
+            var list = await _homeService.GetDashboardListCommonDetails(Start, Length, BoxName, UserID);
+
+            return Json(new { data = list });
+        }
         public async Task<ActionResult> GetDashboardList1(string BoxName)
         {
             HomeViewModel homeViewModel = new HomeViewModel();
@@ -229,6 +276,36 @@ namespace WiseX.Controllers
             }
             return Json(UrlBase);
         }
+
+        public async Task<IActionResult> NotesManagement(string facilityName)
+        {
+            ViewBag.FacilityName = facilityName;
+
+            int Start = 0;
+            int Length = 0;
+            string BoxName = "NMF";            
+            try
+            {
+                HomeViewModel homeViewModel = new HomeViewModel();
+                homeViewModel.NotesManagementForm = await _homeService.GetNotesManagementFormDetails(facilityName, Start, Length, BoxName);
+                return View(homeViewModel);
+            }
+            catch(Exception ex)
+            {
+                return Content(ex.ToString());
+            }
+            
+        }
+        public async Task<JsonResult> GetDashboardNoteManagementDetailList(string facilityName)
+        {
+            
+            string UserID = HttpContext.Session.GetString("UserID");
+
+            var list = await _homeService.GetDashboardNoteManagementDetails(facilityName);
+
+            return Json(new { data = list });
+        }
+
     }
 
 }

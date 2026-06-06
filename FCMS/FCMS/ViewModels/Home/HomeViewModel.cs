@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using WiseX.Models;
 using WiseX.ViewModels.Admin;
 using NPOI.OpenXml4Net.OPC;
+using NPOI.OpenXml4Net.OPC.Internal;
 
 namespace WiseX.ViewModels.Home
 {
@@ -19,7 +20,7 @@ namespace WiseX.ViewModels.Home
         public IList<ChartBoxPropertiesLoad> ChartBoxPropertiesLoad;
         public IList<ChartBoxFacilityPropertiesLoad> ChartBoxFacilityPropertiesLoad;
         public IList<NonEmergencyFacilityBalanceLoad> NonEmergencyFacilityBalanceLoad;
-
+        public IList<NotesManagementFormDetails> NotesManagementForm;
         public IList<Topcoders> Topcoders;
         public IList<ReceivedvsCompleted> ReceivedvsCompleted;
         public IList<ProgressTracker> ProgressTracker;
@@ -49,10 +50,11 @@ namespace WiseX.ViewModels.Home
 
         public List<CoderChartBoxReport> CoderChartBoxReportList;
         public CoderChartBoxReport CoderChartBoxReport;
-
+        
         public string RoleName { get; set; }
         public int OverAllCount { get; set; }
         public int OverAllRowCount { get; set; }
+
         public HomeViewModel()
         {
             Daycount = new List<Daycount>();
@@ -102,8 +104,11 @@ namespace WiseX.ViewModels.Home
         public int CorrectionalPaymentsCount { get; set; }
         public int CorrectionalPaymentsBalance { get; set; }
         public int GlobalReportsCount { get; set; }
-        //public int ClientFacilityAgingwithNotesCount { get; set; }
-        //public decimal ClientFacilityAgingwithNotesBalance { get; set; }
+        public int GlobalReportsBalance { get; set; }
+        public int ClientFacilityAgingWithNotesCounts { get; set; }
+        public int ClientFacilityAgingWithNotesBalance { get; set; }
+        public int NotesManagementNEFacility { get; set; }
+        public int NotesManagementCorrectional { get; set; }
 
         //public int SkilledNursing { get; set; }
         //public int Correctional { get; set; }
@@ -318,5 +323,18 @@ namespace WiseX.ViewModels.Home
         public int NoofAccounts { get; set; }
         public decimal  Balance { get; set; }
         
+    }
+   public class NotesManagementFormDetails
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Facility { get; set; }
+        public string ContactName { get; set; }
+        public string ContactPhone { get; set; }
+        public string ContactEmail { get; set; }
+        public string MailingAddress { get; set; }
+        public string PereferredContactMethod { get; set; }
+        public string InvoiceSchedule { get; set; }
+
     }
 }
