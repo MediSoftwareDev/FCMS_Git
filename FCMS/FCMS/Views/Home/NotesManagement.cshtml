@@ -86,6 +86,7 @@
     <script>
         $(document).ready(function () {
             // hideLoader(); hffacilityName
+            showLoader();
             var f_name= $('#hffacilityName').val();
             console.log(f_name)
            LoadNotesManagementDeailsList(f_name);
@@ -94,51 +95,110 @@
             {
                 $('#HNotifcationForm').modal('show');
             }
-            hideLoader();
+            
         });
-        function LoadNotesManagementDeailsList(f_name)
-        {
-             // $('#divBoxesList').addClass('hide');
-             // $('#divBoxesFacilityList').addClass('hide');
-             // $('#divBoxesGlobalReportList').removeClass('hide');
-                $.ajax({
-                    url: '/Home/GetDashboardNoteManagementDetailList', 
-                    type: 'POST',
-                    data: { facilityName: f_name },
-                    success: function (response) {
+        function LoadNotesManagementDeailsList(f_name) {
 
-                        let data = response.data;
+            // Check if facility name is undefined, null, or empty
+            if (f_name === undefined || f_name === null || $.trim(f_name) === "") {
 
-                        if (!data || data.length === 0) {
-                            $('#tblNotesManagementDetailsList').html('<tr><td>No Data</td></tr>');
-                            return;
-                        }
+                $('#tblNotesManagementDetailsList').html('<tr><td>No Data Found</td></tr>');
+                 hideLoader();
+                return; // Stop execution, don't call AJAX
 
-                        let columns = [];
+            }
 
-                        Object.keys(data[0]).forEach(function (key) {
-                            columns.push({
-                                title: key,
-                                data: key
-                            });
-                        });
+            $.ajax({
+                
+                url: '/Home/GetDashboardNoteManagementDetailList',
+                type: 'POST',
+                data: { facilityName: f_name },
+                success: function (response) {
 
-                        if ($.fn.DataTable.isDataTable('#tblNotesManagementDetailsList')) {
-                            $('#tblNotesManagementDetailsList').DataTable().destroy();
-                        }
+                    let data = response.data;
 
-                        $('#tblNotesManagementDetailsList').empty(); // IMPORTANT FIX
-
-                        $('#tblNotesManagementDetailsList').DataTable({
-                            data: data,
-                            columns: columns,
-                            paging: true,
-                            searching: true,
-                            ordering: true,
-                            responsive: true
-                        });
+                    if (!data || data.length === 0) {
+                        $('#tblNotesManagementDetailsList').html('<tr><td>No Data Found</td></tr>');
+                        return;
                     }
-                });
+
+                    let columns = [];
+
+                    Object.keys(data[0]).forEach(function (key) {
+                        columns.push({
+                            title: key,
+                            data: key
+                        });
+                    });
+
+                    if ($.fn.DataTable.isDataTable('#tblNotesManagementDetailsList')) {
+                        $('#tblNotesManagementDetailsList').DataTable().destroy();
+                    }
+
+                    $('#tblNotesManagementDetailsList').empty();
+
+                    $('#tblNotesManagementDetailsList').DataTable({
+                        data: data,
+                        columns: columns,
+                        paging: true,
+                        searching: true,
+                        ordering: true,
+                        responsive: true
+                    });
+                    hideLoader();
+                }
+            });
         }
+        // function LoadNotesManagementDeailsList(f_name)
+        // {
+        //     if(f_name==undifined !! f_name ==empty)
+        //     {
+
+        //     }
+        //     else
+        //     {
+
+        //     }
+        //             $.ajax({
+        //             url: '/Home/GetDashboardNoteManagementDetailList', 
+        //             type: 'POST',
+        //             data: { facilityName: f_name },
+        //             success: function (response) {
+
+        //                 let data = response.data;
+
+        //                 if (!data || data.length === 0) {
+        //                     $('#tblNotesManagementDetailsList').html('<tr><td>No Data</td></tr>');
+        //                     return;
+        //                 }
+
+        //                 let columns = [];
+
+        //                 Object.keys(data[0]).forEach(function (key) {
+        //                     columns.push({
+        //                         title: key,
+        //                         data: key
+        //                     });
+        //                 });
+
+        //                 if ($.fn.DataTable.isDataTable('#tblNotesManagementDetailsList')) {
+        //                     $('#tblNotesManagementDetailsList').DataTable().destroy();
+        //                 }
+
+        //                 $('#tblNotesManagementDetailsList').empty(); // IMPORTANT FIX
+
+        //                 $('#tblNotesManagementDetailsList').DataTable({
+        //                     data: data,
+        //                     columns: columns,
+        //                     paging: true,
+        //                     searching: true,
+        //                     ordering: true,
+        //                     responsive: true
+        //                 });
+        //             }
+                   
+        //         });
+                
+        // }
         </script>
     }

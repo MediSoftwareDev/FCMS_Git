@@ -1,9 +1,17 @@
 ﻿ @using WiseX.ViewModels.Home
 @model HomeViewModel
 
+@*  @if (@Model.NotesManagementForm != null &&     @Model.NotesManagementForm.Any())
+{    *@ 
+ 
 
-  <input type="hidden" id="hfId" value="@Model.NotesManagementForm[0].ID" /> 
-   <input type="hidden" id="hffacilityName" value="@Model.NotesManagementForm[0].Facility" /> 
+  @* <input type="hidden" id="hfId" value="@Model.NotesManagementForm[0].ID" /> 
+   <input type="hidden" id="hffacilityName" value="@Model.NotesManagementForm[0].Facility" />  *@
+   @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+    { 
+       <input type="hidden" id="hfId" value="@Model.NotesManagementForm[0].ID" />
+       <input type="hidden" id="hffacilityName" value="@Model.NotesManagementForm[0].Facility" />
+     }
 <div class="panel panel-inverse" data-sortable-id="form-validation-1">
     <div class="panel-heading">       
         <h4 class="panel-title" id="Notesmanagementteam">Notes Management Form</h4>
@@ -17,9 +25,13 @@
                         <div class="col-md-8 col-sm-8 col-lg-8 controls">
                            @*  @Html.HiddenFor(m => m.NotesManagementFormDetails.ID) *@
                             @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
-                            {
+                            { 
                                 @Model.NotesManagementForm[0].ID
-                            } 
+                            }
+                            else
+                            {
+                                 <span>No data</span>
+                            }
                         </div>
                     </div>
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
@@ -28,7 +40,11 @@
                             @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
                             {
                                 @Model.NotesManagementForm[0].Facility
-                            }                              
+                            } 
+                            else
+                            {
+                                 <span>No data</span>
+                            }
                         </div>
                     </div>
                      <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
@@ -38,7 +54,10 @@
                             {
                                 @Model.NotesManagementForm[0].ContactName
                             } 
-
+                            else
+                            {
+                                <span>No data</span>
+                            }
                         </div>
                     </div>
                      <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
@@ -48,6 +67,10 @@
                             {
                                 @Model.NotesManagementForm[0].ContactPhone
                             } 
+                            else
+                            {
+                                <span>No data</span>
+                            }
                         </div>
                     </div>                     
                  </div>
@@ -59,6 +82,10 @@
                             {
                                 @Model.NotesManagementForm[0].ContactEmail
                             } 
+                            else
+                            {
+                                <span>No data</span>
+                            }
                         </div>
                     </div>
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
@@ -68,6 +95,10 @@
                             {
                                 @Model.NotesManagementForm[0].MailingAddress
                             } 
+                           else
+                            {
+                                <span>No data</span>
+                            }
                         </div>
                     </div>
                      <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
@@ -77,15 +108,23 @@
                             {
                                 @Model.NotesManagementForm[0].PereferredContactMethod
                             } 
+                            else
+                            {
+                                <span>No data</span>
+                            }
                         </div>
                     </div>
                      <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
                         <label class="control-label col-md-4 col-sm-4" for="InvoiceSchedule">Invoice Schedule</label>
                         <div class="col-md-8 col-sm-8 col-lg-8 controls">
-                            @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
+                             @if (Model.NotesManagementForm != null && Model.NotesManagementForm.Any())
                             {
                                 @Model.NotesManagementForm[0].InvoiceSchedule
-                            } 
+                            }  
+                            else
+                            {
+                                <span>No data</span>
+                            }
                         </div>
                     </div>
                     

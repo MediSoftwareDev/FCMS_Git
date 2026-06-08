@@ -288,6 +288,10 @@ namespace WiseX.Controllers
             {
                 HomeViewModel homeViewModel = new HomeViewModel();
                 homeViewModel.NotesManagementForm = await _homeService.GetNotesManagementFormDetails(facilityName, Start, Length, BoxName);
+                if (homeViewModel.NotesManagementForm == null || !homeViewModel.NotesManagementForm.Any())
+                {
+                    ViewBag.Message = "No records found.";
+                }
                 return View(homeViewModel);
             }
             catch(Exception ex)
