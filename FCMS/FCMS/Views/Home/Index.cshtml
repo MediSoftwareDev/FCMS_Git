@@ -789,8 +789,8 @@
             $('#divBoxesList').addClass('hide');
              $('#divBoxesFacilityList').addClass('hide');
              $('#divBoxesGlobalReportList').removeClass('hide');
-                $.ajax({
-                    url: '/Home/GetDashboardListForClientAgingWithNotesB5',
+                $.ajax({                    
+                    url: '@Url.Content("~/Home/GetDashboardListForClientAgingWithNotesB5")',
                     type: 'POST',
                     data: { BoxName: BoxName },
                     success: function (response) {
@@ -860,14 +860,15 @@
                 //console.log("Clicked value:", id);
 
                 // Your custom logic here
-                 window.location.href = "/Home/NotesManagement?facilityName=" + id;
+              //   window.location.href = "/Home/NotesManagement?facilityName=" + id;
+                 window.location.href = '@Url.Content("~/Home/NotesManagement")' + '?facilityName=' + id;
             }
             function NotesManagementCorrectionalDatatable(BoxName) {
             $('#divBoxesList').addClass('hide');
              $('#divBoxesFacilityList').addClass('hide');
              $('#divBoxesGlobalReportList').removeClass('hide');
                 $.ajax({
-                    url: '/Home/GetDashboardListForClientAgingWithNotesB13',
+                    url: '@Url.Content("~/Home/GetDashboardListForClientAgingWithNotesB13")',
                     type: 'POST',
                     data: { BoxName: BoxName },
                     success: function (response) {

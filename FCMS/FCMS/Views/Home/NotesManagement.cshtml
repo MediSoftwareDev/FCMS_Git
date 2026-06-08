@@ -109,8 +109,7 @@
             }
 
             $.ajax({
-                
-                url: '/Home/GetDashboardNoteManagementDetailList',
+                url: '@Url.Content("~/Home/GetDashboardNoteManagementDetailList")',
                 type: 'POST',
                 data: { facilityName: f_name },
                 success: function (response) {
