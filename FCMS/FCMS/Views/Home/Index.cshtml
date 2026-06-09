@@ -164,7 +164,7 @@
                 var BoxName = "B8";
                 $("#hrfBoxId").val("B8");
                 $('#FacilityHeadingName').text('All Facility Contracts');
-                AllFacilityContractsDataTable();
+                AllFacilityContractsDataTable(BoxName);
             });
             
             //Facility Haspitals
@@ -299,6 +299,9 @@
                 data:{
                     BoxName: $("#hrfBoxId").val()
                 },
+                beforeSend: function () {
+                    $('#loadingBar').show();   // ✅ show loader
+                },
                 success:function(data){
                     const a = document.createElement('a');
                     a.style.display = 'none';
@@ -310,6 +313,9 @@
                 },
                 error: function (result) {
                     console.log(result);
+                },
+                complete: function () {
+                    $('#loadingBar').hide();   // ✅ always hide loader
                 }
             });
         }
@@ -513,25 +519,7 @@
                         },
                     });
 
-                $(dtTblApprovalList.table().container()).removeClass('form-inline');
-
-                // $('#tblFacilityList tbody tr').live('click', function (evt) {
-                //     var data = dtTblApprovalList.row(this).data();
-                //     if (data["facilityType"] == 'Hospitals') {
-                //         var baseUrl = '@Url.Content("~/Hospitals/Hospitals/?id=")';
-                //     }
-                //     else if (data["facilityType"] == 'Hospices') {
-                //         var baseUrl = '@Url.Content("~/Hospices/Hospices/?id=")';
-                //     }
-                //     else if (data["facilityType"] == 'NursingHomes') {
-                //         var baseUrl = '@Url.Content("~/NursingHomes/NursingHomes/?id=")';
-                //     }
-                //     else if (data["facilityType"] == 'CorrectionalFacilities') {
-                //         var baseUrl = '@Url.Content("~/CorrectionalFacilities/CorrectionalFacilities/?id=")';
-                //     }
-                //     var url = baseUrl + data["originalID"];
-                //     window.location.href = url;
-                // });
+                $(dtTblApprovalList.table().container()).removeClass('form-inline');               
             }
         }
 
@@ -560,6 +548,9 @@
                            data: function (d) {
                                d.BoxName = $("#hrfBoxId").val();
                            },
+                           beforeSend: function () {
+                                $('#loadingBar').show();   // ✅ show loader
+                            },
                            error: function (result) {
                                console.log(result);
                             },
@@ -599,9 +590,12 @@
              $('#divBoxesFacilityList').addClass('hide');
              $('#divBoxesGlobalReportList').removeClass('hide');
                 $.ajax({
-                    url: '/Home/GetDashboardListForClientAgingWithNotesB6',
+                    url: '@Url.Content("~/Home/GetDashboardListForClientAgingWithNotesB6")',                    
                     type: 'POST',
                     data: { BoxName: BoxName },
+                    beforeSend: function () {
+                        $('#loadingBar').show();   // ✅ show loader
+                    },
                     success: function (response) {
 
                         let data = response.data;
@@ -634,7 +628,10 @@
                             ordering: true,
                             responsive: true
                         });
-                    }
+                    },
+                    complete: function () {
+                            $('#loadingBar').hide();   // ✅ always hide loader
+                        }
                 });
             }
         function ClientFacilityGlobalReportDataTable(BoxName) {
@@ -645,6 +642,9 @@
                     url: '/Home/GetDashboardListForGlobalReportB7',
                     type: 'POST',
                     data: { BoxName: BoxName },
+                    beforeSend: function () {
+                        $('#loadingBar').show();   // ✅ show loader
+                    },
                     success: function (response) {
 
                         let data = response.data;
@@ -677,6 +677,9 @@
                             ordering: true,
                             responsive: true
                         });
+                    },
+                    complete: function () {
+                        $('#loadingBar').hide();   // ✅ always hide loader
                     }
                 });
             }
@@ -702,6 +705,9 @@
                            data: function (d) {
                                d.BoxName = $("#hrfBoxId").val();
                            },
+                           beforeSend: function () {
+                                $('#loadingBar').show();   // ✅ show loader
+                            },
                            success: function (response) {
 
                                 let data = response.data;
@@ -793,6 +799,9 @@
                     url: '@Url.Content("~/Home/GetDashboardListForClientAgingWithNotesB5")',
                     type: 'POST',
                     data: { BoxName: BoxName },
+                    beforeSend: function () {
+                        $('#loadingBar').show();   // ✅ show loader
+                    },
                     success: function (response) {
 
                         let data = response.data;
@@ -841,6 +850,9 @@
                     },
                     error: function (xhr, status, error) {
                         console.log("Error:", error);
+                    },
+                    complete: function () {
+                        $('#loadingBar').hide();   // ✅ always hide loader
                     }
                 });
             }
@@ -871,6 +883,9 @@
                     url: '@Url.Content("~/Home/GetDashboardListForClientAgingWithNotesB13")',
                     type: 'POST',
                     data: { BoxName: BoxName },
+                    beforeSend: function () {
+                        $('#loadingBar').show();   // ✅ show loader
+                    },
                     success: function (response) {
 
                         let data = response.data;
@@ -919,6 +934,9 @@
                     },
                     error: function (xhr, status, error) {
                         console.log("Error:", error);
+                    },
+                    complete: function () {
+                        $('#loadingBar').hide();   // ✅ always hide loader
                     }
                 });
             }

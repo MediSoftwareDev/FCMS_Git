@@ -318,10 +318,10 @@ namespace WiseX.ViewModels.Home
     public class NonEmergencyFacilityBalanceLoad
     {
         [Key]
-        public long? ID { get; set; }
+        public int? ID { get; set; }
         public string FacilityName { get; set; }
-        public int NoofAccounts { get; set; }
-        public decimal  Balance { get; set; }
+        public int? NoofAccounts { get; set; }
+        public decimal?  Balance { get; set; }
         
     }
    public class NotesManagementFormDetails
