@@ -208,9 +208,6 @@ namespace WiseX.Services
                 {
                     cmd.CommandText = "[Dashboard].[NotesManagementFacilityDetailsList]";
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    //cmd.Parameters.Add(new SqlParameter("@Start", Start));
-                    // cmd.Parameters.Add(new SqlParameter("@Length", Length));
                     cmd.Parameters.Add(new SqlParameter("@facilityName", facilityName));
 
                     using (var reader = await cmd.ExecuteReaderAsync())

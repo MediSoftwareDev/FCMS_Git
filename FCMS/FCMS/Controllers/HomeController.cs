@@ -194,13 +194,8 @@ namespace WiseX.Controllers
             int totalRowsAfterFiltering = 0;// (homeViewModel.NonEmergencyFacilityBalanceLoad.Count > 0 ? homeViewModel.NonEmergencyFacilityBalanceLoad.First().TotalCount : 0);
 
             return Json(new { data = homeViewModel.NonEmergencyFacilityBalanceLoad, draw = HttpContext.Request.Form["draw"] , recordsTotal = totalrows, recordsFiltered = totalRowsAfterFiltering });
-
-               //homeViewModel.ChartBoxPropertiesLoad = await _homeService.GetBoxesList1(Start, Length, BoxName, UserID);
-               //     int totalrows = (homeViewModel.ChartBoxPropertiesLoad.Count > 0 ? homeViewModel.ChartBoxPropertiesLoad.First().TotalCount : 0);
-               //     int totalRowsAfterFiltering = (homeViewModel.ChartBoxPropertiesLoad.Count > 0 ? homeViewModel.ChartBoxPropertiesLoad.First().TotalCount : 0);
-
-                //     return Json(new { data = homeViewModel.ChartBoxPropertiesLoad, draw = HttpContext.Request.Form["draw"], recordsTotal = totalrows, recordsFiltered = totalRowsAfterFiltering });
-            }
+                         
+        }
 
         public async Task<ActionResult> GetFacilityDashboardList(string BoxName)
         {

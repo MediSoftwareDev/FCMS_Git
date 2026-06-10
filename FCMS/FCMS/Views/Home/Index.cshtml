@@ -300,7 +300,7 @@
                     BoxName: $("#hrfBoxId").val()
                 },
                 beforeSend: function () {
-                    $('#loadingBar').show();   // ✅ show loader
+                    showLoader();   // ✅ show loader
                 },
                 success:function(data){
                     const a = document.createElement('a');
@@ -315,7 +315,7 @@
                     console.log(result);
                 },
                 complete: function () {
-                    $('#loadingBar').hide();   // ✅ always hide loader
+                    hideLoader();   // ✅ always hide loader
                 }
             });
         }
@@ -480,8 +480,14 @@
                             data: function (d) {
                                 d.BoxName = $("#hrfBoxId").val();
                             },
+                            beforeSend: function () {
+                                showLoader();   // ✅ show loader
+                            },
                             error: function (result) {
                                 console.log(result);
+                            },
+                            complete: function () {
+                                hideLoader();   // ✅ always hide loader
                             }
                         },
                         columns: [
@@ -549,7 +555,7 @@
                                d.BoxName = $("#hrfBoxId").val();
                            },
                            beforeSend: function () {
-                                $('#loadingBar').show();   // ✅ show loader
+                                showLoader();   // ✅ show loader
                             },
                            error: function (result) {
                                console.log(result);
@@ -562,9 +568,19 @@
                             { data: "id", name: "id", "width": "10%" },
                             { data: "facilityName", name: "facilityName", "width": "30%" },
                             { data: "noofAccounts", name: "noofAccounts", "width": "30%" },
-                            { data: "balance", name: "balance", render: function (data) {
-                                return data ? "$ " + parseFloat(data).toFixed(2) : "0.00";
-                            },"width": "30%" }
+                            {
+                                data: "balance",
+                                name: "balance",
+                                render: function (data) {
+                                    return data
+                                        ? "$" + parseFloat(data).toLocaleString('en-US', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })
+                                        : "$0.00";
+                                },
+                                width: "30%"
+                            }
                         ],
                        autoWidth: false,
                        searching: true,
@@ -594,7 +610,7 @@
                     type: 'POST',
                     data: { BoxName: BoxName },
                     beforeSend: function () {
-                        $('#loadingBar').show();   // ✅ show loader
+                        showLoader();   // ✅ show loader
                     },
                     success: function (response) {
 
@@ -630,7 +646,7 @@
                         });
                     },
                     complete: function () {
-                            $('#loadingBar').hide();   // ✅ always hide loader
+                            hideLoader();   // ✅ always hide loader
                         }
                 });
             }
@@ -639,11 +655,11 @@
              $('#divBoxesFacilityList').addClass('hide');
              $('#divBoxesGlobalReportList').removeClass('hide');
                 $.ajax({
-                    url: '/Home/GetDashboardListForGlobalReportB7',
+                    url: '@Url.Content("~/Home/GetDashboardListForGlobalReportB7")',                     
                     type: 'POST',
                     data: { BoxName: BoxName },
                     beforeSend: function () {
-                        $('#loadingBar').show();   // ✅ show loader
+                        showLoader();   // ✅ show loader
                     },
                     success: function (response) {
 
@@ -679,7 +695,7 @@
                         });
                     },
                     complete: function () {
-                        $('#loadingBar').hide();   // ✅ always hide loader
+                        hideLoader();   // ✅ always hide loader
                     }
                 });
             }
@@ -706,7 +722,7 @@
                                d.BoxName = $("#hrfBoxId").val();
                            },
                            beforeSend: function () {
-                                $('#loadingBar').show();   // ✅ show loader
+                               showLoader();   // ✅ show loader
                             },
                            success: function (response) {
 
@@ -800,7 +816,7 @@
                     type: 'POST',
                     data: { BoxName: BoxName },
                     beforeSend: function () {
-                        $('#loadingBar').show();   // ✅ show loader
+                        showLoader();   // ✅ show loader
                     },
                     success: function (response) {
 
@@ -852,7 +868,7 @@
                         console.log("Error:", error);
                     },
                     complete: function () {
-                        $('#loadingBar').hide();   // ✅ always hide loader
+                        hideLoader();  // ✅ always hide loader
                     }
                 });
             }
@@ -884,7 +900,7 @@
                     type: 'POST',
                     data: { BoxName: BoxName },
                     beforeSend: function () {
-                        $('#loadingBar').show();   // ✅ show loader
+                       showLoader();   // ✅ show loader
                     },
                     success: function (response) {
 
@@ -936,7 +952,7 @@
                         console.log("Error:", error);
                     },
                     complete: function () {
-                        $('#loadingBar').hide();   // ✅ always hide loader
+                        hideLoader();   // ✅ always hide loader
                     }
                 });
             }

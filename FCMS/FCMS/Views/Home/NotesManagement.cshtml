@@ -30,8 +30,8 @@
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
-        <li><a href="javascript:;">Home</a></li>
-        <li><a href="javascript:;">Dashboard</a></li>
+        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li><a href="@Url.Action("Index", "Home")">Dashboard</a></li>
         <li class="active">Note Management</li>
     </ol>
     <!-- end breadcrumb -->
@@ -148,56 +148,6 @@
                 }
             });
         }
-        // function LoadNotesManagementDeailsList(f_name)
-        // {
-        //     if(f_name==undifined !! f_name ==empty)
-        //     {
-
-        //     }
-        //     else
-        //     {
-
-        //     }
-        //             $.ajax({
-        //             url: '/Home/GetDashboardNoteManagementDetailList', 
-        //             type: 'POST',
-        //             data: { facilityName: f_name },
-        //             success: function (response) {
-
-        //                 let data = response.data;
-
-        //                 if (!data || data.length === 0) {
-        //                     $('#tblNotesManagementDetailsList').html('<tr><td>No Data</td></tr>');
-        //                     return;
-        //                 }
-
-        //                 let columns = [];
-
-        //                 Object.keys(data[0]).forEach(function (key) {
-        //                     columns.push({
-        //                         title: key,
-        //                         data: key
-        //                     });
-        //                 });
-
-        //                 if ($.fn.DataTable.isDataTable('#tblNotesManagementDetailsList')) {
-        //                     $('#tblNotesManagementDetailsList').DataTable().destroy();
-        //                 }
-
-        //                 $('#tblNotesManagementDetailsList').empty(); // IMPORTANT FIX
-
-        //                 $('#tblNotesManagementDetailsList').DataTable({
-        //                     data: data,
-        //                     columns: columns,
-        //                     paging: true,
-        //                     searching: true,
-        //                     ordering: true,
-        //                     responsive: true
-        //                 });
-        //             }
-                   
-        //         });
-                
-        // }
+       
         </script>
     }
