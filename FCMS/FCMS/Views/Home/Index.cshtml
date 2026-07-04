@@ -76,6 +76,22 @@
         .Agreements a, .Agreements a:hover, .Agreements a:focus {
             color: #ffffff !important;
         }
+       #tblFacilityGlobalReportList {
+            width: 100% !important;
+            table-layout: fixed !important;
+        }
+
+        #tblFacilityGlobalReportList th,
+        #tblFacilityGlobalReportList td {
+            white-space: normal !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
+        }
+        #tblFacilityGlobalReportList td:nth-child(1),
+        #tblFacilityGlobalReportList td:nth-child(3) {
+            text-align: left !important;
+        }
     </style>
 }
 
@@ -525,7 +541,27 @@
                         },
                     });
 
-                $(dtTblApprovalList.table().container()).removeClass('form-inline');               
+                $(dtTblApprovalList.table().container()).removeClass('form-inline');  
+                
+                //$('#tblFacilityList tbody tr').live('click', function (evt) {
+                    //var data = dtTblApprovalList.row(this).data();
+                    $('#tblFacilityList tbody td:first-child').live('click', function () {
+                     var data = dtTblApprovalList.row($(this).closest('tr')).data();
+                    if (data["facilityType"] == 'Hospitals') {
+                        var baseUrl = '@Url.Content("~/Hospitals/Hospitals/?id=")';
+                    }
+                    else if (data["facilityType"] == 'Hospices') {
+                        var baseUrl = '@Url.Content("~/Hospices/Hospices/?id=")';
+                    }
+                    else if (data["facilityType"] == 'NursingHomes') {
+                        var baseUrl = '@Url.Content("~/NursingHomes/NursingHomes/?id=")';
+                    }
+                    else if (data["facilityType"] == 'CorrectionalFacilities') {
+                        var baseUrl = '@Url.Content("~/CorrectionalFacilities/CorrectionalFacilities/?id=")';
+                    }
+                    var url = baseUrl + data["originalID"];
+                    window.location.href = url;
+                });
             }
         }
 
@@ -684,21 +720,29 @@
                         }
 
                         $('#tblFacilityGlobalReportList').empty(); // IMPORTANT FIX
-
                         $('#tblFacilityGlobalReportList').DataTable({
-                            data: data,
-                            columns: columns,
-                            paging: true,
-                            searching: true,
-                            ordering: true,
-                            responsive: true
-                        });
+                        data: data,
+                        columns: columns,
+                        scrollX: true,
+                        autoWidth: false,
+                        responsive: false,
+                        columnDefs: [
+                            { targets: [1, 5, 6, 9, 10, 13, 14, 17, 18, 21, 22, 25, 26], width: "85px" },
+                            { targets: [3, 4, 7, 8, 11, 12, 15, 16, 19, 20, 23, 24], width: "105px" },
+                            { targets: [0, 2], width: "195px"}
+                        ],
+                        scrollCollapse: true
+                    });
+                    setTimeout(function () {
+                        $('#tblFacilityGlobalReportList').DataTable().columns.adjust();
+                    }, 200);
                     },
                     complete: function () {
                         hideLoader();   // ✅ always hide loader
                     }
-                });
+                });            
             }
+            
            function AllFacilityContractsDataTable(BoxName) {
              $('#divBoxesList').addClass('hide');
             $('#divBoxesFacilityList').addClass('hide');
