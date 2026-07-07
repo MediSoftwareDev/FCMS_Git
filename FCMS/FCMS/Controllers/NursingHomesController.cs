@@ -145,6 +145,8 @@ namespace FCMS.Controllers
                             res.StateName = item.StateName;
                             res.IsAlert = item.IsAlert;
                             res.ContactsRefID = item.ContactsRefID;
+                            res.BillType = item.BillType;
+                            res.Instructions = item.Instructions;
 
 
                         }
@@ -375,30 +377,84 @@ namespace FCMS.Controllers
             return GetFileFromPath(fileName);
         }
 
-        public FileStreamResult GetFileFromPath(string fileName)
-        {
-            var fileStream = new FileStream(_configuration["AppSettings:ContractUploadPath"].ToString() + "NursingHomes\\" + HttpUtility.HtmlDecode(fileName), FileMode.Open, FileAccess.Read);
-            string Extn = Path.GetExtension(fileName.Trim());
+        //public FileStreamResult GetFileFromPath(string fileName)
+        //{
+        //    var fileStream = new FileStream(_configuration["AppSettings:ContractUploadPath"].ToString() + "NursingHomes\\" + HttpUtility.HtmlDecode(fileName), FileMode.Open, FileAccess.Read);
+        //    string Extn = Path.GetExtension(fileName.Trim());
 
-            switch (Extn)
+        //    switch (Extn)
+        //    {
+        //        case ".pdf":
+        //            Response.ContentType = "application/pdf";
+        //            break;
+        //        case ".doc":
+        //            Response.ContentType = "application/msword";
+        //            break;
+        //        case ".docx":
+        //            Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        //            break;
+        //        case ".xls":
+        //            Response.ContentType = "application/vnd.ms-excel";
+        //            break;
+        //        case ".xlsx":
+        //            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //            break;
+        //        case ".csv":
+        //            Response.ContentType = "application/text";
+        //            break;
+        //    }
+
+        //    var cd = new ContentDispositionHeaderValue("inline")
+        //    {
+        //        FileNameStar = Path.GetFileName(fileName)
+        //    };
+        //    Response.Headers.Add(HeaderNames.ContentDisposition, cd.ToString());
+
+        //    var fsResult = File(fileStream, Response.ContentType);
+        //    return fsResult;
+        //}
+        public IActionResult GetFileFromPath(string fileName)
+        {
+            string filePath = Path.Combine(
+                _configuration["AppSettings:ContractUploadPath"],
+                "NursingHomes",
+                HttpUtility.HtmlDecode(fileName));
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                string redirectUrl = Url.Action("NursingHomes", "NursingHomes");
+
+                return Content($@"
+                <script>
+                    alert('File not found.');
+                    window.location.href = '{redirectUrl}';
+                </script>",
+                            "text/html");
+            }
+
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+            string contentType = "application/octet-stream";
+
+            switch (Path.GetExtension(fileName).ToLower())
             {
                 case ".pdf":
-                    Response.ContentType = "application/pdf";
+                    contentType = "application/pdf";
                     break;
                 case ".doc":
-                    Response.ContentType = "application/msword";
+                    contentType = "application/msword";
                     break;
                 case ".docx":
-                    Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                    contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
                     break;
                 case ".xls":
-                    Response.ContentType = "application/vnd.ms-excel";
+                    contentType = "application/vnd.ms-excel";
                     break;
                 case ".xlsx":
-                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     break;
                 case ".csv":
-                    Response.ContentType = "application/text";
+                    contentType = "text/csv";
                     break;
             }
 
@@ -406,12 +462,11 @@ namespace FCMS.Controllers
             {
                 FileNameStar = Path.GetFileName(fileName)
             };
+
             Response.Headers.Add(HeaderNames.ContentDisposition, cd.ToString());
 
-            var fsResult = File(fileStream, Response.ContentType);
-            return fsResult;
+            return File(fileStream, contentType);
         }
-
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> EditNursingHomes(int Id)
@@ -472,6 +527,8 @@ namespace FCMS.Controllers
                             res.StateName = item.StateName;
                             res.IsAlert = item.IsAlert;
                             res.ContactsRefID = item.ContactsRefID;
+                            res.BillType = item.BillType;
+                            res.Instructions = item.Instructions;
 
                             model.NursingHomesContactsList = await _adminService.GetNursingHomesContactsList(item.ContactsRefID, 0);
                         }
@@ -536,7 +593,9 @@ namespace FCMS.Controllers
                 W9 = x.W9 == true ? "Yes" : "No",
                 Vendor_Letter = x.VendorLetter == true ? "Yes" : "No",
                 Invoice_Template = x.InvoiceTemplate == true ? "Yes" : "No",
-                Notes = x.Notes
+                Notes = x.Notes,
+                BillType = x.BillType,
+                Instructions = x.Instructions
             }).ToList();
             string sFileName = @"NursingHomes.xlsx";
             string sWebRootFolder = _hostingEnvironment.WebRootPath;

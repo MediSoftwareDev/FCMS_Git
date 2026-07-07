@@ -152,6 +152,16 @@ namespace WiseX.Controllers
 
             return Json(new { data = list });
         }
+        public async Task<JsonResult> GetDashboardListForAllFacilityReportB14(string BoxName)
+        {
+            int Start = Convert.ToInt32(HttpContext.Request.Form["start"]);
+            int Length = Convert.ToInt32(HttpContext.Request.Form["length"]);
+            string UserID = HttpContext.Session.GetString("UserID");
+
+            var list = await _homeService.GetDashboardListCommonDetails(Start, Length, BoxName, UserID);
+
+            return Json(new { data = list });
+        }
 
         public async Task<JsonResult> GetDashboardListForClientAgingWithNotesB6(string BoxName)
         {

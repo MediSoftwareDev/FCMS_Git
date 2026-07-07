@@ -131,6 +131,8 @@ namespace FCMS.ViewModels.Hospitals
         public string LastUpdatedBy { get; set; }
         public DateTime LastUpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 
     public class ClientSpecificList
@@ -202,8 +204,8 @@ namespace FCMS.ViewModels.Hospitals
         public string FaxNumber { get; set; }
         public string EmailID { get; set; }
         public string ContactName { get; set; }
+        public int RefID { get; set; }
         public string BillType { get; set; }
         public string Instructions { get; set; }
-        public int RefID { get; set; }
     }
 }

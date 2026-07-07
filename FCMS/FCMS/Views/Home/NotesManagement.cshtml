@@ -139,10 +139,19 @@
                     $('#tblNotesManagementDetailsList').DataTable({
                         data: data,
                         columns: columns,
-                        paging: true,
-                        searching: true,
-                        ordering: true,
-                        responsive: true
+                            scrollX: true,
+                            autoWidth: false,
+                            responsive: false,
+                             columnDefs: [
+                                            { targets: 0, width: "200px" },
+                                            { targets: 1, width: "200px", className: "dt-left" },
+                                            { targets: 2, width: "60px" },
+                                            { targets: 3, width: "60px" },
+                                            { targets: [4, 5], width: "60px" },
+                                            { targets: [6, 7, 8, 9, 10,11, 12 ], width: "60px" }
+                                            //{targets: 1, createdCell: function(td) { $(td).addClass('clickable');    }}
+                                        ],
+                                        scrollCollapse: true,
                     });
                     hideLoader();
                 }

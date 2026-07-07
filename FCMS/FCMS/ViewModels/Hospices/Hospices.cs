@@ -120,6 +120,8 @@ namespace FCMS.ViewModels.Hospices
         public string LastUpdatedBy { get; set; }
         public DateTime LastUpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 
     //public class ClientSpecificList
@@ -164,7 +166,8 @@ namespace FCMS.ViewModels.Hospices
         public double ALS1 { get; set; }
         public double ALS2 { get; set; }
         public double BLS { get; set; }
-        public double Mileage { get; set; }
+        public double Mileage { get; set; }        
+        
     }
     public class HospicesContacts : EntityBase
     {

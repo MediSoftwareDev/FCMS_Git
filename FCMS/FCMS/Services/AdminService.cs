@@ -1168,6 +1168,56 @@ namespace WiseX.Services
         }
 
         #endregion 
+        public async Task<List<ESOCompanyDetailsList>> GetESOCompanyList(string Prefix)
+        {
+            var Param = new SqlParameter("@SearchTerm", Prefix);
+            return  await _applicationDbContext.ESOCompanyDetailsList.FromSql("EXEC GetSearchClient @SearchTerm", Param).ToListAsync();
+        }
+
+        public async Task<List<SearchClientLookup>> GetFCMSSearchClient(string Prefix)
+        {
+            List<SearchClientLookup> lst = new List<SearchClientLookup>();
+            try
+            {
+                var Param = new SqlParameter("@SearchTerm", Prefix);
+                lst = await _applicationDbContext.SearchClientLookup.FromSql("EXEC GetSearchClient @SearchTerm", Param).ToListAsync();
+            }
+            catch (Exception Ex) { }
+            return lst;
+        }
+        //GetSearchClientDetailsFromId
+        public async Task<List<SearchClientDetails>> GetSearchClientDetailsFromId(int clientId)
+        {
+
+            List<SearchClientDetails> chkList = new List<SearchClientDetails>();
+            var C_Id = new SqlParameter("@ClientId", clientId);
+            try
+            {
+                chkList = await _applicationDbContext.SearchClientDetails.FromSql("EXEC sp_SearchClientDetailsFromClientId @ClientId", C_Id).AsNoTracking()
+                .ToListAsync();
+            }
+            catch (Exception Ex)
+            {
+
+            }
+            return chkList;
+        }
+        //
+        public async Task<List<AccountExecutiveList>> GetAccountExecutiveFromCompId(int comp_id)
+        {
+            List<AccountExecutiveList> accExcList = new List<AccountExecutiveList>();
+            var paramId = new SqlParameter("@Id", comp_id);
+            var paramSearchTerm = new SqlParameter("@UserID", DBNull.Value);
+            try
+            {
+                accExcList = await _applicationDbContext.AccountExecutiveList.FromSql("EXEC GetAccExecDetailFromCompanyId @Id, @UserID", paramId, paramSearchTerm).ToListAsync();
+            }
+            catch(Exception Ex)
+            {
+
+            }
+            return accExcList;
+        }
     }
 }
 

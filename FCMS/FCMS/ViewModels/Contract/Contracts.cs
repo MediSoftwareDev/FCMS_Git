@@ -334,6 +334,7 @@ namespace FCMS.ViewModels.Contract
         public string ContractSignedDate { get; set; }
         public string ContractExpiryDate { get; set; }
         public string AccountExecutiveName { get; set; }
+        public string AgreementType { get; set; }
         public string Active { get; set; }
     }
 }

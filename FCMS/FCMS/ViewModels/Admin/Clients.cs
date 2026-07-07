@@ -27,6 +27,10 @@ namespace FCMS.ViewModels.Admin
         public List<EmployeePositionList> EmployeePositionList;
         public List<ClientsEmployeeList> ClientsEmployeeList;
         public List<BulkClientsDetails> BulkClientsDetailsList;
+        public List<FCMSSearchClient> SearchFCMSClient;// { get; set; } = new();
+        public List<SearchClientDetails> SearchClientDetailsList;
+        public SearchClientDetails SearchClientDetails;
+        public List<ESOCompanyDetailsList> ESOCompanyDetailsList;
 
         public string RoleAccess { get; set; }
 
@@ -36,7 +40,7 @@ namespace FCMS.ViewModels.Admin
 
         public ContractTitle ContractTitle;
         public List<ContractTitle> ContractTitleList;
-    }
+    }    
     public class ClientsDetails : EntityBase
     {
 
@@ -92,8 +96,9 @@ namespace FCMS.ViewModels.Admin
         public double Mileage { get; set; }
 
         public bool Contract { get; set; }
+        
     }
-    public class ClientsDetailsList
+    public class ClientsDetailsList 
     {
         [Key]
         public int ID { get; set; }
@@ -130,6 +135,7 @@ namespace FCMS.ViewModels.Admin
         //public string ContractTitle { get; set; }
         //public string ConActive { get; set; }
         //public int ContractID { get; set; }
+        //public SearchClientLookup SearchClient { get; set; }
     }
     public class DownloadClientsDetailsList
     {
@@ -368,5 +374,39 @@ namespace FCMS.ViewModels.Admin
         public double BLSNE { get; set; }
         public double Mileage { get; set; }
         public int AgreementTypeId { get; set; }
+    }
+    public class ESOCompanyDetailsList
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Value { get; set; }
+    }
+    public class SearchClientLookup
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public string Value { get; set; }
+    }
+    public class FCMSSearchClient
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Value { get; set; }
+
+        public List<SearchClientDetails> SearchClientDetailsList { get; set; }
+        public ClientsDetails ClientsDetails { get; set; }
+    }
+    public class SearchClientDetails
+    {
+        [Key]
+        public string CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public string AccountExecutiveID { get; set; }
+        public string AccountExecutive { get; set; }
+        public string Address { get; set; }
+        public int CityId { get; set; }
+        public int StateID { get; set; }
+        public string ZipCode { get; set; }
     }
 }

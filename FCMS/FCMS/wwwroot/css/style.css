@@ -7576,7 +7576,7 @@ body .bootstrap-datetimepicker-widget table td {
 .fa .fa-eye, .fa .fa-eye:hover {
     text-decoration: none !important;
 }
-#tblClients, #tblClients, #tblFacilityList, #tblUserList, #tblApprovalContractList tr {
+#tblClients, #tblClients, #tblFacilityList, #tblUserList, #tblApprovalContractList, #tblFacilityGlobalReportList tr {
     cursor: pointer;
 }
 .validationErrorRow td {

@@ -54,11 +54,25 @@
             margin-left: 30%;
             margin-bottom: 15px;
         }
+        .ui-autocomplete {
+        overflow: auto;
+        height: 300px;
+    }
+    /* .equal-width-table th,
+    .equal-width-table td {
+        white-space: normal;
+        word-break: break-word;
+        vertical-align: middle;
+    } */
     </style>
 }
 <input type="hidden" id="hrfRoleAccess" value='@RolePermission' />
 
 <input type="hidden" id="hrfClients" value='@Url.Content("~/Admin/Clients/")' />
+<input type="hidden" id="hrfSearchClient" value='@Url.Content("~/Admin/GetFCMSSearchClient/")' />
+<input type="hidden" id="hrfClientId" value="" />
+<input type="hidden" id="hrfRefID" value='' />
+<input type="hidden" id="hrfAccExeID" value='' />
 <input type="hidden" id="hrfRefID" value='' />
 <input type="hidden" id="hfReviewYear" />
 <div id="content" class="content">
@@ -134,7 +148,7 @@
         //$('#Active').attr('disabled', 'disabled');
         //$('#InActive').attr('disabled', 'disabled');
         Contract();
-
+        //ClientSearch();
         $(".nav-link").click(function () {
             var tabid = this.id;
             if (tabid == "tClients") {
@@ -603,7 +617,9 @@
 
         var validationresult = $('#Clientsfrm').parsley().validate();
         if (validationresult) {
-            var GetCompanyId = $('#@Html.IdFor(m => m.ClientsDetails.CompanyId)').val();
+            //var GetCompanyId = $('#@Html.IdFor(m => m.ClientsDetails.CompanyId)').val();
+            var GetCompanyId = $('#ClientSearch').val();
+            //var GetCompanyId = $('#@Html.IdFor(m => m.ClientsDetails.CompanyId)').val();
             var GetCompanyName = $('#@Html.IdFor(m => m.ClientsDetails.CompanyName)').val();
             //var GetContractSignedDate = $('#@Html.IdFor(m => m.ClientsDetails.ContractSignedDate)').val();
             //var GetContractEffDate = $('#@Html.IdFor(m => m.ClientsDetails.ContractEffDate)').val();
@@ -706,13 +722,19 @@
                        $('#alertsuccess').hide();
                        $('#alertsuccess').removeClass('show');
                    }, 2000);
-                   //$('#Active').removeAttr('disabled');
-                   //$('#InActive').removeAttr('disabled');
+                   $('#Active').removeAttr('disabled');
+                   $('#InActive').removeAttr('disabled');
                    $('#expandcollapse').find('i').removeClass('fa-minus').addClass('fa-plus');
                    $('#Clientsfrm').parsley().destroy();
                    ClearForm();
                    LoadClientsList();
                    location.href = $('#hrfClients').val();
+                //     swal.fire({
+                //     icon: 'success',
+                //     title: 'Success!',
+                //     text: 'Client name has been saved successfully.',
+                //     confirmButtonText: 'OK'
+                // });
                 }
                 else {
                       //  AfterContractSubmit();
@@ -768,6 +790,10 @@
         AjaxRequestJsonPostContent(url, jsonData, function (resp, status, req) {
             $('#divClientsform').html(resp);
             $('#hrfRefID').val($('#@Html.IdFor(m => m.ClientsDetails.ContractRefID)').val());
+            
+            $('#ClientSearch')
+            .val($('#ClientsDetails_CompanyId').val())
+            .trigger('change');
 
             var GetContract = ($('.Contract:checked').val());
             if (GetContract === 'true') {
@@ -829,6 +855,7 @@
             ExpiredContractCalc();
             FeesChangeCalc();
             Contract();
+             //ClientSearch();
         });
     }
 
@@ -1068,10 +1095,14 @@
                 }],
                 "columns": [
                     { "width": "5%" },
-                    { "width": "40%" },
+                    { "width": "20%" },
                     { "width": "10%" },
-                    { "width": "25%" },
+                    { "width": "20%" },
+                    { "width": "15%" },
+                    { "width": "5%" },
+                    { "width": "5%" },
                     { "width": "10%" },
+                    { "width": "5%" },
                     { "width": "10%" }
                 ],
                 "columnDefs": [
@@ -1317,6 +1348,165 @@ function ConfirmDelete(RID) {
 
 
     </script>
+  
+     <script type="text/javascript">
 
+        //  $('#ClientSearch').change(function () {
+        //     //ClientSearch();
+        //     LoadSearchClientDetails();
+        // });
+   function runScript(e) {
+       //See notes about 'which' and 'key'
+       if (e.keyCode == 13) {
+           if ($('#hrfClientId').val() != '') {
+               LoadSearchClientDetails();
+           }
+           return false;
+       }
+   }
+   function ClientSearch() {
+       var eleClientSearch = $('#ClientSearch').autocomplete({
+           scroll: true,
+           minLength: 0,
+           source: function (request, response) {
+               $.ajax({
+                   type: "POST",
+                   dataType: "json",
+                   url: $('#hrfSearchClient').val(),
+                   data: { Prefix: request.term },
+                   success: function (data) {
+                       response($.map(data, function (item) {
+                           return { label: item.value, value: item.value, CompanyId: item.id };
+                       }));
+                   },
+                   error: function (req, status, error) {
+                   }
+               });
+           },
+           select: function (event, ui) {
+               //hides();
+               $('#hrfClientId').val(ui.item.CompanyId);
+               LoadSearchClientDetails();
+
+              // $('#ddlCheckListFor').val('');
+              // $('#hdnCheckListFor').val('');
+              //console.log($('#hrfClientId').val());
+               return ui.item.value;
+           },
+       }).focus(function () {
+           $(this).autocomplete("search", "");
+       });
+   }
+
+   $('#btnSearch').on('click', function () {
+       LoadSearchClientDetails();
+   });
+
+
+   $('#ClientSearch').change(function () {
+
+    var companyId = $(this).val();
+
+    if (companyId == "") {
+        return;
+    }
+    var url ="@Url.Action("GetSearchClientDetails", "Admin")";
+    var formData = new FormData();
+       formData.append('Id', companyId);
+    
+       $.ajax({
+           url: url,
+           type: "POST",
+           contentType: false,
+           processData: false,
+           data: formData,
+           success: function (result) {
+               if (result && result.data && result.data.length > 0) {
+               $("#hrfClientId").val(result.data[0].companyId);               
+               $("#ClientsDetails_CompanyId").val(result.data[0].companyName);
+               $("#ClientsDetails_CompanyName").val(result.data[0].companyName);
+               $("#hrfAccExeID").val(result.data[0].accountExecutiveID);
+               //$('#@Html.IdFor(m => m.ClientsDetails.AccountExecutiveID)').val();
+               $("#ClientsDetails_AccountExecutiveID").val(result.data[0].accountExecutiveID);                
+               $("#ClientsDetails_LocationStreetAddress").val(result.data[0].address); 
+               $("#ClientsDetails_CityId").val(result.data[0].cityId);
+               $("#ClientsDetails_StateId").val(result.data[0].stateID);
+               $("#ClientsDetails_ZipCode").val(result.data[0].zipCode);               
+               //GetAccountExecutiveBasedOnCompanyID();
+            }
+               
+           },
+           error: function (err) {
+           }
+       });
+    
+
+});
+
+   function LoadSearchClientDetails()
+  {
+       var client_id = $(this).val();
+
+        if (client_id == "") {
+            return;
+        }
+       //var client_id=$('#hrfClientId').val();
+       console.log(client_id);
+       var url ="@Url.Action("GetSearchClientDetails", "Admin")";
+       var formData = new FormData();
+       formData.append('Id', client_id);
+       $.ajax({
+           url: url,
+           type: "POST",
+           contentType: false,
+           processData: false,
+           data: formData,
+           success: function (result) {
+               if (result && result.data && result.data.length > 0) {
+               $("#hrfClientId").val(result.data[0].companyId);               
+               $("#ClientsDetails_CompanyId").val(result.data[0].companyName);
+               $("#ClientsDetails_CompanyName").val(result.data[0].companyName);
+               // $("#hrfAccExeID").val(result.data[0].accountExecutiveID);
+               $("#ClientsDetails_AccountExecutiveID").val(result.data[0].accountExecutiveID);                
+               $("#ClientsDetails_LocationStreetAddress").val(result.data[0].address); 
+               $("#ClientsDetails_CityId").val(result.data[0].cityId);
+               $("#ClientsDetails_StateId").val(result.data[0].stateID);
+               $("#ClientsDetails_ZipCode").val(result.data[0].zipCode);
+               $("#ClientsDetails_AccountExecutiveID").val('');
+               
+            }
+               
+           },
+           error: function (err) {
+           }
+       });
+
+  }
+   function GetAccountExecutiveBasedOnCompanyID()
+   {
+       var compId=$('#hrfClientId').val();
+       var url ="@Url.Action("GetAccountExecutiveDetails", "Admin")";
+       var formData = new FormData();
+       formData.append('Id', compId);
+       $.ajax({
+           url: url,
+           type: "POST",
+           contentType: false,
+           processData: false,
+           data: formData,
+           success: function (result) {
+               if (result && result.data && result.data.length > 0) { 
+                   // $("#ClientsDetails_AccountExecutiveID").val('');
+                   $("#hrfAccExeID").val(result.data[0].id);
+                   $("#ClientsDetails_AccountExecutiveID").val(result.data[0].id);      
+               }
+               
+           },
+           error: function (err) {
+           }
+       });
+
+   }
+   </script>
 
 }

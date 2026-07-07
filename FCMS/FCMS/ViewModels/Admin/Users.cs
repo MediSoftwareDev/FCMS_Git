@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 using WiseX.Helpers;
 using WiseX.Models;
 
@@ -30,13 +30,13 @@ namespace WiseX.ViewModels.Admin
         public List<UserListInfo> UserList; 
         public List<UserDetailsTemp> userDetailsTemp;
         public List<Roles> RolesList;
-        public List<Client> ClientList;
+        public List<Client> ClientList;        
         public bool activeResource = true;
         public Users()
         {
             UserDetails = new UserDetails();
         }   
-    } 
+    }    
     
     public class UserDetails: EntityBase
     {
@@ -128,6 +128,6 @@ namespace WiseX.ViewModels.Admin
         [Key]
         public int Id { get; set; }
         public string Value { get; set; }
-
-    }
+    
+}
 }

@@ -624,12 +624,17 @@
         function LoadHospiceList() {
             $('#tblHospices').DataTable({
                 searching: true,
-                'aoColumnDefs': [{
-                    'bSortable': false,
-                    'aTargets': [-1]
-                }],
+                // 'aoColumnDefs': [{
+                //     'bSortable': false,
+                //     'aTargets': [-1]
+                // }],
                 "columnDefs": [
-                    { "type": "num", "targets": 0 }
+                    { "width": "26%", "targets": 0 }, // Name
+                    { "width": "20%", "targets": 1 }, // Contact Name
+                    { "width": "10%", "targets": 2 }, // Email
+                    { "width": "15%", "targets": 3 }, // Invoice Preference
+                    { "width": "15%", "targets": 4 }, // Invoice Schedule
+                    { "width": "13%", "targets": 5 }  // Action
                 ],
                 "order": [0, 'asc'],
                 dom: 'l<"toolbar">frtip',

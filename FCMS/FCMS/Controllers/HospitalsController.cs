@@ -145,8 +145,11 @@ namespace FCMS.Controllers
                             res.StateName = item.StateName;
                             res.IsAlert = item.IsAlert;
                             res.ContactsRefID = item.ContactsRefID;
+                            res.BillType = item.BillType;
+                            res.Instructions = item.Instructions;
 
-                            
+
+
                         }
                     }
                     model.HospitalContractDetailsList = await _commonService.GetHospitalContractDetailsList(Id);
@@ -472,6 +475,8 @@ namespace FCMS.Controllers
                             res.StateName = item.StateName;
                             res.IsAlert = item.IsAlert;
                             res.ContactsRefID = item.ContactsRefID;
+                            res.BillType = item.BillType;
+                            res.Instructions = item.Instructions;
 
                             model.HospitalsContactsList= await _adminService.GetHospitalsContactsList(item.ContactsRefID,0);
                         }
@@ -536,7 +541,10 @@ namespace FCMS.Controllers
                 W9 = x.W9 == true ? "Yes" : "No",
                 Vendor_Letter = x.VendorLetter == true ? "Yes" : "No",
                 Invoice_Template = x.InvoiceTemplate == true ? "Yes" : "No",
-                Notes = x.Notes
+                Notes = x.Notes,
+                BillType = x.BillType,
+                Instructions =x.Instructions
+
             }).ToList();
             string sFileName = @"Hospitals.xlsx";
             string sWebRootFolder = _hostingEnvironment.WebRootPath;

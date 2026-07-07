@@ -33,11 +33,14 @@
                 <div class="col-lg-6">
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
                         <label class="control-label col-md-6 col-sm-6" for="CompanyID">Company ID<span style="color:red">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls" data-parsley-validate="true">
+                        <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls" onkeypress="return runScript(event);">
                             @Html.HiddenFor(m => m.ClientsDetails.ID)
-                            @Html.HiddenFor(m => m.ClientsDetails.ContractRefID)
-                            @Html.TextBoxFor(m => m.ClientsDetails.CompanyId, new { @class = "form-control", @placeholder = "Enter Company ID", data_parsley_required = "true", data_parsley_type = "digits", data_parsley_length = "[1,4]" })
-                            <span class="text-danger" id="spanCompanyId" hidden>CompanyId Already Exist! Enter a new ID</span>
+                            @Html.HiddenFor(m => m.ClientsDetails.ContractRefID)  
+                            @Html.HiddenFor(m => m.ClientsDetails.CompanyId)
+                                @*@Html.TextBox("ClientSearch", null, new { @class = "form-control", @placeholder = "Enter Client ID / Name ", data_parsley_required = "true" })*@
+                              @Html.DropDownListFor(m => m.ClientsDetails.CompanyId, new SelectList(Model.ESOCompanyDetailsList, "Id", "Value"), "Select Company Name", new { @class = "form-control", @id = "ClientSearch" }) 
+                           <span class="text-danger" id="spanCompanyId" hidden>CompanyId Already Exist! Enter a new ID</span>
+                            
                         </div>
                     </div>
                 </div>
@@ -93,7 +96,8 @@
                     <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0">
                         <label class="control-label col-md-6 col-sm-6" for="AE">Account Executive<span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-lg-6 p-0 controls" data-parsley-validate="true">
-                            @Html.DropDownListFor(m => m.ClientsDetails.AccountExecutiveID, new SelectList(Model.AccountExecutiveList, "Id", "Value"), "Select Account Executive", new { @class = "form-control AccountExecutiveList", data_parsley_required = "true" })
+                            @Html.DropDownListFor(m => m.ClientsDetails.AccountExecutiveID, new SelectList(Model.AccountExecutiveList, "Id", "Value"), "Select Account Executive", new { @class = "form-control AccountExecutiveList", data_parsley_required = "true", disabled = "disabled" }) 
+                            @* @Html.TextBoxFor(m => m.ClientsDetails.AccountExecutiveID, new { @class = "form-control", @placeholder = "Enter AccountExecutive Name", data_parsley_required = "true" })*@
                         </div>
                     </div>
                 </div>

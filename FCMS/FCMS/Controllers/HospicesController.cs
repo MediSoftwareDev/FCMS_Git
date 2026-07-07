@@ -23,6 +23,7 @@ using System.Text;
 using System.Web;
 using Microsoft.Net.Http.Headers;
 using OfficeOpenXml;
+using AlanJuden.MvcReportViewer;
 
 namespace FCMS.Controllers
 {
@@ -145,6 +146,8 @@ namespace FCMS.Controllers
                             res.StateName = item.StateName;
                             res.IsAlert = item.IsAlert;
                             res.ContactsRefID = item.ContactsRefID;
+                            res.BillType = item.BillType;
+                            res.Instructions = item.Instructions;
 
 
                         }
@@ -472,6 +475,8 @@ namespace FCMS.Controllers
                             res.StateName = item.StateName;
                             res.IsAlert = item.IsAlert;
                             res.ContactsRefID = item.ContactsRefID;
+                            res.BillType = item.BillType;
+                            res.Instructions = item.Instructions;
 
                             model.HospicesContactsList = await _adminService.GetHospicesContactsList(item.ContactsRefID, 0);
                         }
@@ -536,7 +541,9 @@ namespace FCMS.Controllers
                 W9 = x.W9 == true ? "Yes" : "No",
                 Vendor_Letter = x.VendorLetter == true ? "Yes" : "No",
                 Invoice_Template = x.InvoiceTemplate == true ? "Yes" : "No",
-                Notes = x.Notes
+                Notes = x.Notes,
+                BillType = x.BillType,
+                Instructions = x.Instructions
             }).ToList();
             string sFileName = @"Hospices.xlsx";
             string sWebRootFolder = _hostingEnvironment.WebRootPath;

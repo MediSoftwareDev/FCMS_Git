@@ -120,6 +120,8 @@ namespace FCMS.ViewModels.NursingHomes
         public string LastUpdatedBy { get; set; }
         public DateTime LastUpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public string BillType { get; set; }
+        public string Instructions { get; set; }
     }
 
     //public class ClientSpecificList

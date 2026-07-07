@@ -22,12 +22,14 @@
             <thead>
                 <tr>
                     <th>Company ID</th>
-                    <th>Company Name</th>
-                    <th>Residency Code</th>
+                    <th>Company Name</th>                   
                     <th>Account Executive</th>
+                    <th>Address</th>
+                    <th>City</th>
                     <th>State</th>
-                    @*<th>Contract Status</th>*@
-                    @*<th>Active</th>*@
+                    <th>Zip</th>
+                    <th>Contract Status</th>
+                    <th>Active</th>
                     <th class="@isAdmin">Action</th>
                 </tr>
             </thead>
@@ -41,18 +43,20 @@
                         <tr id="@item.ID">
 
                             <td id="txtCompanyId" class="tr1">@item.CompanyId</td>
-                            <td id="txtName" class="tr1">@Html.Raw(item.CompanyName)</td>
-                            <td id="txtResidencyCode" class="tr1">@item.ResidencyCode</td>
+                            <td id="txtName" class="tr1">@Html.Raw(item.CompanyName)</td>                            
                             <td id="txtAccountExecutiveName" class="tr1">@item.AccountExecutiveName</td>
+                            <td id="txtAddress" class="tr1">@item.LocationStreetAddress</td>
+                            <td id="txtCity" class="tr1">@item.City</td>
                             <td id="txtState" class="tr1">@item.State</td>
-                            @*<td id="txtContractStatus" class="tr1">
+                            <td id="txtZip" class="tr1">@item.ZipCode</td>
+                            <td id="txtContractStatus" class="tr1">
                                         @if (item.ContractRefID != 0)
                                         {<span>Yes</span>}
                                         else
                                         {<span>No</span>}
-                                </td>*@
+                                </td>
 
-                            @*<td id="txtStatus" class="tr1">@if (item.Active){<span>Yes</span>}else{<span>No</span>}</td>*@
+                            <td id="txtStatus" class="tr1">@if (item.Active){<span>Yes</span>}else{<span>No</span>}</td>
 
                             <td class="tr1 clsAction @isAdmin">
                                 <button id="btnedit" onclick="EditClients('@item.ID')" title="Edit" class="fa fa-lg fa-edit @isAdmin text-inverse form-control1" style="border:none; background-color:transparent"></button>

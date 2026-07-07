@@ -42,6 +42,7 @@
 </div>
 @section Scripts
     {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src='@Url.Content("~/js/DataTables.js")'></script>
     <script src='@Url.Content("~/plugins/parsley/dist/parsley.js")'></script>
     <script src='@Url.Content("~/js/CommonEvents.js")'></script>
@@ -72,16 +73,19 @@
                 $('#divContractList').html(resp);
                 $('.collapse').hide();
                 $('#btnSubmit').val('Submit');
-                $('#alertsuccess').show();
-                $('#@Html.IdFor(m => m.FacilityContractNameDet.Id)').val('');
-                setTimeout(function () {
-                    $('#alertsuccess').hide();
-                    $('#alertsuccess').removeClass('show');
-                }, 2000);
+                
                 $('#expandcollapse').find('i').removeClass('fa-minus').addClass('fa-plus');
                 $('#Contractform').parsley().destroy();
                 ClearForm();
                 LoadContractList();
+                // SweetAlert Success Message
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Facility Contract Name has been saved successfully.',
+                    confirmButtonText: 'OK'
+                });
             });
         }
     }

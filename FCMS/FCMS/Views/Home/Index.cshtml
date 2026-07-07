@@ -86,7 +86,7 @@
             white-space: normal !important;
             word-break: break-word;
             overflow-wrap: break-word;
-            text-align: center;
+            text-align: left;
         }
         #tblFacilityGlobalReportList td:nth-child(1),
         #tblFacilityGlobalReportList td:nth-child(3) {
@@ -179,7 +179,14 @@
                 var name = $(this).find('h4').text;
                 var BoxName = "B8";
                 $("#hrfBoxId").val("B8");
-                $('#FacilityHeadingName').text('All Facility Contracts');
+                $('#FacilityHeadingName').text('All Facility Expaired Contracts');
+                AllFacilityContractsDataTable(BoxName);
+            });
+            $('#FacilityActiveContractsClick').on('click', function () {
+                var name = $(this).find('h4').text;
+                var BoxName = "B14";
+                $("#hrfBoxId").val("B14");
+                $('#FacilityHeadingName').text('All Facility Active Contracts');
                 AllFacilityContractsDataTable(BoxName);
             });
             
@@ -675,10 +682,19 @@
                         $('#tblFacilityGlobalReportList').DataTable({
                             data: data,
                             columns: columns,
-                            paging: true,
-                            searching: true,
-                            ordering: true,
-                            responsive: true
+                            scrollX: true,
+                            autoWidth: false,
+                            responsive: false,
+                            columnDefs: [
+                                            { targets: 0, width: "200px" },
+                                            { targets: 1, width: "50px", className: "dt-left" },
+                                            { targets: 2, width: "50px" },
+                                            { targets: 3, width: "50px" },
+                                            { targets: [4, 5], width: "50px" },
+                                            { targets: [6, 7, 8, 9, 10, 11], width: "50px" }
+                                            //{targets: 1, createdCell: function(td) { $(td).addClass('clickable');    }}
+                                        ],
+                        scrollCollapse: true
                         });
                     },
                     complete: function () {
@@ -755,11 +771,15 @@
                 //$('#tblUserList').DataTable().ajax.reload();
                 dtTblApprovalList = $('#tblUserList').DataTable().ajax.reload();
             } else {
-
+                var urlLink ='';
+                var urlLink = (BoxName === "B8")
+                    ? '@Url.Content("~/Home/GetDashboardListForAllFacilityReportB8")'
+                    : '@Url.Content("~/Home/GetDashboardListForAllFacilityReportB14")';
+                   
                 dtTblApprovalList = $('#tblUserList').DataTable(
                    {
                        ajax: {
-                           url: '@Url.Content("~/Home/GetDashboardListForAllFacilityReportB8")',
+                           url: urlLink, //'@Url.Content("~/Home/GetDashboardListForAllFacilityReportB8")',
                            type: "POST",
                            datatype: "json",
                            data: function (d) {
@@ -779,12 +799,25 @@
 
                                 let columns = [];
 
-                                Object.keys(data[0]).forEach(function (key) {
-                                    columns.push({
-                                        title: key,
-                                        data: key
-                                    });
+                        Object.keys(data[0]).forEach(function (key, index) {
+
+                            // Make the first column a hyperlink
+                            if (index === 1) {
+                                columns.push({
+                                    title: key,
+                                    data: key,
+                                    render: function (data, type, row) {
+                                        return '<a href="#" class="second-column-link" data-value="' + data + '">' + data + '</a>';
+                                    }
                                 });
+                            } else {
+                                columns.push({
+                                    title: key,
+                                    data: key
+                                });
+                            }
+
+                        });
 
                                 if ($.fn.DataTable.isDataTable('#tblFacilityGlobalReportList')) {
                                     $('#tblFacilityGlobalReportList').DataTable().destroy();
@@ -793,46 +826,24 @@
                                 $('#tblFacilityGlobalReportList').empty(); // IMPORTANT FIX
 
                                 $('#tblFacilityGlobalReportList').DataTable({
-                                    data: data,
-                                    columns: columns,
-                                    paging: true,
-                                    searching: true,
-                                    ordering: true,
-                                    responsive: true,
-
-                                    createdRow: function (row, rowData, dataIndex) {
-
-                                        // 4th column (index 3)
-                                        let dateValue = $('td:eq(4)', row).text().trim();
-
-                                        if (dateValue !== '') {
-
-                                            // If your date format is MM/dd/yyyy
-                                            let parts = dateValue.split('/');
-
-                                            if (parts.length === 4) {
-
-                                                let cellDate = new Date(parts[2], parts[0] - 1, parts[1]);
-
-                                                let currentDate = new Date();
-
-                                                let diffDays = Math.floor(
-                                                    (currentDate - cellDate) / (1000 * 60 * 60 * 24)
-                                                );
-
-                                                // Greater than 90 days
-                                                if (diffDays > 90) {
-
-                                                    $('td:eq(4)', row).css({
-                                                        'background-color': 'red',
-                                                        'color': 'white',
-                                                        'font-weight': 'bold'
-                                                    });
-                                                }
-                                            }
-                                        }
-                                    }
-                                });
+                                        data: data,
+                                        columns: columns,
+                                        scrollX: true,
+                                        autoWidth: false,
+                                        responsive: false,
+                                        scrollCollapse: true,
+                                        columnDefs: [
+                                            { targets: 0, width: "40px" },
+                                            { targets: 1, width: "250px", className: "dt-left" },
+                                            { targets: 2, width: "80px" },
+                                            { targets: 3, width: "280px" },
+                                            { targets: [4, 5], width: "100px" },
+                                            { targets: [6, 7, 8, 9, 10, 11], width: "50px" }
+                                            //{targets: 1, createdCell: function(td) { $(td).addClass('clickable');    }}
+                                        ],
+                               
+                                    
+                                 });
                             },
                            error: function (result) {
                                console.log(result);
@@ -840,9 +851,8 @@
                             complete: function () {
                                 hideLoader(); // ✅ correct place
                             }
-                        },                         
+                        },                        
                        
-                       autoWidth: false,
                        searching: true,
                        "order": [ 0, 'asc' ],
                        language: {
@@ -850,7 +860,26 @@
                        }
                    });
                 }
-              }                
+              }    
+              $(document).on('click', '.second-column-link', function (e) {
+                    e.preventDefault();
+
+                    //var value = $(this).data('value');
+                    var value = $(this).closest('tr').find('td:eq(0)').text().trim();
+
+                    // Call your function here
+                    OpenDetailsFacilityContract(value);
+
+                    // Or test:
+                    // alert(value);
+                });
+                function OpenDetailsFacilityContract(id) {
+                //console.log("Clicked value:", id);
+
+                // Your custom logic here Contract/Contracts
+              //   window.location.href = "/Home/NotesManagement?facilityName=" + id;
+                 window.location.href = '@Url.Content("~/Contract/Contracts")'+ '?id=' + id;
+                }
             function NotesManagementNonEmergencyFacilityDatatable(BoxName) {
             $('#divBoxesList').addClass('hide');
              $('#divBoxesFacilityList').addClass('hide');
@@ -902,10 +931,20 @@
                         $('#tblFacilityGlobalReportList').DataTable({
                             data: data,
                             columns: columns,
-                            paging: true,
-                            searching: true,
-                            ordering: true,
-                            responsive: true
+                            scrollX: true,
+                            autoWidth: false,
+                            responsive: false,
+                             columnDefs: [
+                                            { targets: 0, width: "200px" },
+                                            { targets: 1, width: "60px", className: "dt-left" },
+                                            { targets: 2, width: "60px" },
+                                            { targets: 3, width: "60px" },
+                                            { targets: [4, 5], width: "60px" },
+                                            { targets: [6, 7, 8, 9 ], width: "60px" }
+                                            //{targets: 1, createdCell: function(td) { $(td).addClass('clickable');    }}
+                                        ],
+                                        scrollCollapse: true,
+
                         });
                     },
                     error: function (xhr, status, error) {
@@ -986,10 +1025,20 @@
                         $('#tblFacilityGlobalReportList').DataTable({
                             data: data,
                             columns: columns,
-                            paging: true,
-                            searching: true,
-                            ordering: true,
-                            responsive: true
+                                        scrollX: true,
+                                        autoWidth: false,
+                                        responsive: false,
+                                        
+                            columnDefs: [
+                                            { targets: 0, width: "200px" },
+                                            { targets: 1, width: "60px", className: "dt-left" },
+                                            { targets: 2, width: "60px" },
+                                            { targets: 3, width: "60px" },
+                                            { targets: [4, 5], width: "60px" },
+                                            { targets: [6, 7, 8, 9 ], width: "60px" }
+                                            //{targets: 1, createdCell: function(td) { $(td).addClass('clickable');    }}
+                                        ],
+                                        scrollCollapse: true,
                         });
                     },
                     error: function (xhr, status, error) {

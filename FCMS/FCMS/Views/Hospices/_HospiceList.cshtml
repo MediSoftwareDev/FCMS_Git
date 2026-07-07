@@ -18,8 +18,8 @@
                 <tr>
                     @*<th class="tr1">Payor ID</th>*@
                     <th class="tr1">Name</th>
-                    @*<th class="tr1">Contact Name</th>
-                        <th class="tr1">Email Address</th>*@
+                    <th class="tr1">Contact Name</th>
+                     <th class="tr1">Email Address</th>
                     <th class="tr1">Invoice Preference</th>
                     <th class="tr1">Invoice Schedule</th>
                     <th class="tr1">Action</th>
@@ -27,7 +27,25 @@
             </thead>
             <tbody>
 
-                @{int i = 0; string oldName = "";
+                @foreach (var item in Model.HospiceList)
+                    {                        
+                            <tr>
+                                @*<td id="tdPayorID" class="tr1">@item.PayorID</td>*@
+                                <td id="tdName" class="tr1">@item.Name</td>
+                                <td id="tdContactName" class="tr1">@item.ContactName</td>
+                                <td id="tdEmail" class="tr1">@item.EmailID</td>
+                                <td id="tdInvoicePreference" class="tr1">@item.InvoiceP</td>
+                                <td id="tdInvoiceSchedule" class="tr1">@item.InvoiceSchedule</td>
+
+                                <td class="tr1 clsAction @isAdmin">
+
+                                    <button id="btnView" onclick="ViewHospices('@item.ID')" title="View" class="fa fa-lg fa-eye @isAdmin text-inverse form-control1" style="border:none; background-color:transparent"></button>
+                                    <button id="btnedit" onclick="EditHospices('@item.ID')" title="Edit" class="fa fa-lg fa-edit @isAdmin text-inverse form-control1" style="border:none; background-color:transparent"></button>
+                                    <button id="btnDelete" Onclick="ConfirmDelete('@item.ID')" title="Delete" class="fa fa-lg fa-trash-o @isAdmin  text-inverse form-control1 p-l-0 p-r-0" style="border:none; background-color:transparent"></button>
+                                </td>
+                            </tr>
+                    }
+                @* @{int i = 0; string oldName = "";
                     foreach (var item in Model.HospiceList)
                     {
                         if (oldName != item.Name)
@@ -35,10 +53,10 @@
                             oldName = item.Name;
                             i++;
                             <tr>
-                                @*<td id="tdPayorID" class="tr1">@item.PayorID</td>*@
+                               
                                 <td id="tdName" class="tr1">@item.Name</td>
-                                @*<td id="tdContactName" class="tr1">@item.ContactName</td>
-                                    <td id="tdEmail" class="tr1">@item.EmailID</td>*@
+                                <td id="tdContactName" class="tr1">@item.ContactName</td>
+                                  
                                 <td id="tdInvoicePreference" class="tr1">@item.InvoiceP</td>
                                 <td id="tdInvoiceSchedule" class="tr1">@item.InvoiceSchedule</td>
 
@@ -51,7 +69,7 @@
                             </tr>
                         }
                     }
-                }
+                } *@
             </tbody>
         </table>
     </div>

@@ -194,5 +194,9 @@ namespace WiseX.Data
         public virtual DbSet<FacilityContractNameList> FacilityContractNameList { get; set; }
 
         public virtual DbSet<NotesManagementFormDetails> NotesManagementFormDetails { get; set; }
+        //public virtual DbSet<FCMSSearchClient> FCMSSearchClient { get; set; }
+        public virtual DbSet<SearchClientDetails> SearchClientDetails { get; set; }
+        public virtual DbSet<SearchClientLookup> SearchClientLookup { get; set; }
+        public virtual DbSet<ESOCompanyDetailsList> ESOCompanyDetailsList { get; set; }
     }
 }

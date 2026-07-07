@@ -631,12 +631,14 @@ namespace WiseX.Controllers
                 await _menuUtils.SetMenu(HttpContext.Session);
                 clients.ClientsDetailsList = await _adminService.GetClients(0, 0);
                 //clients.EmployeePositionList = await _adminService.GetEmployeePositionList();
+                clients.ESOCompanyDetailsList = await _adminService.GetESOCompanyList("");
                 clients.AccountExecutiveList = await _adminService.GetAccountExecutiveList();
                 clients.ResidencyCodeList = await _adminService.GetResidencyCodeList();
                 ////clients.StatesList = new List<StatesList>();
-                ////clients.CitiesList = await _adminService.GetCitiesList();
-                clients.CitiesList = new List<CitiesList>();
+                //clients.CitiesList = await _adminService.GetCitiesList();
+                //clients.CitiesList = new List<CitiesList>();
                 clients.StatesList = await _adminService.GetStatesList();
+                clients.CitiesList = await _adminService.GetCitiesList();
                 //clients.ClientsEmployeeList = new List<ClientsEmployeeList>();
                 clients.ContractAgreementTypeList = await _commonService.GetContractAgreementType();
                 clients.ClientsDetails = new ClientsDetails();
@@ -948,17 +950,20 @@ namespace WiseX.Controllers
         public async Task<IActionResult> EditClients([FromBody] int AgreementID)
         {
             Clients model = new Clients();
+            //FCMSSearchClient fcms = new FCMSSearchClient();
             try
             {
                 model.ClientsDetailsList = await _adminService.GetClients(AgreementID, 0);
+                //model.ESOCompanyDetailsList = await _adminService.GetESOCompanyList(AgreementID.ToString());
                 model.EmployeePositionList = await _adminService.GetEmployeePositionList();
                 model.ContractAgreementTypeList = await _commonService.GetContractAgreementType();
                 model.AccountExecutiveList = await _adminService.GetAccountExecutiveList();
                 model.ResidencyCodeList = await _adminService.GetResidencyCodeList();
                 //model.StatesList = new List<StatesList>();
-                //model.CitiesList = await _adminService.GetCitiesList();
-                model.CitiesList = new List<CitiesList>();
+                
+                //model.CitiesList = new List<CitiesList>();
                 model.StatesList = await _adminService.GetStatesList();
+                model.CitiesList = await _adminService.GetCitiesList();
 
                 model.ReferenceId = 0;
                 model.RoleAccess = HttpContext.Session.GetString("SessionRoleAccess").Replace("\"", "");
@@ -974,6 +979,7 @@ namespace WiseX.Controllers
                         {
                             res.ID = item.ID;
                             res.CompanyId = item.CompanyId;
+                            //GetSearchClientDetails(Convert.ToInt32(item.CompanyId.ToString()));
                             res.CompanyName = item.CompanyName.ToString();
                             //res.ContractSignedDate = item.ContractStartDate;
                             //res.ContractEffDate = item.ContractRenewedDate.ToString();
@@ -1009,7 +1015,12 @@ namespace WiseX.Controllers
                                 model.ClientContractList = await _adminService.GetClientContractList(item.ContractRefID);
                             }
                         }
+                        model.ESOCompanyDetailsList = await _adminService.GetESOCompanyList(item.CompanyId);
+                        //clients.AccountExecutiveList = await _adminService.GetAccountExecutiveFromCompId(Id);
+                        //model.AccountExecutiveList = await _adminService.GetAccountExecutiveFromCompId(Convert.ToInt32(item.CompanyId));
                     }
+
+
                     model.ClientsDetails = res;
                 }
 
@@ -1608,6 +1619,38 @@ namespace WiseX.Controllers
         //        return Convert.ToBase64String(encryptedBytes);
         //    }
         //}
+
+        #endregion
+        #region Client Getting from ESO
+        [HttpPost]
+        public async Task<IActionResult> GetFCMSSearchClient(string prefix)
+        {
+            if (prefix == null)
+                prefix = "";
+
+            var clients = await _adminService.GetFCMSSearchClient(prefix);
+
+            return Json(clients);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetSearchClientDetails(int Id)
+        {
+            FCMSSearchClient model = new FCMSSearchClient();
+            try
+            {
+                model.SearchClientDetailsList = await _adminService.GetSearchClientDetailsFromId(Id);
+            }
+            catch (Exception ex) { }
+            return Json(new { data = model.SearchClientDetailsList });
+        }
+        [HttpPost]
+        public async Task<ActionResult> GetAccountExecutiveDetails(int Id)
+        {
+            Clients clients = new Clients();
+            clients.AccountExecutiveList = await _adminService.GetAccountExecutiveFromCompId(Id);
+            return Json(new { data = clients.AccountExecutiveList });
+        }
 
         #endregion
     }
